@@ -6,7 +6,7 @@ class AgileZenResource < ActiveResource::Base
     ## Remove format from the url.
     def element_path(id, prefix_options = {}, query_options = nil)
       prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-      "#{prefix(prefix_options)}#{collection_name}/#{id}#{query_string(query_options)}"
+      "#{prefix(prefix_options)}#{element_name}/#{id}#{query_string(query_options)}"
     end
     
     ## Remove format from the url.
