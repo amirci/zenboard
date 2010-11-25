@@ -6,7 +6,8 @@ Feature: Get the details of a project
 
   Scenario: Get the details of one project
     Given I'm logged in
-    And   I have the project "Caruso"
+    And   I have the projects:
+ 			| Caruso |	
 	And   I go to the projects page
 	When  I follow "Caruso"
-	Then  I should see "Average point duration: 1.2"
+	Then  I should see "Description: Project developed in rails"
