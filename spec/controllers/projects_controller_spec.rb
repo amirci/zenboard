@@ -22,4 +22,22 @@ describe ProjectsController do
     assigns("projects").first.name.should == "Rails First Project"
   end
   
+  it "Should obtain details of a project" do
+    project = {"id" => 4444,
+        "name" => "Rails First Project",
+        "description" => "Project developed in rails",
+        "createTime" => "\/Date(1256774726000-0500)\/",
+        "owner" => {"id" => 2222,"name" => "Amir Barylko"}}
+        
+    fake_response = JSON.generate(project)
+
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects/4444", :body => fake_response)
+
+    get :show, { :id => 4444 }
+    
+    response.should be_success
+    assigns("project").should_not be_empty
+    assigns("project").name.should == "Rails First Project"
+  end
+  
 end
