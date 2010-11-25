@@ -8,7 +8,5 @@ Feature: Get the details of a project
     Given I'm logged in
     And   I have the project "Caruso"
 	And   I go to the projects page
-	And   show me the page
-	And   I follow "Go"
 	When  I follow "Caruso"
 	Then  I should see "Average point duration: 1.2"
