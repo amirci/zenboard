@@ -8,5 +8,5 @@ Feature: Listing projects
   Scenario: List all projects
     Given I'm logged in
     And   I have the project "Caruso"
-    When  I go to the home page
+    When  I go to the projects page
     Then  I should see "Caruso"
