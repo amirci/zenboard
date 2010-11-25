@@ -14,7 +14,7 @@ describe ProjectsController do
     fake_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [project]})
 
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => fake_response)
-Í
+
     get :index
     
     response.should be_success

@@ -1,8 +1,7 @@
 class ProjectsController < ApplicationController
 
   def index
-    @projects = []
-    @projects << Project.all
+    @projects = Project.all
   end
   
 end

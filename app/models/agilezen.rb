@@ -17,7 +17,7 @@ class AgileZenResource < ActiveResource::Base
 
     def instantiate_collection(collection, prefix_options = {})
       collection["items"].collect! do |record| 
-        return instantiate_record(record, prefix_options)
+        instantiate_record(record, prefix_options)
       end
     end  
 
