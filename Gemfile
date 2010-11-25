@@ -39,7 +39,7 @@ group :test, :development do
 end
 
 group :cucumber do
-    gem 'capybara'
+    gem 'capybara', '= 0.4.0'
     gem 'database_cleaner'
     gem 'cucumber-rails'
     gem 'cucumber'

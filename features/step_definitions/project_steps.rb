@@ -14,7 +14,7 @@ end
 
 Given /^I have the projects:$/ do |table|
   
-  projects = table.rows.collect do |project| 
+  projects = table.raw.collect do |project| 
     {"id" => 4444,
         "name" => "#{project}",
         "description" => "Project developed in rails",
