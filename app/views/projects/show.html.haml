@@ -2,3 +2,13 @@
 %p= "Name: #{@project.name}"
 %p= "Created on: #{@project.createTime}"
 %p= "Description: #{@project.description}"
+
+%h2 Stories
+- @stories.each do |story|
+  %p= "Id: #{story.id}"
+  %p= "Size: #{story.size}"
+  %p= "Phase: #{story.phase.name}"
+  %p= story.metrics.attributes[:startTime]
+  %p= story.metrics.attributes[:finishTime]
+  %p= story.metrics.attributes[:workTime]
+  %p= story.text

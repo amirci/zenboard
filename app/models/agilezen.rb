@@ -3,6 +3,9 @@ class AgileZenResource < ActiveResource::Base
   self.format = :json
   
   class << self
+    
+    attr_accessor :nested
+    
     ## Remove format from the url.
     def element_path(id, prefix_options = {}, query_options = nil)
       prefix_options, query_options = split_options(prefix_options) if query_options.nil?
@@ -12,7 +15,8 @@ class AgileZenResource < ActiveResource::Base
     ## Remove format from the url.
     def collection_path(prefix_options = {}, query_options = nil)
       prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-      "#{prefix(prefix_options)}#{collection_name}#{query_string(query_options)}"
+      nested_options = "#{self.nested}/" if self.nested 
+      "#{prefix(prefix_options)}#{nested_options}#{collection_name}#{query_string(query_options)}"
     end
 
     def instantiate_collection(collection, prefix_options = {})
@@ -22,4 +26,7 @@ class AgileZenResource < ActiveResource::Base
     end  
 
   end
+  
+  self.nested = ""
+  
 end
