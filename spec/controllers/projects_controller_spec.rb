@@ -31,15 +31,16 @@ describe ProjectsController do
         
     story = {"id" => 1, 
       "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
-      "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Backlog"}, "phaseIndex" => 0,
-      "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"}
+      "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
+      "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
+      "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(1256774726000-0500)\/" }
        }
 
     fake_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
 
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444", :body => JSON.generate(project))
     
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories", :body => fake_response)
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics", :body => fake_response)
 
     get :show, { :id => 4444 }
     

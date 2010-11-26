@@ -10,4 +10,5 @@ Feature: Get the details of a project
  			| Caruso |	
 	And   I go to the projects page
 	When  I follow "Caruso"
+	And   show me the page
 	Then  I should see "Description: Project developed in rails"
