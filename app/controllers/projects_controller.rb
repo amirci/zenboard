@@ -15,5 +15,14 @@ class ProjectsController < ApplicationController
     
     @point_duration = (@velocity / elapsed).round(2)
   end
-  
+
+  class Month
+    attr_reader :name, :velocity, :point_duration
+    
+    def initialize(n, v, p)
+      @name = n
+      @velocity = v
+      @point_duration = p
+    end
+  end
 end
