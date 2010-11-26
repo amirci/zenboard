@@ -25,7 +25,7 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|
 
   FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => projects)
   FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{id}", :body => JSON.generate(project))
-  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{id}/stories?with=metrics", :body => fake_stories)
+  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{id}/stories?with=metrics&pageSize=1000", :body => fake_stories)
 end
 
 Given /^I have the stories for project "([^"]*)":$/ do |id, table|
@@ -43,7 +43,7 @@ Given /^I have the stories for project "([^"]*)":$/ do |id, table|
   
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => stories})
 
-  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{id}/stories?with=metrics", :body => fake_stories)
+  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{id}/stories?with=metrics&pageSize=1000", :body => fake_stories)
 end
 
 Given /^I have the projects:$/ do |table|
@@ -70,6 +70,6 @@ Given /^I have the projects:$/ do |table|
      
   FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => fake_response)
   FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444", :body => JSON.generate(projects[0]))
-  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics", :body => fake_stories)
+  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics&pageSize=1000", :body => fake_stories)
 
 end

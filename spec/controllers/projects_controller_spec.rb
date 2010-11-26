@@ -42,7 +42,7 @@ describe ProjectsController do
 
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444", :body => JSON.generate(project))
     
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics", :body => fake_response)
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics&pageSize=1000", :body => fake_response)
 
     get :show, { :id => 4444 }
     
