@@ -14,6 +14,8 @@ class ProjectsController < ApplicationController
     elapsed = (Time.now - @project.created_on) / (24 * 60 * 60.0)
     
     @point_duration = (@velocity / elapsed).round(2)
+    
+    @months = [Month.new('Jan', 10, 12)]
   end
 
   class Month

@@ -7,6 +7,16 @@
 %p= "1 point: #{@point_duration} day(s)"
 
 %h2 Velocity by month
+%table{:border => "2"}
+  %tr
+    %td Month
+    %td Velocity
+    %td Point Duration
+  - @months.each do |month|
+    %tr{:style => "text-align:right"}
+      %td= month.name
+      %td= month.velocity
+      %td= month.point_duration
 
 %h2 Stories in Archive
 %table{:border => "2"}
