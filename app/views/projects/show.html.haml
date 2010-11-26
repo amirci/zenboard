@@ -1,14 +1,19 @@
 %h1 Project details
 %p= "Name: #{@project.name}"
-%p= "Created on: #{@project.createTime}"
+%p= "Created on: #{@project.created_on}"
 %p= "Description: #{@project.description}"
+%p= "Velocity: #{@velocity} point(s)"
+%p= "1 point: #{@point_duration} day(s)"
+
+%h2 Velocity by month
 
 %h2 Stories
 - @stories.each do |story|
-  %p= "Id: #{story.id}"
-  %p= "Size: #{story.size}"
-  %p= "Phase: #{story.phase.name}"
-  %p= story.metrics.attributes[:startTime]
-  %p= story.metrics.attributes[:finishTime]
-  %p= story.metrics.attributes[:workTime]
   %p= story.text
+  %div{:style => "padding-left:50px; padding-right:50px"}
+    %p= "Id: #{story.id}"
+    %p= "Size: #{story.size}"
+    %p= "Phase: #{story.phase.name}"
+    %p= "Started on: #{story.started_on}"
+    %p= "Finished on: #{story.finished_on}"
+    %p= "Duration: #{story.metrics.attributes[:workTime]} days"

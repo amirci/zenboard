@@ -36,6 +36,7 @@ group :test, :development do
     gem 'rspec-rails', '>= 2.0.0.beta.22'
 	gem 'fakeweb'
 	gem 'json'
+	gem 'chronic'
 end
 
 group :cucumber do

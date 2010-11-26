@@ -23,14 +23,16 @@ describe ProjectsController do
   end
   
   it "Should obtain details of a project" do
+    ten_days_ago = Chronic.parse("10 days ago")
+    
     project = {"id" => 4444,
         "name" => "Rails First Project",
         "description" => "Project developed in rails",
-        "createTime" => "\/Date(1256774726000-0500)\/",
+        "createTime" => "\/Date(#{ten_days_ago.to_i}000-0500)\/",
         "owner" => {"id" => 2222,"name" => "Amir Barylko"}}
         
     story = {"id" => 1, 
-      "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
+      "text" => "End world hunger", "size" => 10, "color" => "gray", "ready" => true, "blocked" => false,
       "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
       "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
       "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(1256774726000-0500)\/" }
@@ -48,6 +50,8 @@ describe ProjectsController do
 
     assigns("project").name.should == "Rails First Project"
     assigns("stories").should_not be_empty
+    assigns("velocity").should == 10
+    assigns("point_duration").should == 1
   end
   
 end

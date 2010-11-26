@@ -1,4 +1,3 @@
-@javascript
 Feature: Listing projects
   As a user
   I Want to see the list of projects

@@ -9,4 +9,11 @@ class Story < AgileZenResource
     all(:params => {:with => "metrics"})
   end
   
+  def started_on
+    Time.at(metrics.startTime[6..15].to_i)
+  end
+
+  def finished_on
+    Time.at(metrics.finishTime[6..15].to_i)
+  end
 end
