@@ -6,7 +6,7 @@ class Story < AgileZenResource
   
   def self.all_for_project(id)
     self.nested = "/#{id}"
-    all(:params => {:with => "metrics"})
+    all(:params => {:with => "metrics", :pageSize => 1000})
   end
   
   def started_on
