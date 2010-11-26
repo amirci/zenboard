@@ -10,10 +10,10 @@ class Story < AgileZenResource
   end
   
   def started_on
-    Time.at(metrics.startTime[6..15].to_i)
+    Time.at(metrics.startTime[6..15].to_i) || Time.now
   end
 
   def finished_on
-    Time.at(metrics.finishTime[6..15].to_i)
+    metrics.respond_to?('finishTime') ? Time.at(metrics.finishTime[6..15].to_i) : Time.now
   end
 end
