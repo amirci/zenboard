@@ -6,4 +6,9 @@ class Project < AgileZenResource
   def created_on
     Time.at(createTime[6..15].to_i)
   end
+  
+  def stories
+    Story.all_for_project(id)
+  end
+  
 end

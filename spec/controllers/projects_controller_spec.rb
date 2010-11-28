@@ -1,20 +1,12 @@
 require 'spec_helper'
-require 'fakeweb'
-require 'json'
 
 describe ProjectsController do
 
   it "Should obtain all projects" do
-    project = {"id" => 4444,
-        "name" => "Rails First Project",
-        "description" => "Project developed in rails",
-        "createTime" => "\/Date(1256774726000-0500)\/",
-        "owner" => {"id" => 2222,"name" => "John Spec"}}
+    project = Project.make(:id => 44, :name => "Rails First Project")
+
+    Project.stub!(:all).and_return([project])
         
-    fake_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [project]})
-
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => fake_response)
-
     get :index
     
     response.should be_success
@@ -25,24 +17,13 @@ describe ProjectsController do
   it "Should obtain details of a project" do
     ten_days_ago = Chronic.parse("10 days ago")
     
-    project = {"id" => 4444,
-        "name" => "Rails First Project",
-        "description" => "Project developed in rails",
-        "createTime" => "\/Date(#{ten_days_ago.to_i}000-0500)\/",
-        "owner" => {"id" => 2222,"name" => "Amir Barylko"}}
-        
-    story = {"id" => 1, 
-      "text" => "End world hunger", "size" => 10, "color" => "gray", "ready" => true, "blocked" => false,
-      "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
-      "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-      "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(1256774726000-0500)\/" }
-       }
-
-    fake_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
-
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444", :body => JSON.generate(project))
+    project = Project.make(:id => 44, :name => "Rails First Project", :createTime => "\/Date(#{ten_days_ago.to_i}000-0500)\/")
+       
+    story = Story.make(:size => 10)
+     
+    Project.stub!(:find).and_return(project)
     
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/4444/stories?with=metrics&pageSize=1000", :body => fake_response)
+    project.stub!(:stories).and_return([story])
 
     get :show, { :id => 4444 }
     

@@ -7,7 +7,10 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
 
-    @stories = Story.all_for_project(params[:id]).find_all { |s| s.phase.name == 'Archive' }.sort_by { |s| s.id }
+    #archived = Story.all_for_project(params[:id])
+    archived = @project.stories.find_all { |s| s.phase.name == 'Archive' }
+    
+    @stories = archived.sort_by { |s| s.id }
     
     @velocity = @stories.inject(0) { |sum, story| sum + story.size.to_i }
     
@@ -15,7 +18,9 @@ class ProjectsController < ApplicationController
     
     @point_duration = (@velocity / elapsed).round(2)
     
-    @months = [Month.new('Jan', 10, 12)]
+    bymonth = archived.inject({}) { |h, story| h[story.finished_on.month] = story }
+    
+    @months = [Month.new('Jan', 10, 10) ]
   end
 
   class Month
