@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
 
-    #archived = Story.all_for_project(params[:id])
     archived = @project.stories.find_all { |s| s.phase.name == 'Archive' }
     
     @stories = archived.sort_by { |s| s.id }

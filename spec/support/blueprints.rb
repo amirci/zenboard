@@ -23,8 +23,8 @@ Story.blueprint do
   color   { "gray" }
   ready   { false }
   blocked { false }
-  phase   { new Object { |o| o.id, o.name = 1, "Archive" } }
+  phase   { Phase.new(1, "Archive") }
   phaseIndex    { 0 }
   reasonBlocked { "new ideas" } 
-  metrics       { new Object { |o| o.createdTime, o.startTime = "\/Date(1256774726000-0500)\/", "\/Date(1256774726000-0500)\/" } }
+  metrics       { Object.new { |o| o.createdTime, o.startTime = "\/Date(1256774726000-0500)\/", "\/Date(1256774726000-0500)\/" } }
 end
