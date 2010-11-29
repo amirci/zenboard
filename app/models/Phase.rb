@@ -1,8 +1,8 @@
 class Phase
-  attr_reader :id, :name
+  attr_accessor :id, :name
   
-  def initialize(id, name = "Phase")
-    @id = id
-    @name = name
+  def initialize(attributes = {})
+    @id = attributes["id"] || 0
+    @name = attributes["name"] || ''
   end
 end

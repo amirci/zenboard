@@ -8,7 +8,13 @@ class Project < AgileZenResource
   end
   
   def stories
-    Story.all_for_project(id)
+    @stories = Story.all_for_project(id)
+  end
+  
+  # Returns the sum of the size for all the archived stories
+  def velocity
+    @stories ||= []
+    @stories.find_all { |s| s.phase.name == 'Archive' }.inject(0) { |val, s| val += s.size.to_i }
   end
   
   def to_hash

@@ -18,7 +18,7 @@ class Story < AgileZenResource
   end
   
   def to_hash
-    { "id" => id, "text" => text }
+    { "id" => id, "text" => text, "size" => size, "phase" => {"id" => phase.id, "name" => phase.name} }
   end
   
 end

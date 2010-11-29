@@ -4,43 +4,47 @@ require 'json'
 
 describe Project do
 
-  it "Should return the projects from site" do
-    project = Project.make(:id => 44, :name => "Rails First Project")
+  # Setup responses for projects, project and stories
+  before(:each) do
+    archive = Phase.make(:archive)
+    
+    @project = Project.make()
         
-    fake_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [project.to_hash]})
+    projects_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@project.to_hash]})
 
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => fake_response)
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => projects_response)
+    
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
 
+    @story = Story.make(:phase => archive)
+    
+    stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@story.to_hash]})
+    
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}/stories?with=metrics&pageSize=1000", :body => stories_response)
+    
+  end
+  
+  # Checks when calling all the project is returned
+  it "Should return the projects from site" do
     projects = Project.all
     
     projects.should_not be_empty
-    projects.first.should == project
+
+    projects.first.should == @project
   end
   
+  # Check the detail of the project, the stories and calculated metrics
   it "Should return the project with id matching" do
+    # project check
+    found = Project.find(@project.id)
+    found.should == @project
 
-    project = Project.make(:id => 44)
-    
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/44", :body => JSON.generate(project.to_hash))
-
-    story = Story.make
-    
-    stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [story.to_hash]})
-    
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/44/stories?with=metrics&pageSize=1000", :body => stories_response)
-    
-    found = Project.find(44)
-    
-    found.should == project
-
-    found.velocity.should == 2
-
-    stories = project.stories
-    
+    # stories check
+    stories = found.stories
     stories.count.should == 1
-    
-    stories.first.should == story
-    
-  end
-  
+    stories.first.should == @story    
+
+    # Calculations based on stories
+    found.velocity.should == stories.inject(0) { |sum, s| sum += s.size }
+  end  
 end
