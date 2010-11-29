@@ -26,14 +26,16 @@
     %td{:style => "width:30px"} Id
     %td Text
     %td{:style => "width:50px"} Size
-    %td{:style => "width:250px"} Started
-    %td{:style => "width:250px"} Finished
-    %td{:style => "width:50px"} Duration
-  - @project.archived.each do |story|
+    %td{:style => "width:100px"} Started
+    %td{:style => "width:100px"} Finished
+    %td{:style => "width:100px"} Duration (days)
+    %td{:style => "width:50px"} 1 Point
+  - @project.archived.sort_by { |s| s.finished_on }.reverse.each do |story|
     %tr{:style => "text-align:right"}
       %td= story.id
       %td{:style => "text-align:left"}= story.text
       %td= story.size
-      %td= story.started_on
-      %td= story.finished_on
-      %td Worktime
+      %td= story.started_on.strftime('%b %d %Y')
+      %td= story.finished_on.strftime('%b %d %Y')
+      %td= story.duration.round(2)
+      %td= story.point_duration.round(2) rescue "(na)"

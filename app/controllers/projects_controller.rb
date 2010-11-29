@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     
     def initialize(year_month, stories)
       @velocity = stories.sum { |s| s.size.to_i }
-      @point_duration = stories.sum(&:point_duration) / stories.count
+      @point_duration = stories.sum(&:point_duration) / 30
       date = Date.parse(year_month + '01')
       @year = date.strftime('%Y')
       @name = date.strftime('%b')
