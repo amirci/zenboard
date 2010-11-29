@@ -5,9 +5,11 @@ require 'faker'
 Sham.unique_id   { |i| i }
 Sham.name        { Faker::Lorem.sentence }
 Sham.text        { Faker::Lorem.sentence }
-Sham.date        { "\/Date(#{Time.now.to_i}000-0500)\/" }
+Sham.date        { JSONHelper::Date.to_json(Time.now + rand(10)) }
+Sham.late_date   { JSONHelper::Date.to_json(Time.now + 10 + rand(20)) }
 Sham.owner       { Owner.new(1, 'Juan Rodrigo')  }
 Sham.size        { rand(13) }
+Sham.createTime  { JSONHelper::Date.to_json(Time.now + rand(10)) }
 
 # Add your blueprints here.
 #
@@ -27,23 +29,31 @@ Phase.blueprint do
   name 
 end
 
+Sham.phase       { Phase.make }
+
 Project.blueprint do
   id          { Sham.unique_id }
   name        
   description { Sham.text  }
-  createTime  { Sham.date  }
+  createTime  
   owner       
 end
 
+Metrics.blueprint do
+  createTime 
+  startTime  { Sham.date }
+  finishTime { Sham.late_date }
+end
+
 Story.blueprint do
-  id      { Sham.unique_id   } 
+  id            { Sham.unique_id   } 
   text    
   size    
-  color   { "gray" }
-  ready   { false }
+  color         { "gray" }
+  ready         { false }
   blocked       { false }
-  phase         { Phase.make }
+  phase         
   phaseIndex    { 0 }
   reasonBlocked { Sham.text } 
-  metrics       { Object.new { |o| o.createdTime, o.startTime = Sham.date, Sham.date } }
+  metrics       { Metrics.make }
 end

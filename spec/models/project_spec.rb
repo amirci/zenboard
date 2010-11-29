@@ -16,12 +16,16 @@ describe Project do
     
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
 
-    @story = Story.make(:phase => archive)
-    
+    @story = Story.make(:phase => archive, :metrics => Metrics.make)
+
     stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@story.to_hash]})
     
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}/stories?with=metrics&pageSize=1000", :body => stories_response)
-    
+  end
+  
+  # Checks created on method works
+  it "Should calculate created on based on createdTime" do
+    @project.created_on.should == Time.at(@project.createTime[6, 10].to_i)
   end
   
   # Checks when calling all the project is returned
@@ -45,7 +49,8 @@ describe Project do
     stories.first.should == @story    
 
     # Calculations based on stories
-    found.velocity.should == stories.inject(0) { |sum, s| sum += s.size }
+    found.velocity.should == stories.sum(&:size)
     found.throughput.should == stories.count
+    found.point_duration.should == stories.sum(&:point_duration) / stories.count
   end  
 end

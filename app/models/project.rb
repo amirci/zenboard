@@ -4,7 +4,7 @@ class Project < AgileZenResource
   self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
   
   def created_on
-    Time.at(createTime[6..15].to_i)
+    Time.at(createTime[6, 10].to_i)
   end
   
   def stories
@@ -20,6 +20,10 @@ class Project < AgileZenResource
   def throughput
     @stories ||= []
     @stories.count
+  end
+  
+  def point_duration
+    @stories.sum(&:point_duration) / @stories.count
   end
   
   def to_hash
