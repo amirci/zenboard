@@ -22,9 +22,7 @@ class ProjectsController < ApplicationController
 
     @point_duration = @months.sum { |m| m.point_duration } / @months.count
     
-    last_week = Week.new(Chronic.parse('last monday'))
-    
-    weeks = [last_week, last_week.previous, last_week.previous.previous]
+    weeks = Week.previous(5).sort_by { |w| w.finish }.reverse
     
     @byweek = @project.archived.inject({}) do |h, story| 
       key = weeks.find { |w| w.include? story.finished_on }
@@ -33,27 +31,10 @@ class ProjectsController < ApplicationController
       h
     end
 
+    # remove older stories
     @byweek.delete nil
   end
 
-  class Week
-    attr_reader :start, :finish
-    
-    def initialize(start)
-      @start = start
-      @finish = start + 6 * 24 * 60 * 60
-    end
-    
-    # Checks a date is included in the week
-    def include?(date)
-      date >= start && date <= finish
-    end
-    
-    def previous
-      Week.new(start - 6 * 24 * 60 * 60)
-    end
-  end
-  
   class Month
     attr_reader :name, :velocity, :point_duration, :year, :stories
     attr_reader :blocked, :waiting, :efficiency
