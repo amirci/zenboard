@@ -23,7 +23,7 @@ class Metrics
     m = m.reject { |m| m == "==" || m == "===" || m == "=~" || m == "taguri=" }
     m = m.collect { |m| m.delete('=') }          
     m.inject({}) do |h, name| 
-      h[name] = name 
+      h[name] = send(name) 
       h
     end
   end

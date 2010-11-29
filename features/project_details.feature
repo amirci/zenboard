@@ -11,7 +11,6 @@ Feature: Get the details of a project
 	When  I follow "Caruso"
 	Then  I should see "Description: Very nice project"
 
-@wip
   Scenario: Get the average velocity of a project
     Given I'm logged in
     And   I have the project "Caruso" with:
@@ -24,4 +23,4 @@ Feature: Get the details of a project
 	      |  8   | Jan 1   | Jan 8    | Archive |
 	When  I go to the project "44" detail page
 	Then  I should see "Velocity: 16 point(s)"
-	And   I should see "1 point: 0.78 day(s)"
+	And   I should see "1 point: 0.08 day(s)"
