@@ -38,6 +38,7 @@ group :test, :development do
 	gem 'json'
 	gem 'chronic'
 	gem 'machinist', '< 2.0.0'
+	gem 'faker'
 end
 
 group :cucumber do

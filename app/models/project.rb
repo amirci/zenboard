@@ -11,4 +11,12 @@ class Project < AgileZenResource
     Story.all_for_project(id)
   end
   
+  def to_hash
+    { "id" => id,
+        "name" => name,
+        "description" => description,
+        "createTime" => createTime,
+        "owner" => {"id" => owner.id, "name" => owner.name} }
+  end
+  
 end

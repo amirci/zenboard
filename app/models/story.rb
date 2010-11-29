@@ -16,4 +16,9 @@ class Story < AgileZenResource
   def finished_on
     metrics.respond_to?('finishTime') ? Time.at(metrics.finishTime[6..15].to_i) : Time.now
   end
+  
+  def to_hash
+    { "id" => id, "text" => text }
+  end
+  
 end

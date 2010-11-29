@@ -1,5 +1,13 @@
 require 'machinist/object'
 require 'sham'
+require 'faker'
+
+Sham.unique_id   { |i| i }
+Sham.name        { Faker::Lorem.sentence }
+Sham.text        { Faker::Lorem.sentence }
+Sham.date        { "\/Date(#{Time.now.to_i}000-0500)\/" }
+Sham.owner       { Owner.new(1, 'Juan Rodrigo')  }
+Sham.phase       { Phase.new(1, "Archive") }
 
 # Add your blueprints here.
 #
@@ -10,21 +18,22 @@ require 'sham'
 #   end
 
 Project.blueprint do
-  id          { "Project 1" }
-  name        { "Beautiful Project" }
-  description { "Project description" }
-  createTime  { "\/Date(1256774726000-0500)\/" }
+  id          { Sham.unique_id }
+  name        { Sham.name  }
+  description { Sham.text  }
+  createTime  { Sham.date  }
+  owner       { Sham.owner }
 end
 
 Story.blueprint do
-  id      { "Story 1" } 
-  text    { "Lorem ipsum...." }
+  id      { Sham.unique_id   } 
+  text    { Sham.name }
   size    { 2 }
   color   { "gray" }
   ready   { false }
-  blocked { false }
-  phase   { Phase.new(1, "Archive") }
+  blocked       { false }
+  phase         { Sham.phase }
   phaseIndex    { 0 }
-  reasonBlocked { "new ideas" } 
-  metrics       { Object.new { |o| o.createdTime, o.startTime = "\/Date(1256774726000-0500)\/", "\/Date(1256774726000-0500)\/" } }
+  reasonBlocked { Sham.text } 
+  metrics       { Object.new { |o| o.createdTime, o.startTime = Sham.date, Sham.date } }
 end

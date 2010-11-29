@@ -23,5 +23,6 @@ Feature: Get the details of a project
 	      |  5   | Jan 1   | Jan 5    | Archive |
 	      |  8   | Jan 1   | Jan 8    | Archive |
 	When  I go to the project "44" detail page
+	Then  show me the page
 	Then  I should see "Velocity: 16 point(s)"
 	And   I should see "1 point: 2.0 day(s)"
