@@ -46,5 +46,6 @@ describe Project do
 
     # Calculations based on stories
     found.velocity.should == stories.inject(0) { |sum, s| sum += s.size }
+    found.throughput.should == stories.count
   end  
 end

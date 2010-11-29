@@ -29,10 +29,7 @@ describe ProjectsController do
     
     response.should be_success
 
-    assigns("project").name.should == "Rails First Project"
-    assigns("stories").should_not be_empty
-    assigns("velocity").should == 10
-    assigns("point_duration").should == 1
+    assigns("project").should == project
   end
   
 end

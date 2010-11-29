@@ -17,6 +17,11 @@ class Project < AgileZenResource
     @stories.find_all { |s| s.phase.name == 'Archive' }.inject(0) { |val, s| val += s.size.to_i }
   end
   
+  def throughput
+    @stories ||= []
+    @stories.count
+  end
+  
   def to_hash
     { "id" => id,
         "name" => name,
