@@ -7,6 +7,7 @@ describe Project do
   # Setup responses for projects, project and stories
   before(:each) do
     archive = Phase.make(:archive)
+    working = Phase.make(:working)
     
     @project = Project.make()
         
@@ -16,9 +17,13 @@ describe Project do
     
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
 
-    @story = Story.make(:phase => archive, :metrics => Metrics.make)
+    @story = Story.make(:phase => archive, :size => 3)
 
-    stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@story.to_hash]})
+    @story2 = Story.make(:phase => working, :size => 8)
+    
+    stories = [@story.to_hash, @story2.to_hash]
+    
+    stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => stories})
     
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}/stories?with=metrics&pageSize=1000", :body => stories_response)
   end
@@ -45,12 +50,11 @@ describe Project do
 
     # stories check
     stories = found.stories
-    stories.count.should == 1
-    stories.first.should == @story    
+    stories.should == [@story, @story2]
 
     # Calculations based on stories
-    found.velocity.should == stories.sum(&:size)
-    found.throughput.should == stories.count
-    found.point_duration.should == stories.sum(&:point_duration) / stories.count
+    found.velocity.should == @story.size
+    found.throughput.should == 1
+    found.point_duration.should == @story.point_duration
   end  
 end

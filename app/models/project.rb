@@ -9,21 +9,24 @@ class Project < AgileZenResource
   
   def stories
     @stories = Story.all_for_project(id)
+    @archived = @stories.find_all { |s| s.phase.name == 'Archive' }
+    @stories
   end
   
   # Returns the sum of the size for all the archived stories
   def velocity
-    @stories ||= []
-    @stories.find_all { |s| s.phase.name == 'Archive' }.inject(0) { |val, s| val += s.size.to_i }
+    @archived ||= []
+    @archived.sum(&:size)
   end
   
   def throughput
-    @stories ||= []
-    @stories.count
+    @archived ||= []
+    @archived.count
   end
   
   def point_duration
-    @stories.sum(&:point_duration) / @stories.count
+    @archived ||= []
+    @archived.sum(&:point_duration) / @archived.count
   end
   
   def to_hash

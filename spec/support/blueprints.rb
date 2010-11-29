@@ -24,6 +24,11 @@ Phase.blueprint(:archive) do
   name { 'Archive'      }
 end
 
+Phase.blueprint(:working) do
+  id   { Sham.unique_id }
+  name { 'Working'      }
+end
+
 Phase.blueprint do
   id   { Sham.unique_id }
   name 
