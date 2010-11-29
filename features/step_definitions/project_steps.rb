@@ -5,7 +5,7 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|
   id = table.rows_hash[:id] || 4444
   date = table.rows_hash[:created] || "Jan 1"
   created = Chronic.parse(date, :context => :past)
-  
+    
   project = { "id" => id,
       "name" => "#{project}",
       "description" => table.rows_hash[:description] || "Project developed in rails",

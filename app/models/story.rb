@@ -25,7 +25,7 @@ class Story < AgileZenResource
   # by calculating size / (finish - start)
   def point_duration
     duration = finished_on - started_on
-    size / duration
+    size.to_i / duration
   end
   
   def to_hash

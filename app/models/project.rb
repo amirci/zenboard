@@ -1,12 +1,15 @@
 require 'agilezen'
+require 'json_date'
 
 class Project < AgileZenResource
   self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
-  
+
+  # Date when the project was created
   def created_on
-    Time.at(createTime[6, 10].to_i)
+    JSONHelper::Date.from_json(createTime)
   end
   
+  # All stories associated to the project
   def stories
     @stories = Story.all_for_project(id)
     @archived = @stories.find_all { |s| s.phase.name == 'Archive' }
@@ -19,11 +22,13 @@ class Project < AgileZenResource
     @archived.sum(&:size)
   end
   
+  # Amount of stories in archive
   def throughput
     @archived ||= []
     @archived.count
   end
   
+  # Amount of days per point using each story point duration
   def point_duration
     @archived ||= []
     @archived.sum(&:point_duration) / @archived.count

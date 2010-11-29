@@ -2,7 +2,7 @@
 %p= "Name: #{@project.name}"
 %p= "Created on: #{@project.created_on}"
 %p= "Description: #{@project.description}"
-%p= "Stories complete: #{@project.stories.count}"
+%p= "Stories complete: #{@project.throughput}"
 %p= "Velocity: #{@project.velocity} point(s)"
 %p= "1 point: #{@project.point_duration} day(s)"
 
@@ -34,4 +34,4 @@
       %td= story.size
       %td= story.started_on
       %td= story.finished_on
-      %td= story.metrics.attributes[:workTime]
+      %td Worktime

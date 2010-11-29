@@ -65,7 +65,7 @@ GEM
     gherkin (2.2.9)
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
-    haml (3.0.24)
+    haml (3.0.23)
     i18n (0.4.2)
     json (1.4.6)
     json_pure (1.4.6)
