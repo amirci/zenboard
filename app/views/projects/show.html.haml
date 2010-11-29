@@ -9,16 +9,24 @@
 %h2 Velocity by month
 %table{:border => "2"}
   %tr
-    %td{:width => "80px"} Month
-    %td{:width => "80px"} Stories
-    %td{:width => "80px"} Velocity
+    %td{:width => "50px"} Year
+    %td{:width => "50px"} Month
+    %td{:width => "50px"} Stories
+    %td{:width => "50px"} Velocity
     %td{:width => "120px"} 1 Point = X days
+    %td{:width => "80px"} Blocked
+    %td{:width => "80px"} Waiting
+    %td Efficiency %
   - @months.each do |month|
     %tr{:style => "text-align:right"}
+      %td= month.year
       %td{:style => "text-align:left"}= month.name
       %td= month.stories
       %td= month.velocity
       %td= month.point_duration.round(2)
+      %td= month.blocked.round(2) rescue "(na)"
+      %td= month.waiting.round(2) rescue "(na)"
+      %td= month.efficiency.round
 
 %h2 Stories in Archive
 %table{:border => "2"}
@@ -26,16 +34,27 @@
     %td{:style => "width:30px"} Id
     %td Text
     %td{:style => "width:50px"} Size
-    %td{:style => "width:100px"} Started
-    %td{:style => "width:100px"} Finished
-    %td{:style => "width:100px"} Duration (days)
+    %td{:style => "width:80px"} Started
+    %td{:style => "width:80px"} Finished
     %td{:style => "width:50px"} 1 Point
-  - @project.archived.sort_by { |s| s.finished_on }.reverse.each do |story|
-    %tr{:style => "text-align:right"}
-      %td= story.id
-      %td{:style => "text-align:left"}= story.text
-      %td= story.size
-      %td= story.started_on.strftime('%b %d %Y')
-      %td= story.finished_on.strftime('%b %d %Y')
-      %td= story.duration.round(2)
-      %td= story.point_duration.round(2) rescue "(na)"
+    %td Duration
+    %td Blocked
+    %td Waiting
+    %td{:style => "width:100px"}  Actual Work
+    %td{:style => "width:100px"} Efficiency %
+  - @byweek.each_pair do |week, stories|
+    %tr
+      %td{:colspan => 11} Week from #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
+    - stories.each do |story|
+      %tr{:style => "text-align:right"}
+        %td= story.id
+        %td{:style => "text-align:left"}= story.text
+        %td= story.size
+        %td= story.started_on.strftime('%b %d')
+        %td= story.finished_on.strftime('%b %d')
+        %td= story.point_duration.round(2) rescue "(na)"
+        %td= story.duration.round(2)
+        %td= story.blocked_time.round(2)
+        %td= story.waiting_time.round(2)
+        %td= story.work_time.round(2)
+        %td= story.efficiency.round

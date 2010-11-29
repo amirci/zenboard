@@ -32,6 +32,27 @@ class Story < AgileZenResource
     (finished_on - started_on) / (24 * 60 * 60)
   end
   
+  # Amount of time the story was blocked
+  def blocked_time
+    metrics.blockedTime
+  end
+  
+  # Amount of time waiting with ready features
+  def waiting_time
+    metrics.waitTime
+  end
+  
+  # Amount of time working (no waiting or blocked)
+  def work_time
+    duration - waiting_time - blocked_time
+  end
+  
+  # % of time working of the total duration
+  def efficiency
+    metrics.efficiency
+  end
+  
+  # Hashed version of the object
   def to_hash
     { "id" => id, "text" => text, "size" => size, 
       "phase" => {"id" => phase.id, "name" => phase.name},
