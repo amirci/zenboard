@@ -7,25 +7,33 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
 
-    archived = @project.stories.find_all { |s| s.phase.name == 'Archive' }
+    @project.stories
     
-    @stories = archived.sort_by { |s| s.id }
+    bymonth = @project.archived.inject({}) do |h, story| 
+      key = story.finished_on.strftime('%Y%m')
+      h[key] = [] unless h.key? key
+      h[key] << story
+      h
+    end
     
-    @velocity = @stories.inject(0) { |sum, story| sum + story.size.to_i }
-    
-    elapsed = (Time.now - @project.created_on) / (24 * 60 * 60.0)
-    
-    @point_duration = (@velocity / elapsed).round(2)
-    
-    bymonth = archived.inject({}) { |h, story| h[story.finished_on.month] = story }
-    
-    @months = [Month.new('Jan', 10, 10) ]
+    @months = bymonth.keys.collect do |key|
+      vel = bymonth[key].sum { |s| s.size.to_i }
+      pd = bymonth[key].sum(&:point_duration) / bymonth[key].count
+      date = Date.parse(key + '01')
+      year = date.strftime('%Y')
+      month = date.strftime('%b')
+      Month.new(year, month, vel.round, pd.round(2))
+    end
+          
+    @velocity = @months.sum { |m| m.velocity } / @months.count
+    @point_duration = @months.sum { |m| m.point_duration } / @months.count
   end
 
   class Month
-    attr_reader :name, :velocity, :point_duration
+    attr_reader :name, :velocity, :point_duration, :year
     
-    def initialize(n, v, p)
+    def initialize(y, n, v, p)
+      @year = y
       @name = n
       @velocity = v
       @point_duration = p

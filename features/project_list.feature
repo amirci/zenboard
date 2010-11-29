@@ -10,7 +10,6 @@ Feature: Listing projects
  			| Pucini   | 
 			| Mariachi |
     When  I go to the projects page
-	Then  show me the page
 	Then  I should see "Caruso"
     And   I should see "Pucini"
     And   I should see "Mariachi"

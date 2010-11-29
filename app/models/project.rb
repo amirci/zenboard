@@ -2,6 +2,7 @@ require 'agilezen'
 require 'json_date'
 
 class Project < AgileZenResource
+  attr_reader :archived
   self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
 
   # Date when the project was created
@@ -19,7 +20,7 @@ class Project < AgileZenResource
   # Returns the sum of the size for all the archived stories
   def velocity
     @archived ||= []
-    @archived.sum(&:size)
+    @archived.sum { |s| s.size.to_i }
   end
   
   # Amount of stories in archive
@@ -31,7 +32,7 @@ class Project < AgileZenResource
   # Amount of days per point using each story point duration
   def point_duration
     @archived ||= []
-    @archived.sum(&:point_duration) / @archived.count
+    @archived.sum { |s| s.point_duration.to_f } / @archived.count
   end
   
   def to_hash
