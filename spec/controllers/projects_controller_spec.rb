@@ -24,6 +24,7 @@ describe ProjectsController do
     Project.stub!(:find).and_return(project)
     
     project.stub!(:stories).and_return([story])
+    project.stub!(:archived).and_return([story])
 
     get :show, { :id => 4444 }
     
