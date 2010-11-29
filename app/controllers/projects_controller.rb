@@ -16,27 +16,23 @@ class ProjectsController < ApplicationController
       h
     end
     
-    @months = bymonth.keys.collect do |key|
-      vel = bymonth[key].sum { |s| s.size.to_i }
-      pd = bymonth[key].sum(&:point_duration) / bymonth[key].count
-      date = Date.parse(key + '01')
-      year = date.strftime('%Y')
-      month = date.strftime('%b')
-      Month.new(year, month, vel.round, pd.round(2))
-    end
+    @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }
           
     @velocity = @months.sum { |m| m.velocity } / @months.count
+
     @point_duration = @months.sum { |m| m.point_duration } / @months.count
   end
 
   class Month
-    attr_reader :name, :velocity, :point_duration, :year
+    attr_reader :name, :velocity, :point_duration, :year, :stories
     
-    def initialize(y, n, v, p)
-      @year = y
-      @name = n
-      @velocity = v
-      @point_duration = p
+    def initialize(year_month, stories)
+      @velocity = stories.sum { |s| s.size.to_i }
+      @point_duration = stories.sum(&:point_duration) / stories.count
+      date = Date.parse(year_month + '01')
+      @year = date.strftime('%Y')
+      @name = date.strftime('%b')
+      @stories = stories.count
     end
   end
 end

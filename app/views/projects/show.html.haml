@@ -9,14 +9,16 @@
 %h2 Velocity by month
 %table{:border => "2"}
   %tr
-    %td Month
-    %td Velocity
-    %td 1 Point = X days
+    %td{:width => "80px"} Month
+    %td{:width => "80px"} Stories
+    %td{:width => "80px"} Velocity
+    %td{:width => "120px"} 1 Point = X days
   - @months.each do |month|
     %tr{:style => "text-align:right"}
-      %td= month.name
+      %td{:style => "text-align:left"}= month.name
+      %td= month.stories
       %td= month.velocity
-      %td= month.point_duration
+      %td= month.point_duration.round(2)
 
 %h2 Stories in Archive
 %table{:border => "2"}
