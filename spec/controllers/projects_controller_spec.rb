@@ -15,9 +15,11 @@ describe ProjectsController do
   end
   
   it "Should obtain details of a project" do
-    ten_days_ago = Chronic.parse("10 days ago")
+    ten_days_ago = JSONHelper::Date.to_json(Chronic.parse("10 days ago"))
     
-    project = Project.make(:id => 44, :name => "Rails First Project", :createTime => "\/Date(#{ten_days_ago.to_i}000-0500)\/")
+    project = Project.make(:id => 44, 
+                           :name => "Rails First Project", 
+                           :createTime => ten_days_ago)
        
     story = Story.make(:size => 10)
      

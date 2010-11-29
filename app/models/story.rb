@@ -24,8 +24,8 @@ class Story < AgileZenResource
   # Conversion of points to days
   # by calculating size / (finish - start)
   def point_duration
-    duration = finished_on - started_on
-    size.to_i / duration * (24 * 60 * 60)
+    duration = (finished_on - started_on) / (24 * 60 * 60)
+    duration / size.to_i
   end
   
   def to_hash
