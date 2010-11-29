@@ -39,6 +39,7 @@ group :test, :development do
 	gem 'chronic'
 	gem 'machinist', '< 2.0.0'
 	gem 'faker'
+	gem 'heroku'
 end
 
 group :cucumber do

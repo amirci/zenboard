@@ -1,3 +1,5 @@
+require 'Chronic'
+
 class Week
   attr_reader :start, :finish
 
