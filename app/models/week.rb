@@ -1,16 +1,15 @@
-require 'chronic'
-
 class Week
   attr_reader :start, :finish
 
   # Starts a week from a date
   def initialize(start)
-    @start = start
-    @finish = start + 6 * 24 * 60 * 60
+    @start = Time.parse(start.to_s)
+    @finish = @start + 6 * 24 * 60 * 60
   end
   
   # Checks a date is included in the week
   def include?(date)
+    date = Time.parse(date.to_s)
     date >= start && date <= finish
   end
   
@@ -21,7 +20,8 @@ class Week
   
   # Current week
   def self.current
-    Week.new(Chronic.parse('last monday'))
+    last_monday = Time.parse((Date.today - Date.today.cwday.modulo(7)[1]).to_s)
+    Week.new(last_monday)
   end
   
   # Gets the previous weeks including the current
