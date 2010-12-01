@@ -9,7 +9,9 @@ describe Project do
     archive = Phase.make(:archive)
     working = Phase.make(:working)
     
-    @project = Project.make()
+    @owner = Owner.make(:name => "Lorenzo Valdez")
+    
+    @project = Project.make(:owner => @owner)
         
     projects_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@project.to_hash]})
 
@@ -31,18 +33,17 @@ describe Project do
     FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}/stories?with=metrics&pageSize=1000", :body => stories_response)
   end
   
-  # Checks created on method works
-  it "Should calculate created on based on createdTime" do
-    @project.created_on.should == Time.at(@project.createTime[6, 10].to_i)
-  end
-  
   # Checks when calling all the project is returned
   it "Should return the projects from site" do
     projects = Project.all
     
-    projects.should_not be_empty
+    projects.count.should == 1
 
-    projects.first.should == @project
+    project = projects.first
+
+    project.should == @project
+    project.created_on.should == Time.at(@project.createTime[6, 10].to_i)
+    project.owner.should == @owner
   end
   
   # Check the detail of the project, the stories and calculated metrics

@@ -1,5 +1,8 @@
 class ProjectsController < ApplicationController
 
+  rescue_from(ActiveResource::ForbiddenAccess) { |e| render :file => '/not_authorized' }
+#  rescue_from(Exception) { |e| render :file => '/shoot', :text => e.message }
+
   def index
     @projects = Project.all
   end
@@ -16,13 +19,13 @@ class ProjectsController < ApplicationController
       h
     end
     
-    @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }
+    @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) } rescue {}
           
-    @velocity = @months.sum { |m| m.velocity } / @months.count
+    @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0.0
 
-    @point_duration = @months.sum { |m| m.point_duration } / @months.count
+    @point_duration = @months.sum { |m| m.point_duration } / @months.count rescue 0.0
     
-    weeks = Week.previous(5).sort_by { |w| w.finish }.reverse
+    weeks = Week.previous(5)
     
     @byweek = @project.archived.inject({}) do |h, story| 
       key = weeks.find { |w| w.include? story.finished_on }

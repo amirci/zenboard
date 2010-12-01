@@ -3,9 +3,9 @@
 %p= "Name: #{@project.name}"
 %p= "Created on: #{@project.created_on}"
 %p= "Description: #{@project.description}"
-%p= "Stories complete: #{@project.throughput}"
+%p= "Stories completed: #{@project.throughput}"
 %p= "Velocity: #{@velocity} point(s)"
-%p= "1 point: #{@point_duration.round(2)} day(s)"
+%p= "1 point: #{@point_duration.round(2) rescue 0} day(s)"
 
 %h2 Velocity by month
 %table{:border => "2"}
@@ -22,7 +22,7 @@
       %td{:style => "text-align:left"}= month.name
       %td= month.stories
       %td= month.velocity
-      %td= month.point_duration.round(2)
+      %td= month.point_duration.round(2) rescue 0
       %td= month.efficiency.round
 
 %h2 Stories in Archive

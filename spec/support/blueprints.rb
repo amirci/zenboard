@@ -7,7 +7,6 @@ Sham.name        { Faker::Lorem.sentence }
 Sham.text        { Faker::Lorem.sentence }
 Sham.date        { JSONHelper::Date.to_json(Time.now + rand(10)) }
 Sham.late_date   { JSONHelper::Date.to_json(Time.now + 10 + rand(20)) }
-Sham.owner       { Owner.new(1, 'Juan Rodrigo')  }
 Sham.size        { rand(13) }
 Sham.createTime  { JSONHelper::Date.to_json(Time.now + rand(10)) }
 
@@ -35,6 +34,13 @@ Phase.blueprint do
 end
 
 Sham.phase       { Phase.make }
+
+Owner.blueprint do
+  id   { Sham.unique_id }
+  name 
+end
+
+Sham.owner       { Owner.make()  }
 
 Project.blueprint do
   id          { Sham.unique_id }

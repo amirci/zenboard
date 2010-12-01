@@ -1,8 +1,14 @@
 class Owner
-  attr_reader :id, :name
+  attr_accessor :id, :name
   
-  def initialize(id, name = 'Charles Xavier')
-    @id = id
-    @name = name
+  def initialize(attributes = {})
+    @id = attributes["id"] || 0
+    @name = attributes["name"] || 'Charles Xavier'
   end
+    
+  def ==(other)
+    @id == other.id && @name == other.name
+  end
+
+  alias eql? ==
 end

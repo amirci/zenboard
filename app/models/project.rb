@@ -40,7 +40,7 @@ class Project < AgileZenResource
         "name" => name,
         "description" => description,
         "createTime" => createTime,
-        "owner" => {"id" => owner.id, "name" => owner.name} }
+        "owner" => { "id" => owner.id, "name" => owner.name} }
   end
   
 end
