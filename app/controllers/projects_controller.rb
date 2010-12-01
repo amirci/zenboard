@@ -1,6 +1,8 @@
+require 'active_resource'
+
 class ProjectsController < ApplicationController
 
-  rescue_from(ActiveResource::ForbiddenAccess) { |e| render :file => '/not_authorized' }
+  rescue_from(Exception) { |e| render :file => '/not_authorized' }
 #  rescue_from(Exception) { |e| render :file => '/shoot', :text => e.message }
 
   def index
