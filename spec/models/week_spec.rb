@@ -15,6 +15,14 @@ describe Week do
     w.finish.should == w.start + @six_days
   end
   
+  it "Should calculate the week starting each day" do
+    (0..6).each do |days|
+      w = Week.new(@last_monday + days)      
+      w.start.should == @last_monday
+      w.finish.should == w.start + @six_days
+    end
+  end
+
   it "Should return the previous week" do
     w = Week.current.previous
     

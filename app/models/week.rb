@@ -3,8 +3,11 @@ class Week
 
   # Starts a week from a date
   def initialize(start)
+    @seven_days = 7 * 24 * 60 * 60
+    @six_days = 6 * 24 * 60 * 60
     @start = Time.parse(start.to_s)
-    @finish = @start + 6 * 24 * 60 * 60
+    @start = Time.parse(@start.strftime('%Y-%m-%d'))
+    @finish = @start + @six_days
   end
   
   # Checks a date is included in the week
@@ -15,12 +18,13 @@ class Week
   
   # Returns the previous week
   def previous
-    Week.new(start - 7 * 24 * 60 * 60)
+    Week.new(start - @seven_days)
   end
   
   # Current week
   def self.current
-    last_monday = Time.parse((Date.today - Date.today.cwday.modulo(7)[1]).to_s)
+    modulo = Date.today.wday.modulo(7)
+    last_monday = Time.parse((Date.today - modulo + 1).to_s)
     Week.new(last_monday)
   end
   
