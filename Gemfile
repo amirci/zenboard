@@ -41,6 +41,8 @@ group :test, :development do
 	gem 'machinist', '< 2.0.0'
 	gem 'faker'
 	gem 'heroku'
+	gem 'email_spec'
+	gem "nifty-generators"
 end
 
 group :cucumber do

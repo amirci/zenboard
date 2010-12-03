@@ -3,7 +3,6 @@ Feature: Signing up
 	As a user 
 	I want to be able to sign up
 
-  @wip
   Scenario: Signing up 
 	Given I am on the homepage 
 	When  I follow "Sign up" 

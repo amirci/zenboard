@@ -60,6 +60,7 @@ GEM
       bcrypt-ruby (~> 2.1.2)
       warden (~> 0.10.7)
     diff-lcs (1.1.2)
+    email_spec (1.0.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     faker (0.3.1)
@@ -87,6 +88,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    nifty-generators (0.4.2)
     nokogiri (1.4.4)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -148,6 +150,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   devise (= 1.1.3)
+  email_spec
   faker
   fakeweb
   haml
@@ -155,6 +158,7 @@ DEPENDENCIES
   json
   launchy
   machinist (< 2.0.0)
+  nifty-generators
   rails (= 3.0.1)
   rspec-rails (>= 2.0.0.beta.22)
   spork
