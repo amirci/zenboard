@@ -19,6 +19,8 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # Bundle the extra gems:
 gem 'haml'
 gem 'devise', '1.1.3'
+gem 'bluecloth', ">= 2.0.0"
+
 # gem 'bj'
 # gem 'nokogiri'
 # gem 'sqlite3-ruby', :require => 'sqlite3'

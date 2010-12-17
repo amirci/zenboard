@@ -31,10 +31,12 @@ describe Week do
   
   # Checks the previous weeks are returned
   it "Should return the previous weeks" do
-    previous = Week.previous(2)
+    previous = Week.previous(4)
     
     previous[0].should == Week.current
     previous[1].should == Week.current.previous
+    previous[2].should == Week.current.previous.previous
+    previous[3].should == Week.current.previous.previous.previous
   end
   
 end

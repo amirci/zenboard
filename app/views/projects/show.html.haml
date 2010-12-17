@@ -1,7 +1,7 @@
 %h4= link_to('Back to projects', projects_path)
 %h1 Project details
 %p= "Name: #{@project.name}"
-%p= "Created on: #{@project.created_on}"
+%p= "Created on: #{@project.created_on.strftime('%b %d %Y')}"
 %p= "Description: #{@project.description}"
 %p= "Stories completed: #{@project.throughput}"
 %p= "Velocity: #{@velocity} point(s)"
@@ -26,7 +26,8 @@
       %td= month.efficiency.round
 
 %h2 Stories in Archive
-- @byweek.each_pair do |week, stories|
+- @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
+  - week, stories = array[0], array[1]
   %p Week from #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
   %table{:border => "2"}
     %tr
