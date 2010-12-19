@@ -16,14 +16,7 @@
     %td{:width => "50px"} Velocity
     %td{:width => "120px"} 1 Point = X days
     %td Efficiency %
-  - @months.each do |month|
-    %tr{:style => "text-align:right"}
-      %td= month.year
-      %td{:style => "text-align:left"}= month.name
-      %td= month.stories
-      %td= month.velocity
-      %td= month.point_duration.round(2) rescue 0
-      %td= month.efficiency.round
+  = render(:partial => "month", :collection => @months)
 
 %h2 Stories in Archive
 - @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
@@ -42,16 +35,5 @@
       %td Waiting
       %td{:style => "width:100px"}  Actual Work
       %td{:style => "width:100px"} Efficiency %
-    - stories.each do |story|
-      %tr{:style => "text-align:right"}
-        %td= story.id
-        %td{:style => "text-align:left"}= story.text
-        %td= story.size
-        %td= story.started_on.strftime('%b %d')
-        %td= story.finished_on.strftime('%b %d')
-        %td= story.point_duration.round(2) rescue "(na)"
-        %td= story.duration.round(2)
-        %td= story.blocked_time.round(2)
-        %td= story.waiting_time.round(2)
-        %td= story.work_time.round(2)
-        %td= story.efficiency.round
+    = render(:partial => "story", :collection => stories)
+

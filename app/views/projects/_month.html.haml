@@ -1,0 +1,7 @@
+%tr{:style => "text-align:right"}
+  %td= month.year
+  %td{:style => "text-align:left"}= month.name
+  %td= month.stories
+  %td= month.velocity
+  %td= month.point_duration.round(2) rescue 0
+  %td= month.efficiency.round

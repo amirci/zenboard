@@ -8,7 +8,6 @@ Background:
 			| email	            | password | unconfirmed | 
 			| user@ticketee.com | password | true	     |
 			
-	@wip
 	Scenario: Signing in via confirmation 
 		And "user@ticketee.com" opens the email with subject "Confirmation instructions" 
 		And  they click the first link in the email 
