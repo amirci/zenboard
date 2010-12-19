@@ -18,4 +18,9 @@
       - if show_title?
         %h1= yield(:title)
 
+      - if !user_signed_in? 
+        = link_to "Sign up", new_user_registration_path
+      - else
+        = "Signed in as #{current_user.email}"
+		
       = yield
