@@ -16,6 +16,17 @@ Feature: Signing in
 		And  I should see "Signed in as user@zenboard.com"
 		And  I should see "Sign out"
 
+  Scenario: Signing in via form with the wrong user
+			Given there are the following users:
+					| email	            | password | unconfirmed | 
+					| user@zenboard.com | password | false	     |
+		    And  I am on the homepage 
+		    When I follow "Sign in" 
+		    And  I fill in "Email" with "user@zenboard.com" 
+		    And  I fill in "Password" with "password1"
+			And  I press "Sign in" 
+			Then I should see "Invalid email or password"
+
   Scenario: Signing in via confirmation 
 	  	Given there are the following users:
 				| email	            | password | unconfirmed | 
