@@ -74,7 +74,6 @@ When /^(?:I|they|"([^"]*?)") opens? the email$/ do |address|
 end
 
 When /^(?:I|they|"([^"]*?)") opens? the email with subject "([^"]*?)"$/ do |address, subject|
-  puts "**** Using the EMAIL of #{@user.email}"
   open_email(address, :with_subject => subject)
 end
 

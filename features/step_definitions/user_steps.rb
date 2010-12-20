@@ -3,5 +3,6 @@ Given /^there are the following users:$/ do |table|
     unconfirmed = attributes.delete("unconfirmed") 
     @user = User.create!(attributes.merge!( :password_confirmation => attributes[:password]))
     @user.confirm! unless unconfirmed 
+    puts "**** The user is confirmed? #{@user.inspect}"
   end
 end

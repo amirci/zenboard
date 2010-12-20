@@ -24,6 +24,7 @@ class Week
   # Current week
   def self.current
     modulo = Date.today.wday.modulo(7)
+    modulo = 7 if modulo == 0
     last_monday = Time.parse((Date.today - modulo + 1).to_s)
     Week.new(last_monday)
   end

@@ -9,8 +9,8 @@ describe Week do
   end
   
   it "Should return current week" do
-    w = Week.current
-    
+    #Date.today.stub()
+    w = Week.current    
     w.start.should == @last_monday
     w.finish.should == w.start + @six_days
   end

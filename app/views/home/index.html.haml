@@ -1,2 +1,5 @@
-%h2 Please visit your projects page
-= link_to "Projects", projects_path
+- if !user_signed_in? 
+  %h2 Please sign in in order to see your projects
+- else
+  %h2 Please visit your projects page
+  = link_to "Projects", projects_path
