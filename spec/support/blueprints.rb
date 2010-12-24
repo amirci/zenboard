@@ -18,6 +18,13 @@ Sham.createTime  { JSONHelper::Date.to_json(Time.now + rand(10)) }
 #     body  { "Lorem ipsum..." }
 #   end
 
+User.blueprint do
+  id        { Sham.unique_id }
+  email     'minimal@example.com'
+  password  'test1234'
+  password_confirmation 'test1234'
+end
+
 Phase.blueprint(:archive) do
   id   { Sham.unique_id }
   name { 'Archive'      }
@@ -41,6 +48,12 @@ Owner.blueprint do
 end
 
 Sham.owner       { Owner.make()  }
+
+ProjectConfig.blueprint do
+  id    { Sham.unique_id }
+  name        
+  key   { Sham.name } 
+end
 
 Project.blueprint do
   id          { Sham.unique_id }

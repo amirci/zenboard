@@ -3,10 +3,12 @@ Feature: Listing projects for current user
   I Want to see the list of configured projects
   So I can choose one to see the details
 
+@wip
   Scenario: No projects are configured
     Given I'm logged in
     And   I have no configured projects
-	When  I go to the projects page
+	When  I go to the home page
+	And   show me the page
 	Then  I should see "You have no configured projects"
 	 
   Scenario: The user has configured projects

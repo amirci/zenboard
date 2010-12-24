@@ -1,9 +1,13 @@
 Zenboard::Application.routes.draw do
 
-  devise_for :users
+  devise_for :users, :path => "accounts"
 
   resources :projects
 
+  resources :users do
+    resources :project_config
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

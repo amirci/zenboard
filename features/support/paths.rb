@@ -14,6 +14,9 @@ module NavigationHelpers
     when /the project "(.*)" detail page$/
       "/projects/#{$1}"
       
+    when /the projects config page$/
+      "/projects_config/"
+
     when /sign in page$/
       "/users/sign_in"
       
