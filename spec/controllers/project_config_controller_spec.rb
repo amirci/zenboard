@@ -5,20 +5,21 @@ describe ProjectConfigController do
   include Devise::TestHelpers
   
   it "should list all the projects config" do
-    project = ProjectConfig.make
-    @user = User.make()
-    @controller.stub!(:current_user).and_return(@user)
-    User.stub!(:find).with(:user_id => @user.id).and_return(@user)
+    projects = 10.times{ ProjectConfig.make }
 
-    @user.stub!(:projects_config).and_return([project])
+    @user = User.make()
+
+    @controller.stub!(:current_user).and_return(@user)
+
+    User.stub!(:find).with(@user.id).and_return(@user)
+
+    @user.stub!(:configurations).and_return(projects)
 
     get :index, :user_id => @user.id
 
     response.should be_success
 
-    assigns("projects").first.should == project
-
-    response.should be_success
+    assigns("projects").should == projects
   end
 
 end

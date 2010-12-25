@@ -1,12 +1,13 @@
 class ProjectConfigController < ApplicationController
-
+  before_filter :find_user
+  
   # Returns the collection of configured projects for current user
   def index
-    @projects = find_user.projects_config
+    @projects = @user.configurations
   end
 
   private 
     def find_user
-      User.find(:user_id => params[:user_id])
+      @user = User.find(params[:user_id])
     end
 end

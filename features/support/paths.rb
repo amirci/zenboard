@@ -14,11 +14,11 @@ module NavigationHelpers
     when /the project "(.*)" detail page$/
       "/projects/#{$1}"
       
-    when /the projects config page$/
-      "/projects_config/"
+    when /the user projects config page$/
+      "/users/#{@user.id}/project_config"
 
     when /sign in page$/
-      "/users/sign_in"
+      "/accounts/sign_in"
       
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

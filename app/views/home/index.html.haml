@@ -1,7 +1,6 @@
-- @title = Main project config page
+- @title = "Main project config page"
 - if !user_signed_in? 
   %h2 Please sign in in order to see your projects
 - else
-  %h2 Projects configured so far (configure)
-  - if @projects.count = 0
-    %p You have no configured projects
+  %h2 Check your project configuration
+  = link_to "Configuration", user_project_config_index_path(current_user)

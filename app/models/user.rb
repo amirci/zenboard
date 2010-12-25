@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :projects_config
+  has_many :configurations, :class_name => "ProjectConfig"
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
