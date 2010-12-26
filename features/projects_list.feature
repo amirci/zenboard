@@ -5,14 +5,14 @@ Feature: Listing projects for current user
 
   Scenario: No projects are configured
     Given I'm logged in
-    And   I have no configured projects
+    And   I have no project configurations
 	When  I go to the user projects config page
 	Then  I should see "You have no configured projects"
+	And   I should see "(Configure)"
 	 
-  @wip
   Scenario: The user has configured projects
     Given I'm logged in
-    And   I have configured projects:
+   And   I have the following project configuration:
 			| Caruso   |
 			| Pucini   | 
 			| Mariachi |

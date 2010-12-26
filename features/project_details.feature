@@ -1,3 +1,4 @@
+@ignore
 Feature: Get the details of a project
   As a user
   I Want to see the details of a project

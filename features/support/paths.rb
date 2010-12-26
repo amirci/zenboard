@@ -10,15 +10,18 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
-    
-    when /the project "(.*)" detail page$/
+
+    when /the new project config page/
+      new_project_config_path
+
+    when /the project "(.*)" detail page/
       "/projects/#{$1}"
       
-    when /the user projects config page$/
-      "/users/#{@user.id}/project_config"
+    when /the user projects config page/
+      user_project_config_index_path(@user)
 
-    when /sign in page$/
-      "/accounts/sign_in"
+    when /sign in page/
+      new_user_session_path
       
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
