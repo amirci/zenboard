@@ -1,10 +1,10 @@
 Given /^I am not authenticated$/ do
-  visit('/users/sign_out') # ensure that at least
+  visit destroy_user_session_path
 end
 
 Given /^I'm logged in$/ do
-  email = 'testing@man.net'
-  login = 'Testing man'
+  email    = 'testing@man.net'
+  login    = 'Testing man'
   password = 'secretpass'
 
   Given %{I have the user "#{email}" with password "#{password}" and login "#{login}"}

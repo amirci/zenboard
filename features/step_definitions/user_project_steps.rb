@@ -3,6 +3,9 @@ Given /^I have no configured projects$/ do
 end
 
 Given /^I have configured projects:$/ do |table|
-  # add projects from the table
+  table.raw.collect do |name|
+    project_config = ProjectConfig.make(:user => @user, :name => name)
+    project_config.save!
+  end
 end
 
