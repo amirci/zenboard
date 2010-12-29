@@ -3,11 +3,11 @@
 %h2 Project configuration
 
 %div#projects
-  = render("projects", :collection => @projects)
+  = render("projects", :collection => @configurations)
 
 %hr
 %h3 Add project configuration
-- form_for(@project, :url => user_project_config_index_path(current_user), :remote => true) do |f|
+- form_for(:project_config, :url => user_project_config_index_path(current_user), :remote => true) do |f|
   %p
     =f.label :key
     =f.text_field :key, :size => 100

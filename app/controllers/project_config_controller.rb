@@ -3,17 +3,17 @@ class ProjectConfigController < ApplicationController
   
   # Returns the collection of configured projects for current user
   def index
-    @projects = @user.configurations
-    @project = ProjectConfig.new
+    @configurations = @user.configurations
   end
   
   def create
-    Project.api_key = params[:project_config][:key]
+    @api_key = Project.api_key = params[:project_config][:key]
     @projects = Project.all
   end
   
   def new
-    @project = ProjectConfig.create(:user => @user, :key => params[:key])
+    @config = ProjectConfig.create!(params["project"].merge!(:user => @user))
+    @configurations = @user.configurations
   end
   
   private 

@@ -2,7 +2,7 @@ class CreateProjectConfigs < ActiveRecord::Migration
   def self.up
     create_table :project_configs do |t|
       t.string  :name
-      t.string  :key
+      t.string  :api_key
       t.integer :user_id
       t.integer :project_id
 
