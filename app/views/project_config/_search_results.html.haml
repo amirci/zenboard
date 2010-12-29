@@ -1,0 +1,9 @@
+%h3 Search Results
+%h4 Please add projects you own
+%table
+  %tr
+    %th Id
+    %th Name
+    %th Op
+  = render(:partial => "project", :collection => @projects)
+  

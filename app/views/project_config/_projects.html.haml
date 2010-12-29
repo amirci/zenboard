@@ -1,0 +1,5 @@
+- if @projects.count == 0
+  %h3 (You have no configured projects)
+- else
+  - @projects.each do |project|
+    %p= project.name

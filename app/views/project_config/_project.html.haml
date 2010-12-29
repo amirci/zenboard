@@ -1,0 +1,4 @@
+%tr
+  %td= project.id
+  %td= project.name
+  %td= link_to "Add", new_user_project_config_path(current_user), :remote => true, :name => project.name, :project_id => project.id

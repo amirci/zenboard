@@ -1,9 +1,16 @@
 - @title = "Project configuration page"
 
-%h2= link_to "(Configure)", new_user_project_config_path
+%h2 Project configuration
 
-- if @projects.count == 0
-  %h2 You have no configured projects
-- else
-  - @projects.each do |project|
-    %p= project.name
+%div#projects
+  = render("projects", :collection => @projects)
+
+%hr
+%h3 Add project configuration
+- form_for(@project, :url => user_project_config_index_path(current_user), :remote => true) do |f|
+  %p
+    =f.label :key
+    =f.text_field :key, :size => 100
+  %p= f.submit "Search"
+
+%div#search_results

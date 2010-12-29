@@ -2,7 +2,7 @@
 %h2 Project list
 
 - if @projects.count == 0
-  = You don't seem to have any projects configured, please configure some.
+  Sorry, no projects were retrieved
 
 - @projects.each do |project|
   %h3= link_to project.name, project

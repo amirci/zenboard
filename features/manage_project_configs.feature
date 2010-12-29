@@ -1,46 +1,12 @@
 @wip
-Feature: Manage project_configs
-  In order to [goal]
-  [stakeholder]
-  wants [behaviour]
+Feature: Manage project configurations
+  As a registered user
+  I want to add a new project configuration
+  So I can get project details
   
-  Scenario: Add new project_config
-    Given I am on the new project_config page
-    And I press "Create"
-
-  # Rails generates Delete links that use Javascript to pop up a confirmation
-  # dialog and then do a HTTP POST request (emulated DELETE request).
-  #
-  # Capybara must use Culerity/Celerity or Selenium2 (webdriver) when pages rely
-  # on Javascript events. Only Culerity/Celerity supports clicking on confirmation
-  # dialogs.
-  #
-  # Since Culerity/Celerity and Selenium2 has some overhead, Cucumber-Rails will
-  # detect the presence of Javascript behind Delete links and issue a DELETE request 
-  # instead of a GET request.
-  #
-  # You can turn this emulation off by tagging your scenario with @no-js-emulation.
-  # Turning on browser testing with @selenium, @culerity, @celerity or @javascript
-  # will also turn off the emulation. (See the Capybara documentation for 
-  # details about those tags). If any of the browser tags are present, Cucumber-Rails
-  # will also turn off transactions and clean the database with DatabaseCleaner 
-  # after the scenario has finished. This is to prevent data from leaking into 
-  # the next scenario.
-  #
-  # Another way to avoid Cucumber-Rails' javascript emulation without using any
-  # of the tags above is to modify your views to use <button> instead. You can
-  # see how in http://github.com/jnicklas/capybara/issues#issue/12
-  #
-  Scenario: Delete project_config
-    Given the following project_configs:
-      ||
-      ||
-      ||
-      ||
-      ||
-    When I delete the 3rd project_config
-    Then I should see the following project_configs:
-      ||
-      ||
-      ||
-      ||
+  Scenario: Add new project configuration
+	Given I'm logged in
+	And   I have no project configurations
+	When  I go to the user projects configuration page
+	And   I follow "Configure"
+	Then  I should see "Add API Key"

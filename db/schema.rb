@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20101222053708) do
     t.string   "name"
     t.string   "key"
     t.integer  "user_id"
+    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

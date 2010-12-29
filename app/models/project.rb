@@ -5,6 +5,14 @@ class Project < AgileZenResource
   attr_reader :archived
   self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
 
+  def self.api_key=(key)
+    self.headers["X-Zen-ApiKey"] = key
+  end
+  
+  def self.api_key
+    self.headers["X-Zen-ApiKey"]
+  end
+  
   # Date when the project was created
   def created_on
     JSONHelper::Date.from_json(createTime)

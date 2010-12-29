@@ -17,7 +17,7 @@ module NavigationHelpers
     when /the project "(.*)" detail page/
       "/projects/#{$1}"
       
-    when /the user projects config page/
+    when /the user projects configuration page/
       user_project_config_index_path(@user)
 
     when /sign in page/

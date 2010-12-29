@@ -12,7 +12,7 @@ Feature: Listing projects for current user
 	 
   Scenario: The user has configured projects
     Given I'm logged in
-   And   I have the following project configuration:
+    And   I have the following project configuration:
 			| Caruso   |
 			| Pucini   | 
 			| Mariachi |
@@ -20,3 +20,4 @@ Feature: Listing projects for current user
 	Then  I should see "Caruso"
     And   I should see "Pucini"
     And   I should see "Mariachi"
+
