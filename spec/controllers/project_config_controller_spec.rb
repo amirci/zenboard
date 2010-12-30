@@ -19,7 +19,7 @@ describe ProjectConfigController do
 
     response.should be_success
 
-    assigns("projects").should == projects
+    assigns("configurations").should == projects
   end
 
 end
