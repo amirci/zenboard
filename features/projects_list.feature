@@ -6,9 +6,8 @@ Feature: Listing projects for current user
   Scenario: No projects are configured
     Given I'm logged in
     And   I have no project configurations
-	When  I go to the user projects config page
+	When  I go to the user projects configuration page
 	Then  I should see "You have no configured projects"
-	And   I should see "(Configure)"
 	 
   Scenario: The user has configured projects
     Given I'm logged in
@@ -16,7 +15,7 @@ Feature: Listing projects for current user
 			| Caruso   |
 			| Pucini   | 
 			| Mariachi |
-	When  I go to the user projects config page
+	When  I go to the user projects configuration page
 	Then  I should see "Caruso"
     And   I should see "Pucini"
     And   I should see "Mariachi"

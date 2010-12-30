@@ -50,9 +50,9 @@ end
 Sham.owner       { Owner.make()  }
 
 ProjectConfig.blueprint do
-  id    { Sham.unique_id }
+  id      { Sham.unique_id }
   name        
-  key   { Sham.name } 
+  api_key { Sham.name } 
 end
 
 Project.blueprint do
