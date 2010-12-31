@@ -7,8 +7,13 @@ class ProjectConfigController < ApplicationController
   end
   
   def create
-    @api_key = Project.api_key = params[:project_config][:key]
-    @projects = Project.all
+    @error = params[:project_config][:api_key].empty?
+    if !@error
+      @api_key = Project.api_key = params[:project_config][:api_key]
+      @projects = Project.all
+    else
+      flash[:notice]= 'Sorry, you need an api-key in order to search for projects'
+    end
   end
   
   def new

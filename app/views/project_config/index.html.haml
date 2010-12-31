@@ -9,8 +9,8 @@
 %h3 Add project configuration
 - form_for(:project_config, :url => user_project_config_index_path(current_user), :remote => true) do |f|
   %p
-    =f.label :key
-    =f.text_field :key, :size => 100
+    =f.label :api_key
+    =f.text_field :api_key, :size => 100
   %p= f.submit "Search"
 
 %div#search_results
