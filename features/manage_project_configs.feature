@@ -29,7 +29,6 @@ Feature: Manage project configurations
 	And   I press "Search"
  	Then  I should see "Can't retrieve project information, make sure the key is valid"
 
-  @wip
   @javascript
   Scenario: Add new configuration
 	Given I'm logged in
@@ -39,9 +38,9 @@ Feature: Manage project configurations
 	And   I fill in "project_config_api_key" with "aaa"
 	And   I press "Search"
 	When  I follow "Add"
-    And   show me the page
 	Then  I should see "Caruso" within "div#configurations"
 	And   I should see "(Added)" within "#projects"
+	And   I should see "The new project configuration has been added"
 
   Scenario: Listing exisiting configuration should appear as added
 	Given I'm logged in

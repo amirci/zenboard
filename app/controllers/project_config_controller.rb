@@ -12,16 +12,18 @@ class ProjectConfigController < ApplicationController
         @api_key = Project.api_key = params[:project_config][:api_key]
         @projects = Project.all
       else
-        flash[:notice]= 'Sorry, you need an api-key in order to search for projects'
+        flash[:error]= 'Sorry, you need an api-key in order to search for projects'
       end
     rescue
       @error = true
-      flash[:notice]= 'Can\'t retrieve project information, make sure the key is valid'
+      flash[:error]= 'Can\'t retrieve project information, make sure the key is valid'
     end  
   end
   
   def new
+    flash[:notice]= 'The new project configuration has been added'
     @config = ProjectConfig.create!(params["project"].merge!(:user => @user))
+    @projects = Project.all
   end
   
   private 
