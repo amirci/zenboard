@@ -1,18 +1,26 @@
 @f1
 Feature: Manage project configurations
   As a registered user
-  I want to add a new project configuration
-  So I can get project details
-  
-  Scenario: Search for new projects
-	Given I'm logged in
-    And   I have the project "Caruso" with:
-		  | description | Very nice project |
-	When  I go to the user projects configuration page
-	And   I fill in "project_config_api_key" with "aaa"
-	And   I press "Search"
- 	Then  I should see "Caruso" within "#projects"
+  I want to manage new project configuration
+  So I can add and remove configurations
 
+  Scenario: No projects are configured
+    Given I'm logged in
+    And   I have no project configurations
+	When  I go to the user projects configuration page
+	Then  I should see "You have no configured projects"
+	 
+  Scenario: The user has configured projects
+    Given I'm logged in
+    And   I have the following project configurations:
+			| Caruso   |
+			| Pucini   | 
+			| Mariachi |
+	When  I go to the user projects configuration page
+	Then  I should see "Caruso"
+    And   I should see "Pucini"
+    And   I should see "Mariachi"
+  
   Scenario: Search for new projects needs an api-key
 	Given I'm logged in
     And   I have the project "Caruso" with:
@@ -42,13 +50,15 @@ Feature: Manage project configurations
 	And   I should see "(Added)" within "#projects"
 	And   I should see "The new project configuration has been added"
 
-  Scenario: Listing exisiting configuration should appear as added
-	Given I'm logged in
-    And   I have the project "Moroco" with:
-		  | description | Project |
-		  | id          | 1       |
-    And   I have the project configuration "Moroco" with id "1"
-	And   I go to the user projects configuration page
-	And   I fill in "project_config_api_key" with "aaa"
-	When  I press "Search"
-	Then  I should see "(Added)" within "#projects"
+  	@wip
+  Scenario: Delete project configuration
+    Given I'm logged in
+    And   I have the following project configurations:
+			| Caruso   |
+			| Pucini   | 
+			| Mariachi |
+	When  I go to the user projects configuration page
+    And   I delete the 1st project configuration
+	Then  I should not see "Caruso"
+    And   I should see "Pucini"
+    And   I should see "Mariachi"

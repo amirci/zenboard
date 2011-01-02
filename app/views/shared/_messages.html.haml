@@ -1,4 +1,3 @@
 - flash.each do |name, msg|
   = content_tag :div, msg, :id => "flash_#{name}"
-  %script{:type => "text/javascript"}
-    = %Q{setTimeout("new Effect.Fade('flash_#{name});", 7000)}
+  = javascript_tag "setTimeout(\"new Effect.Fade('flash_#{name}');\", 7000)"

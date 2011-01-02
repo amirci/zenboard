@@ -1,5 +1,15 @@
 - if @configurations.count == 0
   %h3 (You have no configured projects)
 - else
-  - @configurations.each do |config|
-    %p= "#{config.api_key}, #{config.name}, #{config.project_id}"
+  %table
+    %tr
+      %th Key
+      %th Name
+      %th Project Id
+      %th Op
+    - @configurations.each do |config|
+      %tr
+        %td= config.api_key
+        %td= config.name
+        %td= config.project_id
+        %td= link_to 'Remove', user_project_config_path(current_user, :id => config.id, :action => 'destroy'), :remote => true

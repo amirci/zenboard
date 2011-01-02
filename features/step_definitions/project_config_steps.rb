@@ -14,10 +14,9 @@ Given /^(?:I have )the following project configurations:$/ do |table|
   end
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) project_config$/ do |pos|
-  visit project_configs_path
+When /^I delete the (\d+)(?:st|nd|rd|th) project configuration$/ do |pos|
   within("table tr:nth-child(#{pos.to_i+1})") do
-    click_link "Destroy"
+    click_link "Remove"
   end
 end
 
