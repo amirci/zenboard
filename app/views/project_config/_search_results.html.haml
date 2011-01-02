@@ -5,5 +5,5 @@
     %th Id
     %th Name
     %th Op
-  = render(:partial => "project", :collection => @projects, :local => { :api_key => @api_key })
+  = render(:partial => "project", :collection => @projects, :local => { :api_key => @api_key, :configuration => @configurations })
   

@@ -1,1 +1,1 @@
-page.replace_html('projects', render("projects", :collection => @configurations))
+page.replace_html('configurations', render("configurations", :collection => @configurations))

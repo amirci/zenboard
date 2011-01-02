@@ -2,4 +2,6 @@
   %td= project.id
   %td= project.name
   - args = { "project[api_key]" => @api_key, "project[name]" => project.name, "project[project_id]" => project.id }
-  %td= link_to "Add", new_user_project_config_path(current_user, args), :remote => true
+  - config = @configurations.find_by_project_id(project.id)
+  %td= link_to("Add", new_user_project_config_path(current_user, args), :remote => true) if config.nil?
+  %td= "(Added)" if !config.nil?

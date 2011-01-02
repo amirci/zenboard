@@ -1,10 +1,15 @@
 require 'fakeweb'
 
+Given /^I have no access to search for projects$/ do
+  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :exception => ActiveResource::ForbiddenAccess)
+end
+
 Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|
 
-  id = table.rows_hash[:id] || 4444
-  date = table.rows_hash[:created] || "Jan 1"
+  date = table.rows_hash[:created] || "Mar 1"
   created = Chronic.parse(date, :context => :past)
+
+  id = table.rows_hash[:id] || 4444
     
   project = { "id" => id,
       "name" => "#{project}",

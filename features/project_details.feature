@@ -19,9 +19,9 @@ Feature: Get the details of a project
 		  | created | 8 days ago |
 	And   I have the stories for project "44":
 	      | size | started | finished | phase   |
-	      |  3   | Jan 1   | Jan 3    | Archive |
-	      |  5   | Jan 1   | Jan 5    | Archive |
-	      |  8   | Jan 1   | Jan 8    | Archive |
+	      |  3   | Mar 1   | Mar 3    | Archive |
+	      |  5   | Mar 1   | Mar 5    | Archive |
+	      |  8   | Mar 1   | Mar 8    | Archive |
 	When  I go to the project "44" detail page
 	Then  I should see "Velocity: 16 point(s)"
 	And   I should see "1 point: 0.08 day(s)"
