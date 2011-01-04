@@ -45,6 +45,7 @@ group :test, :development do
 	gem 'heroku'
 	gem 'email_spec'
 	gem "nifty-generators"
+	gem 'rcov'
 end
 
 group :cucumber do
