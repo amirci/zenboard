@@ -1,16 +1,16 @@
-- @title = "Project configuration page"
+- @title = "User Project configurations page"
 
-%h2 Project configuration
+%h2 Registered project configurations
 
 %div#configurations
   = render("configurations", :collection => @configurations)
 
 %hr
 %h3 Add project configuration
-- form_for(:project_config, :url => user_project_config_index_path(current_user), :remote => true) do |f|
+- form_tag user_project_config_index_path(current_user), :remote => true do
   %p
-    =f.label :api_key
-    =f.text_field :api_key, :size => 100
-  %p= f.submit "Search"
+    = label_tag :api_key
+    = text_field_tag :api_key, :size => 100
+  %p= submit_tag "Search"
 
 %div#search_results
