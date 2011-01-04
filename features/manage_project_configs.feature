@@ -33,24 +33,25 @@ Feature: Manage project configurations
 	Given I'm logged in
 	And   I have no access to search for projects
 	When  I go to the user projects configuration page
-	And   I fill in "project_config_api_key" with "fca5c1c8b746160460a9"
+	And   I fill in "api_key" with "fca5c1c8b746160460a9"
 	And   I press "Search"
  	Then  I should see "Can't retrieve project information, make sure the key is valid"
 
-  @javascript
+  @javascript @aa
   Scenario: Add new configuration
 	Given I'm logged in
+    And   I have no project configurations
     And   I have the project "Caruso" with:
 		  | description | Very nice project |
 	And   I go to the user projects configuration page
-	And   I fill in "project_config_api_key" with "aaa"
+	And   I fill in "api_key" with "aaa"
 	And   I press "Search"
 	When  I follow "Add"
 	Then  I should see "Caruso" within "div#configurations"
 	And   I should see "(Added)" within "#projects"
 	And   I should see "The new project configuration has been added"
 
-  	@wip
+  @wip
   Scenario: Delete project configuration
     Given I'm logged in
     And   I have the following project configurations:

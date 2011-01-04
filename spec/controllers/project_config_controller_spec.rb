@@ -55,6 +55,7 @@ describe ProjectConfigController do
     ProjectConfig.should_receive(:create!).with(project.merge("user" => @user))
     get :new, :user_id => @user.id, :project => project
     flash[:notice].should == 'The new project configuration has been added'
+    assigns[:api_key].should == 'aaa'
   end
         
   # Destroy action

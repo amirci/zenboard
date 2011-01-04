@@ -31,6 +31,7 @@ class ProjectConfigController < ApplicationController
     flash[:notice] = 'The new project configuration has been added'
     @current_config = ProjectConfig.create!(params["project"].merge!(:user => @user))
     @projects = Project.all
+    @api_key = params['project']['api_key']
   end
   
   # Deletes the configuration indicated by the id

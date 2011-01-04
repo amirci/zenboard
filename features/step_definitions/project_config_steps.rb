@@ -1,5 +1,5 @@
 Given /^I have no project configurations$/ do
-  # nothing to do, no configured projects exist
+  ProjectConfig.destroy_all
 end
 
 Given /^I have the project configuration "([^"]*)" with id "([^"]*)"$/ do |name, project_id|
