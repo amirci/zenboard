@@ -1,0 +1,3 @@
+page.replace_html('configurations', render("configurations", :collection => @configurations))
+page.replace_html('messages', render('shared/messages', :collection => @flash))
+
