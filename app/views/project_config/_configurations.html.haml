@@ -4,4 +4,5 @@
   - @config_by_key.keys.each do |key|
     %div.config_key{:id => "#{key}"}
       .title Api key: #{key}
-      = render(:partial => "configuration", :collection => @config_by_key[key], :local => { :current_config => @current_config })
+      - configs = @config_by_key[key].sort_by(&:name)
+      = render(:partial => "configuration", :collection => configs, :local => { :current_config => @current_config })

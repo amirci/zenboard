@@ -8,14 +8,14 @@ Given /^I have the project configuration "([^"]*)" with id "([^"]*)"$/ do |name,
 end
 
 Given /^(?:I have )the following project configurations:$/ do |table|
-  table.raw.collect do |name|
-    project_config = ProjectConfig.make(:user => @user, :name => name)
+  table.hashes.each do |hash|
+    project_config = ProjectConfig.make(hash.merge(:user => @user))
     project_config.save!
   end
 end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) project configuration$/ do |pos|
-  within("table tr:nth-child(#{pos.to_i+1})") do
+  within(".config_key :nth-child(#{pos.to_i + 1})") do
     click_link "Remove"
   end
 end

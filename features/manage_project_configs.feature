@@ -13,6 +13,7 @@ Feature: Manage project configurations
   Scenario: The user has configured projects
     Given I'm logged in
     And   I have the following project configurations:
+	        | name     |
 			| Caruso   |
 			| Pucini   | 
 			| Mariachi |
@@ -51,13 +52,13 @@ Feature: Manage project configurations
 	And   I should see "(Added)" within "#projects"
 	And   I should see "The new project configuration has been added"
 
-  @wip
   Scenario: Delete project configuration
     Given I'm logged in
     And   I have the following project configurations:
-			| Caruso   |
-			| Pucini   | 
-			| Mariachi |
+	        | name     | api_key |
+			| Caruso   | aaa     |
+			| Pucini   | aaa     | 
+			| Mariachi | aaa     |
 	When  I go to the user projects configuration page
     And   I delete the 1st project configuration
 	Then  I should not see "Caruso"
