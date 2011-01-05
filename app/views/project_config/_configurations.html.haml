@@ -2,6 +2,6 @@
   %h3 (You have no configured projects)
 - else
   - @config_by_key.keys.each do |key|
-    %div{:id => "#{key}", :style => "margin:10px 5px"}
-      %p Api key: #{key}
+    %div.config_key{:id => "#{key}"}
+      .title Api key: #{key}
       = render(:partial => "configuration", :collection => @config_by_key[key], :local => { :current_config => @current_config })

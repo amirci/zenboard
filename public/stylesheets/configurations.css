@@ -1,0 +1,45 @@
+#config,
+#current_config {
+  margin: 5px 10px 10px 10px; }
+  #config #project_id,
+  #current_config #project_id {
+    float: left;
+    width: 60px;
+    text-align: right; }
+  #config #project_name,
+  #current_config #project_name {
+    float: left;
+    width: 200px;
+    margin-left: 5px; }
+
+.config_key {
+  margin: 10px 5px; }
+  .config_key .title {
+    display: block;
+    background: black;
+    color: white;
+    padding: 5px;
+    font-size: 12pt; }
+
+#search_results .title {
+  display: block;
+  background: black;
+  color: white;
+  padding: 5px;
+  font-size: 12pt; }
+#search_results #projects {
+  margin: 10px; }
+  #search_results #projects #project #id {
+    float: left;
+    width: 60px;
+    text-align: right; }
+  #search_results #projects #project #name {
+    float: left;
+    width: 200px;
+    margin-left: 5px; }
+  #search_results #projects #project #owner {
+    float: left;
+    width: 200px;
+    margin-left: 5px; }
+  #search_results #projects #project #op {
+    display: inline; }

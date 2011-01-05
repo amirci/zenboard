@@ -1,11 +1,7 @@
 - args = { "project[api_key]" => @api_key, "project[name]" => project.name, "project[project_id]" => project.id }
 - config = @configurations.find_by_project_id(project.id)
-%div{:style => "margin:5px 10px 10px 10px;"}
-  %div{:style => "float:left;width:80px; text-align:right"}= "#{project.id}:"
-  %div{:style => "float:left;width:200px; margin-left:5px;"}= project.name
-  %div{:style => "float:left;width:200px; margin-left:5px;"}= project.owner.name
-  %div{:style => "display:inline"}  
-    - if config.nil?
-      = link_to("Add", new_user_project_config_path(current_user, args), :remote => true)
-    - else
-      = "(Added)" 
+#project
+  #id #{project.id}:
+  #name= project.name
+  #owner= project.owner.name
+  #op= config.nil? ? link_to("Add", new_user_project_config_path(current_user, args), :remote => true) : "(Added)" 

@@ -6,6 +6,7 @@
       = yield(:title) || "Untitled"
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
     = stylesheet_link_tag "application"
+    = stylesheet_link_tag "configurations"
     = javascript_include_tag :defaults
     = csrf_meta_tag
     = yield(:head)
