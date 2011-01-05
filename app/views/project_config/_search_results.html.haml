@@ -1,9 +1,5 @@
 %h3 Search Results
 %h4 Please add projects you own
-%table#projects
-  %tr
-    %th Id
-    %th Name
-    %th Op
+#projects
   = render(:partial => "project", :collection => @projects, :local => { :api_key => @api_key, :configuration => @configurations })
   

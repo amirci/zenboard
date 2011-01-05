@@ -1,4 +1,4 @@
 %div{:id => configuration == @current_config ? "current_config" : "config", :style => "margin:5px 10px 10px 10px;"}
-  %div{:style => "float:left;width:80px;text-align:right"}= "#{configuration.project_id}:"
+  %div{:style => "float:left;width:80px; text-align:right"}= "#{configuration.project_id}:"
   %div{:style => "float:left;width:200px; margin-left:5px;"}= configuration.name
   %div{:style => "display:inline;"}= link_to '(Remove)', user_project_config_path(current_user, :id => configuration.id), :method => 'delete', :confirm => "Are you sure you want to delete this configuration?", :remote => true
