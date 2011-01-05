@@ -52,10 +52,17 @@ describe ProjectConfigController do
   # New action
   it "Should create a new configuration" do
     project = {"project_id" => '1', "name" => 'Project', "api_key" => 'aaa'}
+    projects = (1..10).inject([]) do |array, i| 
+      mock = double("UserConfiguration_#{i}") 
+      mock.stub!(:api_key).and_return('aaa')
+      array << mock
+    end
+    @user.stub!(:configurations).and_return(projects)
     ProjectConfig.should_receive(:create!).with(project.merge("user" => @user))
     get :new, :user_id => @user.id, :project => project
     flash[:notice].should == 'The new project configuration has been added'
     assigns[:api_key].should == 'aaa'
+    assigns[:configurations].should == projects
   end
         
   # Destroy action

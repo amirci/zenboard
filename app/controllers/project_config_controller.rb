@@ -3,6 +3,7 @@ class ProjectConfigController < ApplicationController
   
   # Returns the collection of configured projects for current user
   def index
+    find_configurations
   end
   
   # Searches for all the projects registered under the key
@@ -24,6 +25,7 @@ class ProjectConfigController < ApplicationController
       @error = true
       flash[:error] = 'Can\'t retrieve project information, make sure the key is valid'
     end  
+    find_configurations    
   end
   
   # Creates a new configuration
@@ -32,19 +34,30 @@ class ProjectConfigController < ApplicationController
     @current_config = ProjectConfig.create!(params["project"].merge!(:user => @user))
     @projects = Project.all
     @api_key = params['project']['api_key']
+    find_configurations    
   end
   
   # Deletes the configuration indicated by the id
   def destroy
     project = ProjectConfig.find(params[:id])
     project.destroy
-    @configurations = @user.configurations
+    find_configurations    
   end
   
   private 
     # Finds the user that matches the user_id in the parameters
     def find_user
       @user = User.find(params[:user_id])
+    end
+
+    # Calculate the user configuration and a hash by key
+    def find_configurations
       @configurations = @user.configurations
+      @config_by_key = @configurations.inject({}) do |map, cfg|
+        values = map[cfg.api_key] || []
+        values << cfg
+        map[cfg.api_key] = values
+        map
+      end
     end
 end

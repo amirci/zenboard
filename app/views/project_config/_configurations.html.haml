@@ -1,10 +1,7 @@
 - if @configurations.count == 0
   %h3 (You have no configured projects)
 - else
-  %table
-    %tr
-      %th Key
-      %th Name
-      %th Project Id
-      %th Op
-    = render(:partial => "configuration", :collection => @configurations, :local => { :current_config => @current_config })
+  - @config_by_key.keys.each do |key|
+    %div{:id => "#{key}", :style => "margin:10px 5px"}
+      %p Api key: #{key}
+      = render(:partial => "configuration", :collection => @config_by_key[key], :local => { :current_config => @current_config })

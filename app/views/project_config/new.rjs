@@ -2,4 +2,4 @@ page.replace_html('configurations', render("configurations", :collection => @con
 page.replace_html('search_results', render("search_results", :collection => @projects))
 page.replace_html('messages', render('shared/messages', :collection => @flash))
 
-page[:current_config].visual_effect :highlight, :startcolor => "#88ff88", :endcolor => "#114411"
+#page[:current_config].visual_effect :highlight, :startcolor => "#88ff88", :endcolor => "#114411"
