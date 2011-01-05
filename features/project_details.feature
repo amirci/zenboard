@@ -4,13 +4,17 @@ Feature: Get the details of a project
   I Want to see the details of a project
   So I can see the info like days per user point
 
-  Scenario: Follow the project to obtain the details
+@wip
+  Scenario: Follow the project configuration to obtain the details
     Given I'm logged in
+    And   I have the following project configurations:
+	        | name     | api_key | project_id |
+			| Caruso   | aaa     | 4444       |
     And   I have the project "Caruso" with:
-		  | description | Very nice project |
-	And   I go to the projects page
-	When  I follow "Caruso"
-	Then  I should see "Description: Very nice project"
+		    | description | Super Project |
+		    | id          | 4444          |
+	When  I go to the project configuration 4444 detail page
+	Then  I should see "Description: Super Project"
 
   Scenario: Get the average velocity of a project
     Given I'm logged in

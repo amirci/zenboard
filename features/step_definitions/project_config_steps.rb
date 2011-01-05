@@ -20,6 +20,13 @@ When /^I delete the (\d+)(?:st|nd|rd|th) project configuration$/ do |pos|
   end
 end
 
+When /^I follow detail of (\d+)(?:st|nd|rd|th) project configuration$/ do |pos|
+  within(".config_key :nth-child(#{pos.to_i + 1})") do
+    click_link "Detail"
+  end
+end
+
 Then /^I should see the following project_configs:$/ do |expected_project_configs_table|
   expected_project_configs_table.diff!(tableish('table tr', 'td,th'))
 end
+
