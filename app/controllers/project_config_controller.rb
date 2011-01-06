@@ -16,13 +16,14 @@ class ProjectConfigController < ApplicationController
     @error = params[:api_key].nil? || params[:api_key].empty?
     begin
       if !@error
-        @api_key = Project.api_key = params[:api_key]
-        @projects = Project.all
+        find_projects(params[:api_key])
       else
         flash[:error] = 'Sorry, you need an api-key in order to search for projects'
       end
-    rescue
+    rescue Exception => ex
       @error = true
+      logger.error ex
+      logger.error ex.backtrace.join("\n")
       flash[:error] = 'Can\'t retrieve project information, make sure the key is valid'
     end  
     find_configurations    
@@ -32,8 +33,7 @@ class ProjectConfigController < ApplicationController
   def new
     flash[:notice] = 'The new project configuration has been added'
     @current_config = ProjectConfig.create!(params["project"].merge!(:user => @user))
-    @projects = Project.all
-    @api_key = params['project']['api_key']
+    find_projects(params['project']['api_key'])
     find_configurations    
   end
   
@@ -48,6 +48,11 @@ class ProjectConfigController < ApplicationController
     # Finds the user that matches the user_id in the parameters
     def find_user
       @user = User.find(params[:user_id])
+    end
+
+    def find_projects(api_key)
+      @api_key = Project.api_key = api_key
+      @projects = Project.all
     end
 
     # Calculate the user configuration and a hash by key

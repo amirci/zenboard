@@ -1,0 +1,16 @@
+#menu
+  #home= link_to "Home", root_path
+
+  #projects= link_to "User Projects", user_project_config_index_path(current_user) if user_signed_in?
+
+  #user
+    - if !user_signed_in? 
+      = link_to "Sign up", new_user_registration_path
+      = "or"
+      = link_to "Sign in", new_user_session_path
+    - else
+      = "Signed in as #{current_user.email}"
+      = link_to "Sign out", destroy_user_session_path
+
+  #separator
+	

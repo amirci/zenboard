@@ -3,7 +3,6 @@ require 'json_date'
 
 class Project < AgileZenResource
   attr_reader :archived
-  self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
 
   def self.api_key=(key)
     self.headers["X-Zen-ApiKey"] = key
@@ -20,7 +19,7 @@ class Project < AgileZenResource
   
   # All stories associated to the project
   def stories
-    @stories = Story.all_for_project(id)
+    @stories = Story.all_for_project(id, api_key)
     @archived = @stories.find_all { |s| s.phase.name == 'Archive' }
     @stories
   end

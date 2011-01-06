@@ -1,0 +1,19 @@
+%h2 Stories in Archive
+- @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
+  - week, stories = array[0], array[1]
+  %p Week from #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
+  %table{:border => "2"}
+    %tr
+      %td{:style => "width:30px"} Id
+      %td Text
+      %td{:style => "width:50px"} Size
+      %td{:style => "width:80px"} Started
+      %td{:style => "width:80px"} Finished
+      %td{:style => "width:50px"} 1 Point
+      %td Duration
+      %td Blocked
+      %td Waiting
+      %td{:style => "width:100px"}  Actual Work
+      %td{:style => "width:100px"} Efficiency %
+    = render(:partial => "story", :collection => stories)
+

@@ -2,11 +2,11 @@ require 'agilezen'
 require 'json'
 
 class Story < AgileZenResource
-  self.headers["X-Zen-ApiKey"] = "f7ba5d7ea3254f31aa15d17e3d4e8ee1"
   self.prefix = "/api/v1/project"
   
   # Finds all storys for a particular project
-  def self.all_for_project(id)
+  def self.all_for_project(id, api_key)
+    self.headers["X-Zen-ApiKey"] = api_key
     self.nested = "/#{id}"
     all(:params => {:with => "metrics", :pageSize => 1000})
   end

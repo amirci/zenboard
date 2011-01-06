@@ -1,0 +1,12 @@
+#menu {
+  font-size: 14pt; }
+  #menu #projects,
+  #menu #home {
+    float: left;
+    margin-right: 10px; }
+  #menu #user {
+    float: right;
+    display: inline;
+    text-align: right; }
+  #menu #separator {
+    clear: both; }

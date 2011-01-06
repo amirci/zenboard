@@ -1,0 +1,10 @@
+%h2 Velocity by month
+%table{:border => "2"}
+  %tr
+    %td{:width => "50px"} Year
+    %td{:width => "50px"} Month
+    %td{:width => "50px"} Stories
+    %td{:width => "50px"} Velocity
+    %td{:width => "120px"} 1 Point = X days
+    %td Efficiency %
+  = render(:partial => "month", :collection => @months)

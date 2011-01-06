@@ -3,17 +3,21 @@ require 'active_resource'
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   
-  rescue_from(Exception) { |e| render :file => '/not_authorized' }
+  rescue_from(Exception)  do |ex| 
+    logger.error ex
+    logger.error ex.backtrace.join("\n")
+    render :file => '/not_authorized' 
+  end
+    
 #  rescue_from(Exception) { |e| render :file => '/shoot', :text => e.message }
 
-  def index
-    @projects = Project.all
-  end
-
+  # Show the details of a project
   def show
+    Project.api_key = params[:api_key]    
     @project = Project.find(params[:id])
 
-    @project.stories
+    # load the stories
+    # @project.stories
     
     bymonth = @project.archived.inject({}) do |h, story| 
       key = story.finished_on.strftime('%Y%m')

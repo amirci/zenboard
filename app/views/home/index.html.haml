@@ -1,6 +1,7 @@
-- @title = "Main project config page"
+- title "Home page"
+
 - if !user_signed_in? 
   %h2 Please sign in in order to see your projects
 - else
-  %h2 Check your project configuration
-  = link_to "Configuration", user_project_config_index_path(current_user)
+  %h2 Check your project configurations
+  = link_to "Projects", user_project_config_index_path(current_user)

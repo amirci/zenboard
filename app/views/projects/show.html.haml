@@ -1,39 +1,7 @@
-%h4= link_to('Back to projects', projects_path)
-%h1 Project details
-%p= "Name: #{@project.name}"
-%p= "Created on: #{@project.created_on.strftime('%b %d %Y')}"
-%p= "Description: #{@project.description}"
-%p= "Stories completed: #{@project.throughput}"
-%p= "Velocity: #{@velocity} point(s)"
-%p= "1 point: #{@point_duration.round(2) rescue 0} day(s)"
+- title "#{@project.name} details"
 
-%h2 Velocity by month
-%table{:border => "2"}
-  %tr
-    %td{:width => "50px"} Year
-    %td{:width => "50px"} Month
-    %td{:width => "50px"} Stories
-    %td{:width => "50px"} Velocity
-    %td{:width => "120px"} 1 Point = X days
-    %td Efficiency %
-  = render(:partial => "month", :collection => @months)
+= render("details_info", :local => {:project => @project})
 
-%h2 Stories in Archive
-- @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
-  - week, stories = array[0], array[1]
-  %p Week from #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
-  %table{:border => "2"}
-    %tr
-      %td{:style => "width:30px"} Id
-      %td Text
-      %td{:style => "width:50px"} Size
-      %td{:style => "width:80px"} Started
-      %td{:style => "width:80px"} Finished
-      %td{:style => "width:50px"} 1 Point
-      %td Duration
-      %td Blocked
-      %td Waiting
-      %td{:style => "width:100px"}  Actual Work
-      %td{:style => "width:100px"} Efficiency %
-    = render(:partial => "story", :collection => stories)
+= render("details_velocity", :local => {:months => @months})
 
+= render("details_stories", :local => {:byweek => @byweek})
