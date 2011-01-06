@@ -19,7 +19,7 @@ class Project < AgileZenResource
   
   # All stories associated to the project
   def stories
-    @stories = Story.all_for_project(id, api_key)
+    @stories = Story.all_for_project(id, Project.api_key)
     @archived = @stories.find_all { |s| s.phase.name == 'Archive' }
     @stories
   end
