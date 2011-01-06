@@ -1,7 +1,8 @@
 require 'active_resource'
 
 class ProjectsController < ApplicationController
-
+  before_filter :authenticate_user!
+  
   rescue_from(Exception) { |e| render :file => '/not_authorized' }
 #  rescue_from(Exception) { |e| render :file => '/shoot', :text => e.message }
 

@@ -2,6 +2,10 @@ Given /^I am not authenticated$/ do
   visit destroy_user_session_path
 end
 
+Given /^I'm not logged in$/ do
+  Given %Q{I am not authenticated}
+end
+
 Given /^I'm logged in$/ do
   email    = 'testing@man.net'
   login    = 'Testing man'

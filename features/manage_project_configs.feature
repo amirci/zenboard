@@ -65,7 +65,6 @@ Feature: Manage project configurations
     And   I should see "Pucini"
     And   I should see "Mariachi"
 
-  @aa
   Scenario: See project configuration detail
     Given I'm logged in
     And   I have the following project configurations:
