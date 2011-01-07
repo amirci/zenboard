@@ -38,7 +38,7 @@ Feature: Manage project configurations
 	And   I press "Search"
  	Then  I should see "Can't retrieve project information, make sure the key is valid"
 
-  @javascript
+  @javascript @aa
   Scenario: Add new configuration
 	Given I'm logged in
     And   I have no project configurations
