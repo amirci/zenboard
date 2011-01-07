@@ -1,38 +1,35 @@
 require 'spec_helper'
+require 'devise/test_helpers'
 
 describe ProjectsController do
+  include Devise::TestHelpers
 
-  it "Should obtain all projects" do
-    project = Project.make(:id => 44, :name => "Rails First Project")
-
-    Project.stub!(:all).and_return([project])
-        
-    get :index
-    
-    response.should be_success
-    assigns("projects").should_not be_empty
-    assigns("projects").first.name.should == "Rails First Project"
-  end
-  
+  # Gets the detail of a project  
   it "Should obtain details of a project" do
-    ten_days_ago = JSONHelper::Date.to_json(Chronic.parse("10 days ago"))
-    
-    project = Project.make(:id => 44, 
-                           :name => "Rails First Project", 
-                           :createTime => ten_days_ago)
+    project = double("Project")       
+    story = double("Story")  
+    story.stub!(:finished_on).and_return(DateTime.now)
+    story.stub!(:size).and_return(3)
+    story.stub!(:point_duration).and_return(0.5)
+    story.stub!(:blocked_time).and_return(0.2)
+    story.stub!(:waiting_time).and_return(0.2)
+    story.stub!(:efficiency).and_return(0.2)
        
-    story = Story.make(:size => 10)
-     
-    Project.stub!(:find).and_return(project)
-    
+    Project.should_receive(:api_key=).with("aaa")
+    Project.stub!(:find).with(44).and_return(project)    
     project.stub!(:stories).and_return([story])
     project.stub!(:archived).and_return([story])
 
-    get :show, { :id => 4444 }
+    user = User.make()
+    user.confirm!
+    user.save!
+    sign_in :user, user
+    
+    get :show, { :id => 44, :api_key => "aaa" }
     
     response.should be_success
-
-    assigns("project").should == project
+    response.should render_template "show"
+    assigns[:project].should == project
   end
   
 end
