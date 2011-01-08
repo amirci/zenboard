@@ -1,6 +1,12 @@
-%p= "Name: #{@project.name}"
-%p= "Created on: #{@project.created_on.strftime('%b %d %Y')}"
-%p= "Description: #{@project.description}"
-%p= "Stories completed: #{@project.throughput}"
-%p= "Velocity: #{@velocity} point(s)"
-%p= "1 point: #{@point_duration.round(2) rescue 0} day(s)"
+#details
+  #c1
+    %p #{label_tag('Name')}: #{@project.name}
+    %p #{label_tag('Created on')}: #{@project.created_on.strftime('%b %d %Y')}
+    %p #{label_tag('Description')}: #{@project.description}
+
+  #c2
+    %p #{label_tag('Stories completed')}: #{@project.throughput}
+    %p #{label_tag('Velocity')}: #{@velocity} point(s)
+    %p #{label_tag('1 point')}: #{@point_duration.round(2) rescue 0} day(s)
+
+  #sep

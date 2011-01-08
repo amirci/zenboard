@@ -1,0 +1,10 @@
+#details label {
+  font-weight: bold; }
+#details #c1 {
+  float: left;
+  margin-right: 100px; }
+#details #c2 {
+  float: left;
+  width: 200px; }
+#details #sep {
+  clear: both; }
