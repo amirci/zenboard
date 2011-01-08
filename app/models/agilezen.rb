@@ -1,11 +1,11 @@
 class AgileZenResource < ActiveResource::Base
-  self.site = "https://agilezen.com/api/v1/"
+  self.site = "http://agilezen.com/api/v1/"
   self.format = :json
   
   class << self
     
     attr_accessor :nested
-    
+        
     ## Remove format from the url.
     def element_path(id, prefix_options = {}, query_options = nil)
       prefix_options, query_options = split_options(prefix_options) if query_options.nil?

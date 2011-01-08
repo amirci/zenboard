@@ -15,10 +15,24 @@ class ProjectsController < ApplicationController
   # Show the details of a project
   def show
     Project.api_key = params[:api_key]    
-    @project = Project.find(params[:id])
+
+    retried = false
+    
+    begin
+      @project = Project.find(params[:id])
+    rescue ActiveResource::Redirection => ex
+      location = ex.response['Location']
+      logger.error "Exception getting project detail, should redirect to #{location}"
+      unless retried
+        logger.error "Should redirect to #{location.include? 'https:'}"
+        Project.switch_https(location.include? 'https:')
+        logger.error "Switching url to #{Project.site}"
+        retried = true and retry # retry operation
+      end
+    end      
 
     # load the stories
-    @project.stories
+    @project.load_stories
     
     bymonth = @project.archived.inject({}) do |h, story| 
       key = story.finished_on.strftime('%Y%m')
@@ -26,8 +40,15 @@ class ProjectsController < ApplicationController
       h[key] << story
       h
     end
-    
-    @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) } rescue {}
+
+    begin
+      @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }.reverse
+    rescue
+      logger.error ex
+      logger.error ex.class
+      logger.error ex.backtrace.join("\n")
+      @months = {} 
+    end
           
     @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0.0
 
@@ -52,7 +73,7 @@ class ProjectsController < ApplicationController
     
     def initialize(year_month, stories)
       @velocity = stories.sum { |s| s.size.to_i }
-      @point_duration = stories.sum(&:point_duration) / 30
+      @point_duration = stories.sum(&:point_duration) / 30.0
       date = Date.parse(year_month + '01')
       @year = date.strftime('%Y')
       @name = date.strftime('%b')

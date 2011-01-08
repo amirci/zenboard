@@ -15,9 +15,9 @@ describe Project do
         
     projects_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@project.to_hash]})
 
-    FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects", :body => projects_response)
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => projects_response)
     
-    FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
 
     finished = JSONHelper::Date.to_json(Chronic.parse('today'))
     started = JSONHelper::Date.to_json(Chronic.parse('6 days ago'))
@@ -29,10 +29,6 @@ describe Project do
     stories = [@story.to_hash, @story2.to_hash]
     
     Project.stub!(:api_key).and_return("aaa")
-    
-    #stories_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => stories})
-    
-    #FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/#{@project.id}/stories?with=metrics&pageSize=1000", :body => stories_response)
   end
   
   # Checks when calling all the project is returned
@@ -44,19 +40,24 @@ describe Project do
   
   # Check the detail of the project, the stories and calculated metrics
   it "Should return the project with id matching" do
-    Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
-    
     # project check
     found = Project.find(@project.id)
     found.should == @project
+  end  
+  
+  it "Should load the stories for the project" do
+    Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
+    
+    found = Project.find(@project.id)
 
     # stories check
-    stories = found.stories
+    stories = found.load_stories
     stories.should == [@story, @story2]
 
     # Calculations based on stories
     found.velocity.should == @story.size
     found.throughput.should == 1
     found.point_duration.should == @story.point_duration
-  end  
+  end
+  
 end

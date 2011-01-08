@@ -1,7 +1,7 @@
 require 'fakeweb'
 
 Given /^I have no access to search for projects$/ do
-  FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :exception => ActiveResource::ForbiddenAccess)
+  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects", :exception => ActiveResource::ForbiddenAccess)
 end
 
 Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|

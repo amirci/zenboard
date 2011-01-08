@@ -5,7 +5,7 @@ class Week
   def initialize(start)
     @seven_days = 7 * 24 * 60 * 60
     @six_days = 6 * 24 * 60 * 60
-    @start = Time.parse(start.to_s)
+      @start = Time.parse(start.to_s)
     @start = Time.parse(@start.strftime('%Y-%m-%d'))
     @finish = @start + @six_days
   end
@@ -41,7 +41,7 @@ class Week
   end
   
   def ==(other)
-    @start == other.start && @finish == other.finish
+    !other.nil? && @start == other.start && @finish == other.finish
   end
 
   alias eql? ==

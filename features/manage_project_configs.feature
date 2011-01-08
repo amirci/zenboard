@@ -30,15 +30,16 @@ Feature: Manage project configurations
 	And   I press "Search"
  	Then  I should see "Sorry, you need an api-key in order to search for projects"
 
+  @javascript @aa
   Scenario: Search for new projects with the wrong key
 	Given I'm logged in
 	And   I have no access to search for projects
 	When  I go to the user projects configuration page
 	And   I fill in "api_key" with "fca5c1c8b746160460a9"
 	And   I press "Search"
- 	Then  I should see "Can't retrieve project information, make sure the key is valid"
+ 	Then  I should see "make sure the key is valid" within "div#messages"
 
-  @javascript @aa
+  @javascript
   Scenario: Add new configuration
 	Given I'm logged in
     And   I have no project configurations
@@ -49,7 +50,7 @@ Feature: Manage project configurations
 	And   I press "Search"
 	When  I follow "Add"
 	Then  I should see "Caruso" within "div#configurations"
-	And   I should see "(Added)" within "#projects"
+	And   I should see "(Added)" within "div#search_results"
 	And   I should see "The new project configuration has been added"
 
   Scenario: Delete project configuration

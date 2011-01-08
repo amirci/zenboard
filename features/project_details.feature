@@ -13,12 +13,12 @@ Feature: Get the details of a project
     Given I'm logged in
     And   I have the following project configurations:
 	        | name     | api_key | project_id |
-			| Caruso   | aaa     | 4444       |
+			| Caruso   | aaa     | 44         |
     And   I have the project "Caruso" with:
 		    | description | Super Project |
-		    | id          | 4444          |
-	When  I go to the project "4444" detail page
-	Then  I should see "Description: Super Project"
+		    | id          | 44            |
+	When  I go to the project "44" detail page
+	Then  I should see "Super Project"
 
   Scenario: Get the average velocity of a project
     Given I'm logged in
