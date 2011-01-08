@@ -24,9 +24,7 @@ class ProjectsController < ApplicationController
       location = ex.response['Location']
       logger.error "Exception getting project detail, should redirect to #{location}"
       unless retried
-        logger.error "Should redirect to #{location.include? 'https:'}"
         Project.switch_https(location.include? 'https:')
-        logger.error "Switching url to #{Project.site}"
         retried = true and retry # retry operation
       end
     end      

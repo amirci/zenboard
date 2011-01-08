@@ -30,7 +30,7 @@ Feature: Manage project configurations
 	And   I press "Search"
  	Then  I should see "Sorry, you need an api-key in order to search for projects"
 
-  @javascript @aa
+  @javascript
   Scenario: Search for new projects with the wrong key
 	Given I'm logged in
 	And   I have no access to search for projects
@@ -65,16 +65,3 @@ Feature: Manage project configurations
 	Then  I should not see "Caruso"
     And   I should see "Pucini"
     And   I should see "Mariachi"
-
-  Scenario: See project configuration detail
-    Given I'm logged in
-    And   I have the following project configurations:
-	        | name     | api_key | project_id |
-			| Caruso   | aaa     | 44         |
-    And   I have the project "Caruso" with:
-		    | description | Very nice project |
-		    | id          | 44                |
-	When  I go to the user projects configuration page
-    And   I follow detail of 1st project configuration
-	Then  I should see "Caruso"
-	And   I should see "Very nice project"

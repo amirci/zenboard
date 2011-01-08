@@ -1,23 +1,24 @@
 require 'fakeweb'
 
 Given /^I have no access to search for projects$/ do
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects", :exception => ActiveResource::ForbiddenAccess)
+  FakeWeb.register_uri(:get, az_projects, :exception => ActiveResource::ForbiddenAccess)
 end
 
-Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|
+Given /^I have the project "([^"]*)"(?: with:)$/ do |name, table|
 
   date = table.rows_hash[:created] || "Mar 1"
+
   created = Chronic.parse(date, :context => :past)
 
   id = table.rows_hash[:id] || 4444
-    
-  project = { "id" => id,
-      "name" => "#{project}",
-      "description" => table.rows_hash[:description] || "Project developed in rails",
-      "createTime" => "\/Date(#{created.to_i}000-0500)\/",
-      "owner" => {"id" => 2222,"name" => "Some user"}}
-    
-  projects = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [project]})
+  
+  description = table.rows_hash[:description] || "Project developed in rails"
+  
+  owner = Owner.make(:name => "Lorenzo Valdez")
+  
+  project = Project.make(:owner => owner, :id => id, :name => name, :description => description, :createTime => "\/Date(#{created.to_i}000-0500)\/")
+  
+  projects = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [project.to_hash]})
 
   story = { "id" => 1, 
     "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
@@ -28,9 +29,9 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |project, table|
 
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
 
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects", :body => projects)
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/#{id}", :body => JSON.generate(project))
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/#{id}/stories?with=metrics&pageSize=1000", :body => fake_stories)
+  FakeWeb.register_uri(:get, az_projects, :body => projects)
+  FakeWeb.register_uri(:get, az_project(id), :body => JSON.generate(project.to_hash))
+  FakeWeb.register_uri(:get, az_stories_with_metrics(id), :body => fake_stories)
 end
 
 Given /^I have the stories for project "([^"]*)":$/ do |id, table|
@@ -48,7 +49,7 @@ Given /^I have the stories for project "([^"]*)":$/ do |id, table|
   
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => stories})
 
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/#{id}/stories?with=metrics&pageSize=1000", :body => fake_stories)
+  FakeWeb.register_uri(:get, az_stories_with_metrics(id), :body => fake_stories)
 end
 
 Given /^I have the projects:$/ do |table|
@@ -73,8 +74,7 @@ Given /^I have the projects:$/ do |table|
 
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
      
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects", :body => fake_response)
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/4444", :body => JSON.generate(projects[0]))
-  FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/project/4444/stories?with=metrics&pageSize=1000", :body => fake_stories)
-
+  FakeWeb.register_uri(:get, az_projects, :body => fake_response)
+  FakeWeb.register_uri(:get, az_project(4444), :body => JSON.generate(projects[0]))
+  FakeWeb.register_uri(:get, az_stories_with_metrics(444), :body => fake_stories)
 end

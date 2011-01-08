@@ -9,13 +9,13 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/'
+      root_path
 
     when /the new project config page/
       new_project_config_path
 
     when /the project "(.*)" detail page/
-      "/projects/#{$1}"
+      project_path($1)
       
     when /the user projects configuration page/
       user_project_config_index_path(@user)
