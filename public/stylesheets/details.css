@@ -8,3 +8,43 @@
   width: 200px; }
 #details #sep {
   clear: both; }
+
+#velocity,
+#stories {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
+  #velocity #title,
+  #stories #title {
+    font-size: 16pt;
+    margin-bottom: 5px;
+    margin-top: 20px; }
+  #velocity #subtitle,
+  #stories #subtitle {
+    font-size: 14pt;
+    margin-top: 10px;
+    margin-bottom: 0px; }
+  #velocity table,
+  #stories table {
+    border-collapse: collapse;
+    border-spacing: 2px 2px;
+    margin-bottom: 20px; }
+    #velocity table thead,
+    #stories table thead {
+      display: table-header-group; }
+      #velocity table thead th,
+      #stories table thead th {
+        font-size: 14pt;
+        font-weight: normal;
+        padding-right: 10px;
+        padding-left: 10px;
+        background: #b9c9fe;
+        border-bottom: 1px solid white;
+        border-right: 1px solid white;
+        border-top: 4px solid #aabcfe;
+        word-break: normal; }
+    #velocity table tr td,
+    #stories table tr td {
+      padding: 9px 8px 0px;
+      border-bottom: 1px solid white;
+      border-right: 1px solid white;
+      border-top: 1px solid transparent;
+      background: #d0dafd; }
