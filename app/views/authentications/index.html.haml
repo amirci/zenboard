@@ -1,0 +1,13 @@
+- title "Authentications"
+
+%table
+  %tr
+    %th User
+    %th Provider
+    %th Uid
+  - for authentication in @authentications
+    %tr
+      %td= authentication.user_id 
+      %td= authentication.provider
+      %td= authentication.uid
+      %td= link_to "Destroy", authentication, :confirm => 'Are you sure?', :method => :delete 

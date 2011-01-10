@@ -1,6 +1,10 @@
 Zenboard::Application.routes.draw do
 
-  devise_for :users, :path => "accounts"
+  match '/auth/:provider/callback' => 'authentications#create'
+
+  resources :authentications
+
+  devise_for :users, :path => "accounts", :controllers => { :registrations => 'registrations' }
 
   resources :projects
 

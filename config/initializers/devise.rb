@@ -43,7 +43,7 @@ Devise.setup do |config|
   # from others authentication tools as :clearance_sha1, :authlogic_sha512 (then
   # you should set stretches above to 20 for default behavior) and :restful_authentication_sha1
   # (then you should set stretches to 10, and copy REST_AUTH_SITE_KEY to pepper)
-  config.encryptor = :bcrypt
+  #config.encryptor = :bcrypt
 
   # Setup a pepper to generate the encrypted password.
   config.pepper = "b1f815249d7c9e31c3f380c5d83cccdf11b0c741dfe4791927badcb2a70425bbc4ca503b90e743e63baa87f51099ab40f9144303352d95b01377603c1c8dc92d"

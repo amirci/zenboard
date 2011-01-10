@@ -18,7 +18,9 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Bundle the extra gems:
 gem 'haml'
-gem 'devise', '1.1.3'
+gem 'devise', '1.2.rc'
+gem 'omniauth'
+gem 'oa-oauth', :require=>"omniauth/oauth"
 gem 'bluecloth', ">= 2.0.0"
 
 # gem 'bj'
@@ -36,7 +38,7 @@ gem 'bluecloth', ">= 2.0.0"
 # Add rspec-rails to the :test and :development groups to the Gemfile.
 
 group :test, :development do
-    gem 'rspec-rails', '>= 2.0.0.beta.22'
+  gem 'rspec-rails', '>= 2.0.0.beta.22'
 	gem 'fakeweb'
 	gem 'json'
 	gem 'chronic'
@@ -44,8 +46,10 @@ group :test, :development do
 	gem 'faker'
 	gem 'heroku'
 	gem 'email_spec'
-	gem "nifty-generators"
+	gem 'nifty-generators'
 	gem 'rcov'
+	gem 'hpricot'
+	gem 'ruby_parser'
 end
 
 group :cucumber do
@@ -56,3 +60,5 @@ group :cucumber do
     gem 'spork'
     gem 'launchy'
 end
+
+gem "mocha", :group => :test

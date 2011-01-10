@@ -1,0 +1,22 @@
+%h2 Sign in using your account with
+%p
+  %a{ :href => "/auth/twitter", :class => "auth_provider" }
+    = image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter"
+
+%h2 Or sign in with us
+= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  %p
+    = f.label :email
+    %br/
+    = f.email_field :email
+  %p
+    = f.label :password
+    %br/
+    = f.password_field :password
+  - if devise_mapping.rememberable?
+    %p
+      = f.check_box :remember_me
+      = f.label :remember_me
+  %p= f.submit "Sign in"
+
+= render :partial => "devise/shared/links"
