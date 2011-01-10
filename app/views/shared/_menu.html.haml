@@ -1,7 +1,7 @@
 #menu
   #home= link_to "Home", root_path
 
-  #projects= link_to "User Projects", user_project_config_index_path(current_user) if user_signed_in?
+  #projects= link_to "Configuration", user_project_config_index_path(current_user) if user_signed_in?
 
   #user
     - if !user_signed_in? 
