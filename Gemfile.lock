@@ -222,6 +222,7 @@ DEPENDENCIES
   mocha
   nifty-generators
   oa-oauth
+  oa-openid
   omniauth
   rails (= 3.0.1)
   rcov

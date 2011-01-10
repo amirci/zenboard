@@ -1,3 +1,15 @@
+#clear {
+  clear: both; }
+
+#omni a {
+  float: left;
+  margin-right: 20px;
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 10px; }
+  #omni a img {
+    display: block; }
+
 #config,
 #current_config {
   margin: 5px 10px 10px 10px; }

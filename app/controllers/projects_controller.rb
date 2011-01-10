@@ -40,7 +40,7 @@ class ProjectsController < ApplicationController
     end
 
     begin
-      @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }.reverse
+      @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }.sort_by { |m| m.date }.reverse
     rescue
       logger.error ex
       logger.error ex.class
@@ -67,9 +67,10 @@ class ProjectsController < ApplicationController
 
   class Month
     attr_reader :name, :velocity, :point_duration, :year, :stories
-    attr_reader :blocked, :waiting, :efficiency
+    attr_reader :blocked, :waiting, :efficiency, :date
     
     def initialize(year_month, stories)
+      @date = year_month
       @velocity = stories.sum { |s| s.size.to_i }
       @point_duration = stories.sum(&:point_duration) / 30.0
       date = Date.parse(year_month + '01')

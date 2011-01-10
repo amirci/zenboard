@@ -4,7 +4,7 @@
   %h2 Please sign in in order to see your projects
 - else
   %h2 Projects
-  - @projects.each do |p|
+  - @projects.sort_by(&:name).each do |p|
     #config
       #project_name= p.name
       #op= link_to '(Detail)', project_path(p.project_id, :api_key => p.api_key)

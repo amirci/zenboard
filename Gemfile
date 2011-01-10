@@ -18,9 +18,12 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Bundle the extra gems:
 gem 'haml'
+
 gem 'devise', '1.2.rc'
 gem 'omniauth'
 gem 'oa-oauth', :require=>"omniauth/oauth"
+gem 'oa-openid', :require => 'omniauth/openid'
+
 gem 'bluecloth', ">= 2.0.0"
 
 # gem 'bj'
