@@ -5,12 +5,17 @@ describe Week do
   before(:each) do
     @seven_days = 7 * 24 * 60 * 60
     @six_days = 6 * 24 * 60 * 60
-    @last_monday = Chronic.parse('last monday 00:00')
+    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
+    @last_monday = Time.parse('Jan 3, 2011')
+  end
+  
+  it "Should include all days int the week" do
+    w = Week.current
+    6.times { |i| w.include?(w.start + i).should be_true }
   end
   
   it "Should return current week" do
-    #Date.today.stub()
-    w = Week.current    
+    w = Week.current
     w.start.should == @last_monday
     w.finish.should == w.start + @six_days
   end
@@ -25,7 +30,6 @@ describe Week do
 
   it "Should return the previous week" do
     w = Week.current.previous
-    
     w.start.should == @last_monday - @seven_days
   end
   
@@ -33,10 +37,12 @@ describe Week do
   it "Should return the previous weeks" do
     previous = Week.previous(4)
     
-    previous[0].should == Week.current
-    previous[1].should == Week.current.previous
-    previous[2].should == Week.current.previous.previous
-    previous[3].should == Week.current.previous.previous.previous
+    current = Week.current
+    
+    previous.each do |w|
+      w.should == current
+      current = current.previous
+    end
   end
   
 end
