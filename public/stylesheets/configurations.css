@@ -23,6 +23,9 @@
     float: left;
     width: 200px;
     margin-left: 5px; }
+  #config #op,
+  #current_config #op {
+    display: inline; }
 
 .config_key {
   margin: 10px 5px; }

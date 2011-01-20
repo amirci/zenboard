@@ -2,6 +2,15 @@
 
 = render("details_info")
 
-= render("details_velocity")
+#tabs
+  %ul
+    %li.selected Velocity
+    %li= link_to 'Archive'
+    %li Filter
+    %li Sizes 
 
-= render("details_stories")
+#details_velocity
+  = render("details_velocity")
+
+#details_stories
+  = render("details_stories")

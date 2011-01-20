@@ -23,7 +23,7 @@ gem 'devise', '1.2.rc'
 gem 'omniauth'
 gem 'oa-oauth', :require=>"omniauth/oauth"
 gem 'oa-openid', :require => 'omniauth/openid'
-
+gem 'simple-navigation'
 gem 'bluecloth', ">= 2.0.0"
 
 # gem 'bj'
