@@ -25,6 +25,7 @@ gem 'oa-oauth', :require=>"omniauth/oauth"
 gem 'oa-openid', :require => 'omniauth/openid'
 gem 'simple-navigation'
 gem 'bluecloth', ">= 2.0.0"
+gem 'json'
 
 # gem 'bj'
 # gem 'nokogiri'
@@ -43,7 +44,6 @@ gem 'bluecloth', ">= 2.0.0"
 group :test, :development do
   gem 'rspec-rails', '>= 2.0.0.beta.22'
 	gem 'fakeweb'
-	gem 'json'
 	gem 'chronic', '< 0.3.0'
 	gem 'machinist', '< 2.0.0'
 	gem 'faker'
