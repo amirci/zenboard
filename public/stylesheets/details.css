@@ -57,7 +57,8 @@
         border-bottom: 1px solid white;
         border-right: 1px solid white;
         border-top: 4px solid #aabcfe;
-        word-break: normal; }
+        word-break: normal;
+        white-space: nowrap; }
     #velocity table tr td,
     #stories table tr td {
       padding: 9px 8px 0px;

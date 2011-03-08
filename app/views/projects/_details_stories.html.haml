@@ -1,22 +1,22 @@
 #stories
-  #title Stories in Archive
+  #title Last 5 weeks in Archive
   - @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
     - week, stories = array[0], array[1].sort_by(&:finished_on).reverse
-    #subtitle Week from #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
+    #subtitle #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
     %table
       %thead
         %tr
           %th Id
           %th Text
           %th Size
-          %th Started
-          %th Finished
+          %th Start
+          %th Fin.
           %th 1 Pt
-          %th Duration
-          %th Blocked
-          %th Waiting
-          %th Ac. Work
-          %th Efficiency %
+          %th Dur.
+          %th Block.
+          %th Wait
+          %th AWork
+          %th Eff. %
       %tbody
         = render(:partial => "story", :collection => stories)
 
