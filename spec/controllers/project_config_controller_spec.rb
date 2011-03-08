@@ -9,6 +9,7 @@ describe ProjectConfigController do
     @configurations = (1..10).inject([]) do |a, i| 
       config = double("ProjectConfig_#{i}")
       config.stub!(:api_key).and_return("aaa")
+      config.stub!(:name).and_return("Project Configuration #{i}")
       a << config
     end
 
@@ -42,13 +43,13 @@ describe ProjectConfigController do
   it "Should fail to search if api key is empty" do
     get :create, :user_id => @user.id, :api_key => ""
     
-    flash[:error].should == "Sorry, you need an api-key in order to search for projects"
+    flash.now[:error].should == "Sorry, you need an api-key in order to search for projects"
   end
 
   it "Should fail to search if api key is not present" do
     get :create, :user_id => @user.id
     
-    flash[:error].should == "Sorry, you need an api-key in order to search for projects"
+    flash.now[:error].should == "Sorry, you need an api-key in order to search for projects"
   end
     
   it "Should fail to search if api key is invalid" do
@@ -57,21 +58,25 @@ describe ProjectConfigController do
     
     get :create, :user_id => @user.id, :api_key => "aaa"
     
-    flash[:error].should == 'Can\'t retrieve project information, make sure the key is valid'
+    flash.now[:error].should == 'Can\'t retrieve project information, make sure the key is valid'
   end
 
   # New action
   it "Should create a new configuration" do
+    new_config = double("MockProjectConfig")
+    new_config.stub(:name).and_return("NewConfig")
     config = {"name" => "NewConfig", "project_id" => 1, "api_key" => "aaa"}.merge("user" => @user)
+    
     Project.should_receive(:api_key=).with("aaa")
-    ProjectConfig.should_receive(:create!).with(config)
+    
+    ProjectConfig.should_receive(:create!).with(config).and_return(new_config)
     
     get :new, :user_id => @user.id, :project => config
     
-    flash[:notice].should == 'The new project configuration has been added'
     assigns[:api_key].should == 'aaa'
     assigns[:configurations].should == @configurations
     assigns[:projects].should == @projects 
+    flash.now[:notice].should == 'The new configuration NewConfig has been added'
   end
         
   # Destroy action

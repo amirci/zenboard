@@ -6,8 +6,8 @@ Feature: Get the details of a project
 
   Scenario: The project details requires to be logged in
     Given I'm not logged in
-	When  I go to the project "4444" detail page
-	Then  I should see "You need to sign in"
+	  When  I go to the project "4444" detail page
+	  Then  I should see "You need to sign in"
 
   Scenario: See project configuration detail
     Given I'm logged in

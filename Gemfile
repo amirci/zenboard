@@ -44,7 +44,7 @@ group :test, :development do
   gem 'rspec-rails', '>= 2.0.0.beta.22'
 	gem 'fakeweb'
 	gem 'json'
-	gem 'chronic'
+	gem 'chronic', '< 0.3.0'
 	gem 'machinist', '< 2.0.0'
 	gem 'faker'
 	gem 'heroku'

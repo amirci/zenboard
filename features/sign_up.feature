@@ -1,3 +1,4 @@
+@f4
 Feature: Signing up 
 	In order to be attributed for my work 
 	As a user 

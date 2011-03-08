@@ -15,9 +15,9 @@ describe Project do
         
     projects_response = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 1, "items" => [@project.to_hash]})
 
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects", :body => projects_response)
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects.json", :body => projects_response)
     
-    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/project/#{@project.id}", :body => JSON.generate(@project.to_hash))
+    FakeWeb.register_uri(:get, "http://agilezen.com/api/v1/projects/#{@project.id}.json", :body => JSON.generate(@project.to_hash))
 
     finished = JSONHelper::Date.to_json(Chronic.parse('today'))
     started = JSONHelper::Date.to_json(Chronic.parse('6 days ago'))

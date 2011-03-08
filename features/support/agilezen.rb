@@ -7,11 +7,11 @@ module AgileZenPaths
   end
   
   def az_project(id)
-    "#{URL}/project/#{id}"
+    "#{URL}/projects/#{id}"
   end
 
   def az_stories_with_metrics(id)
-    "#{URL}/project/#{id}/stories?with=metrics&pageSize=1000"
+    "#{URL}/projects/#{id}/stories?with=metrics&pageSize=1000"
   end
   
 end

@@ -1,3 +1,4 @@
+@f3
 Feature: Signing in 
 	In order to use the site 
 	As a user 

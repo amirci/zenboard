@@ -1,4 +1,5 @@
 require 'active_resource'
+require 'ostruct'
 
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
@@ -39,14 +40,7 @@ class ProjectsController < ApplicationController
       h
     end
 
-    begin
-      @months = bymonth.each_pair.collect { |k, v| Month.new(k, v) }.sort_by { |m| m.date }.reverse
-    rescue
-      logger.error ex
-      logger.error ex.class
-      logger.error ex.backtrace.join("\n")
-      @months = {} 
-    end
+    @months = bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse
           
     @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0.0
 
@@ -65,21 +59,20 @@ class ProjectsController < ApplicationController
     @byweek.delete nil
   end
 
-  class Month
-    attr_reader :name, :velocity, :point_duration, :year, :stories
-    attr_reader :blocked, :waiting, :efficiency, :date
-    
-    def initialize(year_month, stories)
-      @date = year_month
-      @velocity = stories.sum { |s| s.size.to_i }
-      @point_duration = stories.sum(&:point_duration) / 30.0
+  private
+    def create_month(year_month, stories)
       date = Date.parse(year_month + '01')
-      @year = date.strftime('%Y')
-      @name = date.strftime('%b')
-      @stories = stories.count
-      @blocked = stories.sum(&:blocked_time) 
-      @waiting = stories.sum(&:waiting_time) 
-      @efficiency = stories.sum(&:efficiency) / stories.count
+
+      month = OpenStruct.new
+      month.date = year_month
+      month.velocity = stories.sum { |s| s.size.to_i }
+      month.point_duration = stories.sum(&:point_duration) / 30.0
+      month.year = date.strftime('%Y')
+      month.name = date.strftime('%b')
+      month.stories = stories.count
+      month.blocked = stories.sum(&:blocked_time) 
+      month.waiting = stories.sum(&:waiting_time) 
+      month.efficiency = stories.sum(&:efficiency) / stories.count
+      month
     end
-  end
 end
