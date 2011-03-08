@@ -3,15 +3,6 @@ require 'ostruct'
 
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  
-  rescue_from(Exception)  do |ex| 
-    logger.error ex
-    logger.error ex.class
-    logger.error ex.backtrace.join("\n")
-    render :file => '/not_authorized' 
-  end
-    
-  #  rescue_from(Exception) { |e| render :file => '/shoot', :text => e.message }
 
   # Show the details of a project
   def show
@@ -40,7 +31,7 @@ class ProjectsController < ApplicationController
       h
     end
 
-    @months = bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse
+    @months = bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse rescue []
           
     @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0.0
 

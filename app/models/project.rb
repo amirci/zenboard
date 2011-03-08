@@ -19,9 +19,9 @@ class Project < AgileZenResource
   end
 
   # All stories associated to the project
-  def load_stories
+  def load_stories(from = 'Archive')
     @stories = Story.all_for_project(id, Project.api_key)
-    @archived = @stories.find_all { |s| s.phase.name.include? 'Archive' }
+    @archived = @stories.find_all { |s| s.phase.name.include? from }
     @stories
   end
   

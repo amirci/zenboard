@@ -2,7 +2,7 @@ require 'agilezen'
 require 'json'
 
 class Story < AgileZenResource
-  self.prefix = "/api/v1/project"
+  @@api_prefix = "/api/v1/projects"
   
   def self.switch_https(use_https)
     protocol = "http" 
@@ -13,8 +13,7 @@ class Story < AgileZenResource
   # Finds all storys for a particular project
   def self.all_for_project(id, api_key)
     self.headers["X-Zen-ApiKey"] = api_key
-    self.nested = "/#{id}"
-    
+    self.prefix = "#{@@api_prefix}/#{id}/"
     retried = false
     
     begin

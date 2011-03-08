@@ -1,6 +1,6 @@
 module AgileZenPaths
 
-  URL = "http://agilezen.com/api/v1"
+  URL = "https://agilezen.com/api/v1"
 
   def az_projects
     "#{URL}/projects"
