@@ -16,7 +16,7 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |name, table|
   
   owner = Owner.make(:name => "Lorenzo Valdez")
   
-  project = Project.make(:owner => owner, :id => id, :name => name, :description => description, :createTime => "\/Date(#{created.to_i}000-0500)\/")
+  project = Project.make(:owner => owner, :id => id, :name => name, :description => description, :createTime => "#{created.strftime('%FT%T%z')}")
   
   projects = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [project.to_hash]})
 
@@ -24,7 +24,7 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |name, table|
     "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
     "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
     "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-    "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(1256774726000-0500)\/" }
+    "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), "startTime" => Chronic.Parse("1 day ago").strftime('%FT%T%z') }
   }
 
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
@@ -43,7 +43,7 @@ Given /^I have the stories for project "([^"]*)":$/ do |id, table|
       "text" => "End world hunger", "size" => story[:size], "color" => "gray", "ready" => true, "blocked" => false,
       "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => story[:phase]}, "phaseIndex" => 0,
       "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-      "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(#{started.to_i}000-0500)\/", "finishTime" => "\/Date(#{finished.to_i}000-0500)\/" }
+      "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), "startTime" => started.strftime('%FT%T%z'), "finishTime" => finished.strftime('%FT%T%z') }
        }
   end
   
@@ -58,7 +58,7 @@ Given /^I have the projects:$/ do |table|
     {"id" => 4444,
         "name" => "#{project}",
         "description" => "Project developed in rails",
-        "createTime" => "\/Date(1256774726000-0500)\/",
+        "createTime" => Chronic.parse("30 days ago").strftime('%FT%T%z'),
         "owner" => {"id" => 2222,"name" => "Some user"}
       }  
   end
@@ -69,7 +69,7 @@ Given /^I have the projects:$/ do |table|
     "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
     "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
     "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-    "metrics" => { "createdTime" => "\/Date(1256774726000-0500)\/", "startTime" => "\/Date(1256774726000-0500)\/" }
+    "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), "startTime" => Chronic.Parse("1 day ago").strftime('%FT%T%z') }
      }
 
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
