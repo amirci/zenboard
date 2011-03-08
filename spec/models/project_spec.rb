@@ -19,8 +19,8 @@ describe Project do
     
     FakeWeb.register_uri(:get, "https://agilezen.com/api/v1/projects/#{@project.id}.json", :body => JSON.generate(@project.to_hash))
 
-    finished = JSONHelper::Date.to_json(Chronic.parse('today'))
-    started = JSONHelper::Date.to_json(Chronic.parse('6 days ago'))
+    finished = Chronic.parse('today').strftime('%FT%T%z')
+    started = Chronic.parse('6 days ago').strftime('%FT%T%z')
     
     @story = Story.make(:phase => archive, :size => 3, :metrics => Metrics.make(:startTime => started, :finishTime => finished))
 
