@@ -32,12 +32,12 @@ class Story < AgileZenResource
   
   # Time when the story was placed on the board
   def started_on
-    JSONHelper::Date.from_json(metrics.startTime) || Time.now
+    DateTime.parse(metrics.startTime) || Time.now
   end
 
   # Time when the story was moved to archive
   def finished_on
-    metrics.respond_to?('finishTime') ? JSONHelper::Date.from_json(metrics.finishTime) : nil
+    metrics.respond_to?('finishTime') ? DateTime.parse(metrics.finishTime) : nil
   end
   
   # Conversion of points to days
@@ -48,7 +48,7 @@ class Story < AgileZenResource
   
   # Duration of the story (finish - start)
   def duration 
-    (finished_on - started_on) / (24 * 60 * 60)
+    (finished_on - started_on).to_f.round(2)
   end
   
   # Amount of time the story was blocked

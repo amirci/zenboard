@@ -31,8 +31,9 @@ class ProjectsController < ApplicationController
       h
     end
 
+    
     @months = bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse rescue []
-          
+    
     @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0.0
 
     @point_duration = @months.sum { |m| m.point_duration } / @months.count rescue 0.0

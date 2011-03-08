@@ -5,7 +5,7 @@
   %td= story.started_on.strftime('%b %d')
   %td= story.finished_on.strftime('%b %d')
   %td= story.point_duration.round(2) rescue "(na)"
-  %td= story.duration.round(2)
+  %td= story.duration.inspect
   %td= story.blocked_time.round(2)
   %td= story.waiting_time.round(2)
   %td= story.work_time.round(2)

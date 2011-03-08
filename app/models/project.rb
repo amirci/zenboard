@@ -19,15 +19,15 @@ class Project < AgileZenResource
   end
 
   # All stories associated to the project
-  def load_stories(from = 'Archive')
+  def load_stories
     @stories = Story.all_for_project(id, Project.api_key)
-    @archived = @stories.find_all { |s| s.phase.name.include? from }
+    @archived = @stories.find_all { |s| s.phase.name.include? 'Archive' }
     @stories
   end
   
   # Date when the project was created
   def created_on
-    JSONHelper::Date.from_json(createTime)
+    DateTime.parse(createTime)
   end
 
   # Returns the sum of the size for all the archived stories
