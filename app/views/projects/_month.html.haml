@@ -1,7 +1,6 @@
 %tr{:style => "text-align:right"}
-  %td= month.year
-  %td{:style => "text-align:left"}= month.name
+  %td{:style => "text-align:left"}= month.date.strftime("%b '%y")
   %td= month.stories
   %td= month.velocity
-  %td= month.point_duration.round(2) rescue 0
+  %td= month.point_duration
   %td= month.efficiency.round

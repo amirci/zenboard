@@ -61,9 +61,22 @@
         white-space: nowrap; }
     #velocity table tr td,
     #stories table tr td {
+      font-family: "Andale Mono", "Courier New", "Courier", "monospace";
       white-space: nowrap;
-      padding: 9px 8px 0px;
+      padding: 9px 8px;
       border-bottom: 1px solid white;
       border-right: 1px solid white;
       border-top: 1px solid transparent;
       background: #d0dafd; }
+    #velocity table tr .story,
+    #stories table tr .story {
+      text-align: left;
+      white-space: normal;
+      width: 500px;
+      font-family: "Gill Sans", "Helvetica", "Verdana", "sans-serif", "Florence", "cursive"; }
+      #velocity table tr .story p,
+      #stories table tr .story p {
+        padding: 0 px; }
+    #velocity table tr.right,
+    #stories table tr.right {
+      text-align: right; }

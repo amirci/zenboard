@@ -5,8 +5,8 @@
     %p #{label_tag('Description')}: #{@project.description}
 
   #c2
-    %p #{label_tag('Stories completed')}: #{@project.throughput}
-    %p #{label_tag('Velocity')} (avg.): #{@velocity} point(s)
-    %p #{label_tag('1 point')} (avg.): #{@point_duration.round(2) rescue 0} day(s)
+    %p #{label_tag('Completed')}: #{pluralize(@project.throughput, "story")}
+    %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")}
+    %p #{label_tag('1 point')} (avg.): #{pluralize(@point_duration.round(2), "day") rescue "0 days"} 
 
   #sep

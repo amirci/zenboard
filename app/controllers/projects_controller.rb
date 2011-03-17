@@ -52,14 +52,10 @@ class ProjectsController < ApplicationController
 
   private
     def create_month(year_month, stories)
-      date = Date.parse(year_month + '01')
-
-      month = OpenStruct.new
-      month.date = year_month
+      month = OpenStruct.new 
+      month.date = Date.parse(year_month + '01')
       month.velocity = stories.sum { |s| s.size.to_i } 
-      month.point_duration = 30.0 / month.velocity
-      month.year = date.strftime('%Y')
-      month.name = date.strftime('%b')
+      month.point_duration = (30.0 / month.velocity).round(2) rescue 0
       month.stories = stories.count
       month.blocked = stories.sum(&:blocked_time) 
       month.waiting = stories.sum(&:waiting_time) 
