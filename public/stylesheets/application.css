@@ -4,9 +4,12 @@ body {
   font-size: 14px; }
 
 a {
-  color: blue; }
+  color: #4b7399; }
   a img {
     border: none; }
+
+a:hover {
+  color: rgba(75, 115, 153, 0.5); }
 
 .clear {
   clear: both;
@@ -33,8 +36,8 @@ a {
 
 #flash_error,
 #flash_alert {
-  background-color: #ffcccc;
-  border: solid 1px #cc6666; }
+  background-color: #ccffcc;
+  border: solid 1px #66cc66; }
 
 .fieldWithErrors {
   display: inline; }

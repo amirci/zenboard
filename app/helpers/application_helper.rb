@@ -4,7 +4,8 @@ module ApplicationHelper
   end
   
   def story_link(story)
-    link_to(story.id, "https://agilezen.com/project/#{story.project.id}/story/#{story.id}", :target => "_blank")
+    story_url = "https://agilezen.com/project/#{story.project.id}/story/#{story.id}"
+    link_to(story.id, story_url, :target => "_blank")
   end
   
 end
