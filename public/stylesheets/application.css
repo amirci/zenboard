@@ -4,12 +4,12 @@ body {
   font-size: 14px; }
 
 a {
-  color: #4b7399; }
+  color: #0767c1; }
   a img {
     border: none; }
 
 a:hover {
-  color: rgba(75, 115, 153, 0.5); }
+  color: #4b7399; }
 
 .clear {
   clear: both;

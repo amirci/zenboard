@@ -17,9 +17,8 @@ describe ProjectsController do
        
     Project.should_receive(:api_key=).with("aaa")
     Project.stub!(:find).with(44).and_return(project)    
-    project.stub!(:load_stories).and_return([story])
     project.stub!(:stories).and_return([story])
-    project.stub!(:archived).and_return([story])
+    project.stub!(:stories_in_archive).and_return([story])
 
     user = User.make()
     user.confirm!

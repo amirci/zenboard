@@ -34,7 +34,6 @@ describe Project do
   # Checks when calling all the project is returned
   it "Should return the projects from site" do
     projects = Project.all
-    
     projects.should == [@project]
   end
   
@@ -45,14 +44,25 @@ describe Project do
     found.should == @project
   end  
   
-  it "Should load the stories for the project" do
+  it "Should return the stories for the project" do
     Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
     
     found = Project.find(@project.id)
 
     # stories check
-    stories = found.load_stories
-    stories.should == [@story, @story2]
+    found.stories.should == [@story, @story2]
+  end
+  
+  it "Should return stories by phase" do
+    Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
+    found = Project.find(@project.id)
+    found.stories_in_archive.should == [@story]
+  end
+
+  it "Should return statistics for the project" do
+    Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
+    
+    found = Project.find(@project.id)
 
     # Calculations based on stories
     found.velocity.should == @story.size

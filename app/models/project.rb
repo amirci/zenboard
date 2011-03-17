@@ -2,7 +2,6 @@ require 'agilezen'
 require 'json_date'
 
 class Project < AgileZenResource
-  attr_reader :archived, :stories
 
   def self.api_key=(key)
     self.headers["X-Zen-ApiKey"] = key
@@ -11,18 +10,10 @@ class Project < AgileZenResource
   def self.api_key
     self.headers["X-Zen-ApiKey"]
   end
-  
-  def self.switch_https(use_https)
-    protocol = "http" 
-    protocol += "s" if use_https
-    self.site = "#{protocol}://agilezen.com/api/v1/"
-  end
 
   # All stories associated to the project
-  def load_stories
-    @stories = Story.all_for_project(id, Project.api_key)
-    @archived = @stories.find_all { |s| s.phase.name.include? 'Archive' }
-    @stories
+  def stories
+    @stories ||= Story.all_for_project(id, Project.api_key)
   end
   
   # Date when the project was created
@@ -32,20 +23,17 @@ class Project < AgileZenResource
 
   # Returns the sum of the size for all the archived stories
   def velocity
-    @archived ||= []
-    @archived.sum { |s| s.size.to_i }
+    stories_in_archive.sum { |s| s.size.to_i }
   end
   
   # Amount of stories in archive
   def throughput
-    @archived ||= []
-    @archived.count
+    stories_in_archive.count
   end
   
   # Amount of days per point using each story point duration
   def point_duration
-    @archived ||= []
-    @archived.sum { |s| s.point_duration.to_f } / @archived.count
+    stories_in_archive.sum { |s| s.point_duration.to_f } / stories_in_archive.count
   end
   
   def to_hash
@@ -56,4 +44,24 @@ class Project < AgileZenResource
         "owner" => { "id" => owner.id, "name" => owner.name} }
   end
   
+  # responds to stories_in_xxx
+  def respond_to?(sym)
+    sym_stories_phase?(sym) || super(sym)
+  end
+  
+  # implement stories_in_xxx
+  # where xxx is a phase
+  def method_missing(method_id, *args, &block)
+    if match = sym_stories_phase?(method_id.to_s)
+      stories.find_all { |s| s.phase.name.downcase == match.captures.first } 
+    else
+      super(method_id, *args, &block)
+    end
+  end
+
+  private
+    def sym_stories_phase?(sym)
+      /stories_in_(\w+)/.match(sym)
+    end
+    
 end
