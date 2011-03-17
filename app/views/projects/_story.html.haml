@@ -1,5 +1,5 @@
 %tr.right
-  %td= story.id
+  %td= story_link(story)
   %td.story= story_text(story.text)
   %td= story.size
   %td= story.started_on.strftime('%b %d')

@@ -74,9 +74,10 @@
       white-space: normal;
       width: 500px;
       font-family: "Gill Sans", "Helvetica", "Verdana", "sans-serif", "Florence", "cursive"; }
-      #velocity table tr .story p,
-      #stories table tr .story p {
-        padding: 0 px; }
+    #velocity table tr p,
+    #stories table tr p {
+      margin-top: 0px;
+      margin-bottom: 4px; }
     #velocity table tr.right,
     #stories table tr.right {
       text-align: right; }
