@@ -9,6 +9,9 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |name, table|
   date = table.rows_hash[:created] || "Mar 1"
 
   created = Chronic.parse(date, :context => :past)
+  story_created = Chronic.parse("10 days ago")
+  story_started = Chronic.parse("1 day ago")
+
 
   id = table.rows_hash[:id] || 4444
   
@@ -24,7 +27,8 @@ Given /^I have the project "([^"]*)"(?: with:)$/ do |name, table|
     "text" => "End world hunger", "size" => 3, "color" => "gray", "ready" => true, "blocked" => false,
     "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => "Archive"}, "phaseIndex" => 0,
     "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-    "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), "startTime" => Chronic.Parse("1 day ago").strftime('%FT%T%z') }
+    "metrics" => { "createdTime" => story_created.strftime('%FT%T%z'), 
+                   "startTime" => story_started.strftime('%FT%T%z') }
   }
 
   fake_stories = JSON.generate( { "page" => 1,"pageSize" => 10,"totalPages" => 1,"totalItems" => 6, "items" => [story]})
@@ -43,7 +47,8 @@ Given /^I have the stories for project "([^"]*)":$/ do |id, table|
       "text" => "End world hunger", "size" => story[:size], "color" => "gray", "ready" => true, "blocked" => false,
       "reasonBlocked" => "new ideas", "phase" => { "id" => 1, "name" => story[:phase]}, "phaseIndex" => 0,
       "creator" => { "id" => 1, "name" => "John Doe"}, "owner" => {"id" => 2222,"name" => "John Spec"},
-      "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), "startTime" => started.strftime('%FT%T%z'), "finishTime" => finished.strftime('%FT%T%z') }
+      "metrics" => { "createdTime" => Chronic.parse("10 days ago").strftime('%FT%T%z'), 
+                     "startTime" => started.strftime('%FT%T%z'), "finishTime" => finished.strftime('%FT%T%z') }
        }
   end
   

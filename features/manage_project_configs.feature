@@ -4,6 +4,7 @@ Feature: Manage project configurations
   I want to manage new project configuration
   So I can add and remove configurations
 
+  @f101
   Scenario: No projects are configured
     Given I'm logged in
     And   I have no project configurations

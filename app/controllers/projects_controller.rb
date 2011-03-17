@@ -30,7 +30,6 @@ class ProjectsController < ApplicationController
       h[key] << story
       h
     end
-
     
     @months = bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse rescue []
     
@@ -57,8 +56,8 @@ class ProjectsController < ApplicationController
 
       month = OpenStruct.new
       month.date = year_month
-      month.velocity = stories.sum { |s| s.size.to_i }
-      month.point_duration = stories.sum(&:point_duration) / 30.0
+      month.velocity = stories.sum { |s| s.size.to_i } 
+      month.point_duration = 30.0 / month.velocity
       month.year = date.strftime('%Y')
       month.name = date.strftime('%b')
       month.stories = stories.count

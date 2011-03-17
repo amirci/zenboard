@@ -1,10 +1,10 @@
 %tr{:style => "text-align:right"}
   %td= story.id
-  %td{:style => "text-align:left"}= story.text
+  %td{:style => "text-align:left; white-space: normal; width:500px"}= raw(BlueCloth.new(story.text).to_html)
   %td= story.size
   %td= story.started_on.strftime('%b %d')
   %td= story.finished_on.strftime('%b %d')
-  %td= story.point_duration.round(2) rescue "(na)"
+  %td= story.point_duration.to_f.round(2)
   %td= story.duration.inspect
   %td= story.blocked_time.round(2)
   %td= story.waiting_time.round(2)
