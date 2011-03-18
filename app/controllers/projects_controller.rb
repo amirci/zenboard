@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
       month = OpenStruct.new 
       month.date = Date.parse(year_month + '01')
       month.velocity = stories.sum { |s| s.size.to_i } 
-      month.point_duration = (30.0 / month.velocity).round(2) 
+      month.point_duration = (month.velocity / 20.0).round(2) 
       month.stories = stories.count
       month.blocked = stories.sum(&:blocked_time) 
       month.waiting = stories.sum(&:waiting_time) 

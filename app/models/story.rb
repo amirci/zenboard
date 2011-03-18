@@ -2,32 +2,14 @@ require 'agilezen'
 require 'json'
 
 class Story < AgileZenResource
-  @@api_prefix = "/api/v1/projects"
+  ApiPrefix = "/api/v1/projects"
   
-  def self.switch_https(use_https)
-    protocol = "http" 
-    protocol += "s" if use_https
-    self.site = "#{protocol}://agilezen.com/api/v1/"
-  end
-
   # Finds all storys for a particular project
   def self.all_for_project(id, api_key)
     self.headers["X-Zen-ApiKey"] = api_key
-    self.prefix = "#{@@api_prefix}/#{id}/"
-    retried = false
+    self.prefix = "#{ApiPrefix}/#{id}/"
     
-    begin
-      all(:params => {:with => "metrics", :pageSize => 1000})
-    rescue ActiveResource::Redirection => ex
-      location = ex.response['Location']
-      logger.error "Exception getting project stories detail, should redirect to #{location}"
-      unless retried
-        logger.error "Should redirect to #{location.include? 'https:'}"
-        self.switch_https(location.include? 'https:')
-        logger.error "Switching url to #{Project.site}"
-        retried = true and retry # retry operation
-      end
-    end      
+    all(:params => {:with => "metrics", :pageSize => 1000})
   end
   
   # Time when the story was placed on the board
@@ -43,7 +25,7 @@ class Story < AgileZenResource
   # Conversion of points to days
   # by calculating size / (finish - start)
   def point_duration
-    size.to_i == 0 ? 0 : duration / size.to_i
+    size.to_i == 0 ? 0 : work_time / size.to_i
   end
   
   # Duration of the story (finish - start)
@@ -68,7 +50,7 @@ class Story < AgileZenResource
   
   # % of time working of the total duration
   def efficiency
-    metrics.efficiency
+    work_time / duration.to_f * 100
   end
   
   # Hashed version of the object
