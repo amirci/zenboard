@@ -12,6 +12,8 @@ class ProjectsController < ApplicationController
 
     @point_duration = @months.sum { |m| m.point_duration } / @months.count 
 
+    @month_filter = params[:month]
+    
     @byweek = weekly_summary_for(params[:month])
     
     @efficiency = @months.sum { |m| m.efficiency } / @months.count
