@@ -1,13 +1,41 @@
 class Week
   attr_reader :start, :finish
 
+  SevenDays = 7 * 24 * 60 * 60
+  SixDays = 6 * 24 * 60 * 60
+
+  class << self
+    # Current week
+    def current(date = nil)
+      date ||= Date.today
+      modulo = date.wday.modulo(7)
+      modulo = 7 if modulo == 0
+      last_monday = Time.parse((date - modulo + 1).to_s)
+      Week.new(last_monday)
+    end
+
+    # Gets the previous weeks including the current
+    def previous(amount)
+      current = Week.current
+      weeks = [current]
+      amount.times do |i|
+        current = current.previous
+        weeks << current
+      end
+      weeks
+    end
+    
+    # Gets the weeks included in that month
+    def in_month(date)
+      date = Date.parse(date.strftime('%Y%m01'))
+      4.times.inject([Week.current(date)]) { |m, i| m << m.last.next }
+    end
+  end
+
   # Starts a week from a date
   def initialize(start)
-    @seven_days = 7 * 24 * 60 * 60
-    @six_days = 6 * 24 * 60 * 60
-    @start = Time.parse(start.to_s)
-    @start = Time.parse(@start.strftime('%Y-%m-%d'))
-    @finish = @start + @six_days
+    @start = Time.parse(start.strftime('%Y-%m-%d'))
+    @finish = @start + SixDays
   end
   
   # Checks a date is included in the week
@@ -18,28 +46,13 @@ class Week
   
   # Returns the previous week
   def previous
-    Week.new(start - @seven_days)
+    Week.new(start - SevenDays)
   end
-  
-  # Current week
-  def self.current
-    modulo = Date.today.wday.modulo(7)
-    modulo = 7 if modulo == 0
-    last_monday = Time.parse((Date.today - modulo + 1).to_s)
-    Week.new(last_monday)
+ 
+  def next
+    Week.new(start + SevenDays)
   end
-  
-  # Gets the previous weeks including the current
-  def self.previous(amount)
-    current = Week.current
-    weeks = [current]
-    amount.times do |i|
-      current = current.previous
-      weeks << current
-    end
-    weeks
-  end
-  
+      
   def ==(other)
     !other.nil? && @start == other.start && @finish == other.finish
   end

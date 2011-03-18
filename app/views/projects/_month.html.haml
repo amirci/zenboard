@@ -1,5 +1,5 @@
-%tr{:style => "text-align:right"}
-  %td{:style => "text-align:left"}= month.date.strftime("%b '%y")
+%tr.right
+  %td.month= link_to_month(month, @project)
   %td= month.stories
   %td= month.velocity
   %td= month.point_duration

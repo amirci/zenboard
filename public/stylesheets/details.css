@@ -71,6 +71,9 @@
       border-right: 1px solid white;
       border-top: 1px solid transparent;
       background: #d0dafd; }
+    #velocity table tr .month,
+    #stories table tr .month {
+      text-align: left; }
     #velocity table tr .story,
     #stories table tr .story {
       text-align: left;

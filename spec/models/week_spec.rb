@@ -9,6 +9,18 @@ describe Week do
     @last_monday = Time.parse('Jan 3, 2011')
   end
   
+  it "Should return all the weeks in the month" do
+    weeks = Week.in_month(Date.parse('Mar 1, 2011'))
+    
+    weeks.count.should == 5
+    
+    weeks[0].start.should == Time.parse('Feb 28, 2011')
+    weeks[1].start.should == Time.parse('Mar 7, 2011')
+    weeks[2].start.should == Time.parse('Mar 14, 2011')
+    weeks[3].start.should == Time.parse('Mar 21, 2011')
+    weeks[4].start.should == Time.parse('Mar 28, 2011')
+  end
+  
   it "Should include all days int the week" do
     w = Week.current
     6.times { |i| w.include?(w.start + i).should be_true }

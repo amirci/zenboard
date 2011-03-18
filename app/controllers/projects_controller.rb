@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
 
     @point_duration = @months.sum { |m| m.point_duration } / @months.count 
 
-    @byweek = weekly_summary(5)
+    @byweek = weekly_summary_for(params[:month])
     
     @efficiency = @months.sum { |m| m.efficiency } / @months.count
   end
@@ -33,13 +33,17 @@ class ProjectsController < ApplicationController
               .reverse 
     end
 
-    def weekly_summary(how_many)
-      weeks = Week.previous(how_many)
+    def weekly_summary_for(month)
+      
+      date = DateTime.parse(month) rescue DateTime.now
+      
+      weeks = month.nil? ? Week.previous(5) : Week.in_month(date)
 
       # map to the actual week
       # remove older stories (couldn't find them in weeks collection)
-      @project.stories_in_archive                                           \
-              .group_by { |s| weeks.find { |w| w.include? s.finished_on } } \
+      @project.stories_in_archive                                                \
+              .find_all  { |s| month.nil? || (s.finished_on.month == date.month && s.finished_on.year == date.year) } \
+              .group_by  { |s| weeks.find { |w| w.include? s.finished_on } }     \
               .delete_if { |k, v| k.nil? }
     end
 
