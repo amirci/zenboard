@@ -2,8 +2,11 @@
   font-weight: bold; }
 #details #c1 {
   float: left;
-  margin-right: 100px; }
+  margin-right: 50px; }
 #details #c2 {
+  float: left;
+  margin-right: 50px; }
+#details #c3 {
   float: left;
   width: 200px; }
 #details #sep {

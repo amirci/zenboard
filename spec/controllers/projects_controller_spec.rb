@@ -30,6 +30,8 @@ describe ProjectsController do
     response.should be_success
     response.should render_template "show"
     assigns[:project].should == project
+    assigns[:months].should_not == nil
+    assigns[:byweek].should_not == nil
   end
   
 end

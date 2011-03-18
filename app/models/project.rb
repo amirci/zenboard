@@ -21,19 +21,9 @@ class Project < AgileZenResource
     DateTime.parse(createTime)
   end
 
-  # Returns the sum of the size for all the archived stories
-  def velocity
-    stories_in_archive.sum { |s| s.size.to_i }
-  end
-  
   # Amount of stories in archive
   def throughput
     stories_in_archive.count
-  end
-  
-  # Amount of days per point using each story point duration
-  def point_duration
-    stories_in_archive.sum { |s| s.point_duration.to_f } / stories_in_archive.count
   end
   
   def to_hash

@@ -58,16 +58,4 @@ describe Project do
     found = Project.find(@project.id)
     found.stories_in_archive.should == [@story]
   end
-
-  it "Should return statistics for the project" do
-    Story.should_receive(:all_for_project).with(@project.id, "aaa").and_return([@story, @story2])
-    
-    found = Project.find(@project.id)
-
-    # Calculations based on stories
-    found.velocity.should == @story.size
-    found.throughput.should == 1
-    found.point_duration.should == @story.point_duration
-  end
-  
 end

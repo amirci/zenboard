@@ -1,12 +1,14 @@
 #details
   #c1
-    %p #{label_tag('Name')}: #{@project.name}
-    %p #{label_tag('Created on')}: #{@project.created_on.strftime('%b %d %Y')}
     %p #{label_tag('Description')}: #{@project.description}
+    %p #{label_tag('Created on')}: #{@project.created_on.strftime('%b %d %Y')}
 
   #c2
     %p #{label_tag('Completed')}: #{pluralize(@project.throughput, "story")}
-    %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")}
+    %p #{label_tag('Eff.')} (avg.): #{@efficiency.round(2)}% 
+  
+  #c3
+    %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")} 
     %p #{label_tag('1 point')} (avg.): #{pluralize(@point_duration.round(2), "day") rescue "0 days"} 
 
   #sep

@@ -13,6 +13,8 @@ class ProjectsController < ApplicationController
     @point_duration = @months.sum { |m| m.point_duration } / @months.count 
 
     @byweek = weekly_summary(5)
+    
+    @efficiency = @months.sum { |m| m.efficiency } / @months.count
   end
 
   private
@@ -22,28 +24,23 @@ class ProjectsController < ApplicationController
     end
     
     def monthly_summary
-      bymonth = @project.stories_in_archive.inject({}) do |h, story| 
-        key = story.finished_on.strftime('%Y%m')
-        h[key] = [] unless h.key? key
-        h[key] << story
-        h
-      end
-
-      bymonth.each_pair.collect { |k, v| create_month(k, v) }.sort_by { |m| m.date }.reverse 
+      # map to year and month
+      # Create structures to represent the month summary
+      @project.stories_in_archive                              \
+              .group_by { |s| s.finished_on.strftime('%Y%m') } \
+              .collect { |k, v| create_month(k, v) }           \
+              .sort_by { |m| m.date }                          \
+              .reverse 
     end
 
     def weekly_summary(how_many)
       weeks = Week.previous(how_many)
 
-      summary = @project.stories_in_archive.inject({}) do |h, story| 
-        key = weeks.find { |w| w.include? story.finished_on }
-        h[key] = [] unless h.key? key
-        h[key] << story
-        h
-      end
-
-      # remove older stories
-      summary.delete nil
+      # map to the actual week
+      # remove older stories (couldn't find them in weeks collection)
+      @project.stories_in_archive                                           \
+              .group_by { |s| weeks.find { |w| w.include? s.finished_on } } \
+              .delete_if { |k, v| k.nil? }
     end
 
     def create_month(year_month, stories)
