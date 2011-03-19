@@ -53,12 +53,12 @@ class Story < AgileZenResource
   
   # Amount of time working (no waiting or blocked)
   def work_time
-    duration - waiting_time - blocked_time
+    [0.0, duration - waiting_time - blocked_time].max
   end
   
   # % of time working of the total duration
   def efficiency
-    work_time / duration.to_f * 100
+    duration == 0 ? 0 : (work_time / duration.to_f * 100).round
   end
   
   # Hashed version of the object

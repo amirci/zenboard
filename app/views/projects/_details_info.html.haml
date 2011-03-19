@@ -5,7 +5,7 @@
 
   #c2
     %p #{label_tag('Completed')}: #{pluralize(@project.throughput, "story")}
-    %p #{label_tag('Eff.')} (avg.): #{@efficiency.round(2)}% 
+    %p #{label_tag('Eff.')} (avg.): #{@efficiency}% 
   
   #c3
     %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")} 

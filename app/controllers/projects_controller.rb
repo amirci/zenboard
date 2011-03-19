@@ -8,15 +8,15 @@ class ProjectsController < ApplicationController
   def show
     @months = monthly_summary
     
-    @velocity = @months.sum { |m| m.velocity } / @months.count 
+    @velocity = @months.sum { |m| m.velocity } / @months.count rescue 0
 
-    @point_duration = @months.sum { |m| m.point_duration } / @months.count 
+    @point_duration = @months.sum { |m| m.point_duration } / @months.count rescue 0
 
     @month_filter = params[:month]
     
     @byweek = weekly_summary_for(params[:month])
     
-    @efficiency = @months.sum { |m| m.efficiency } / @months.count
+    @efficiency = @months.sum { |m| m.efficiency } / @months.count rescue 0
   end
 
   private
