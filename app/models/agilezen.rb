@@ -13,3 +13,4 @@ class AgileZenResource < ActiveResource::Base
   end
   
 end
+

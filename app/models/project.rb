@@ -43,7 +43,7 @@ class Project < AgileZenResource
   # where xxx is a phase
   def method_missing(method_id, *args, &block)
     if match = sym_stories_phase?(method_id.to_s)
-      stories.find_all { |s| s.phase.name.downcase == match.captures.first } 
+      stories.find_all { |s| s.phase.name.downcase.include? match.captures.first } 
     else
       super(method_id, *args, &block)
     end
