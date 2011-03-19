@@ -16,19 +16,15 @@ class Week
 
     # Gets the previous weeks including the current
     def previous(amount)
-      current = Week.current
-      weeks = [current]
-      amount.times do |i|
-        current = current.previous
-        weeks << current
-      end
-      weeks
+      amount.times.inject([Week.current]) { |weeks, i| weeks << weeks.last.previous}
     end
     
     # Gets the weeks included in that month
     def in_month(date)
       date = Date.parse(date.strftime('%Y%m01'))
-      4.times.inject([Week.current(date)]) { |m, i| m << m.last.next }
+      5.times                                                    \
+       .inject([Week.current(date)]) { |m, i| m << m.last.next } \
+       .delete_if { |w| w.start.month != date.month && w.finish.month != date.month }
     end
   end
 

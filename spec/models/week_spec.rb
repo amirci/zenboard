@@ -10,8 +10,19 @@ describe Week do
   end
   
   it "Should return all the weeks in the month" do
-    weeks = Week.in_month(Date.parse('Mar 1, 2011'))
+    weeks = Week.in_month(Date.parse('Jan 1, 2011'))
     
+    weeks.count.should == 6
+    
+    weeks[0].start.should == Time.parse('Dec 27, 2010')
+    weeks[1].start.should == Time.parse('Jan 3, 2011')
+    weeks[2].start.should == Time.parse('Jan 10, 2011')
+    weeks[3].start.should == Time.parse('Jan 17, 2011')
+    weeks[4].start.should == Time.parse('Jan 24, 2011')
+    weeks[5].start.should == Time.parse('Jan 31, 2011')
+    
+    weeks = Week.in_month(Date.parse('Mar 1, 2011'))
+
     weeks.count.should == 5
     
     weeks[0].start.should == Time.parse('Feb 28, 2011')

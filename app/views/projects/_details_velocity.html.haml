@@ -1,6 +1,6 @@
 #velocity
   #title Velocity by month
-  %table
+  %table#c1
     %thead
       %tr
         %th Month
@@ -10,3 +10,8 @@
         %th Eff. %
     %tbody
       = render(:partial => "month", :collection => @months)
+      
+  %img#c2{:src => velocity_graph(@months)}
+  
+  #sep
+  

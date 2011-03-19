@@ -1,16 +1,20 @@
-#details label {
-  font-weight: bold; }
-#details #c1 {
+#c1 {
   float: left;
   margin-right: 50px; }
-#details #c2 {
+
+#c2 {
   float: left;
   margin-right: 50px; }
-#details #c3 {
+
+#c3 {
   float: left;
   width: 200px; }
-#details #sep {
+
+#sep {
   clear: both; }
+
+#details label {
+  font-weight: bold; }
 
 #tabs ul {
   list-style: none;

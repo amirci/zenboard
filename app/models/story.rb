@@ -28,6 +28,14 @@ class Story < AgileZenResource
     size.to_i == 0 ? 0 : work_time / size.to_i
   end
   
+  def est_size(avg_point_duration)
+    fib = [1, 3, 5, 8, 13, 20, 40, 80, 100]
+    est = work_time / avg_point_duration
+    dif = fib.collect { |x| (est - x).abs }
+    index = dif.index dif.min
+    fib[index]
+  end
+  
   # Duration of the story (finish - start)
   def duration 
     (finished_on - started_on).to_f.round(2)

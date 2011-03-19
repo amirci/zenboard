@@ -1,9 +1,9 @@
 %tr.right
   %td= link_to_story(story)
   %td.story= story_text(story.text)
-  %td= story.size
-  %td= story.started_on.strftime('%b %d')
-  %td= story.finished_on.strftime('%b %d')
+  %td= size_format(story, @point_duration)
+  %td= date_format(story.started_on)
+  %td= date_format(story.finished_on)
   %td= story.point_duration.to_f.round(2)
   %td= story.duration.inspect
   %td= story.blocked_time.round(2)

@@ -26,6 +26,7 @@ gem 'oa-openid', :require => 'omniauth/openid'
 gem 'simple-navigation'
 gem 'bluecloth', ">= 2.0.0"
 gem 'json'
+gem 'gchartrb'
 
 # gem 'bj'
 # gem 'nokogiri'

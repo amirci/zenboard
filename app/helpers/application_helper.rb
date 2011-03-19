@@ -11,5 +11,8 @@ module ApplicationHelper
     story_url = "https://agilezen.com/project/#{story.project.id}/story/#{story.id}"
     link_to(story.id, story_url, :target => "_blank")
   end
-  
+
+  def date_format(date)
+    date.strftime('%b %d')
+  end
 end
