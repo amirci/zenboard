@@ -19,7 +19,7 @@ class Metrics
 
   # Hash serialization to use for JSON
   def to_hash
-    m = public_methods.find_all {|m| m.include?('=')}
+    m = public_methods.find_all {|m| m.to_s.include?('=')}
     m = m.reject { |m| m == "==" || m == "===" || m == "=~" || m == "taguri=" }
     m = m.collect { |m| m.delete('=') }          
     m.inject({}) do |h, name| 

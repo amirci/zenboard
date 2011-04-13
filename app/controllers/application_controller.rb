@@ -21,5 +21,5 @@ class ApplicationController < ActionController::Base
       logger.error ex
       logger.error ex.class
       logger.error ex.backtrace.join("\n")
-    end
+    end    
 end

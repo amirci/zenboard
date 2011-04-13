@@ -13,6 +13,6 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%b %d')
+    date.strftime('%b %d') rescue 'n/a'
   end
 end

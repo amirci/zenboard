@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
       Project.api_key = params[:api_key]    
       @project = Project.find(params[:id])
     end
-    
+  
     def monthly_summary
       # map to year and month
       # Create structures to represent the month summary

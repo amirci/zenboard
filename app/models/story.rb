@@ -2,6 +2,7 @@ require 'agilezen'
 require 'json'
 
 class Story < AgileZenResource
+  
   ApiPrefix = "/api/v1/projects"
   
   # Finds all storys for a particular project
@@ -9,17 +10,17 @@ class Story < AgileZenResource
     self.headers["X-Zen-ApiKey"] = api_key
     self.prefix = "#{ApiPrefix}/#{id}/"
     
-    all(:params => {:with => "metrics", :pageSize => 1000})
+    all(:params => {:with => "metrics,tags", :pageSize => 1000})
   end
   
   # Time when the story was placed on the board
   def started_on
-    DateTime.parse(metrics.startTime) || Time.now
+    (DateTime.parse(metrics.startTime) || Time.now) rescue Time.now
   end
 
   # Time when the story was moved to archive
   def finished_on
-    metrics.respond_to?('finishTime') ? DateTime.parse(metrics.finishTime) : nil
+    (metrics.respond_to?('finishTime') ? DateTime.parse(metrics.finishTime) : nil) rescue nil
   end
   
   # Conversion of points to days
@@ -29,16 +30,20 @@ class Story < AgileZenResource
   end
   
   def est_size(avg_point_duration)
-    fib = [1, 3, 5, 8, 13, 20, 40, 80, 100]
-    est = work_time / avg_point_duration
-    dif = fib.collect { |x| (est - x).abs }
-    index = dif.index dif.min
-    fib[index]
+    begin
+      fib = [1, 3, 5, 8, 13, 20, 40, 80, 100]
+      est = work_time / avg_point_duration
+      dif = fib.collect { |x| (est - x).abs }
+      index = dif.index dif.min
+      fib[index]
+    rescue
+      0.0
+    end
   end
   
   # Duration of the story (finish - start)
   def duration 
-    (finished_on - started_on).to_f.round(2)
+    (finished_on - started_on).to_f.round(2) rescue 0.0
   end
   
   # Amount of time the story was blocked

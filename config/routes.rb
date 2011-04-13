@@ -6,7 +6,9 @@ Zenboard::Application.routes.draw do
 
   devise_for :users, :path => "accounts", :controllers => { :registrations => 'registrations' }
 
-  resources :projects
+  resources :projects do
+    resources :tags
+  end
 
   resources :users do
     resources :project_config

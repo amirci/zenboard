@@ -1,0 +1,25 @@
+- title "Stories in #{@project.name} with tag #{@tag.name}"
+
+%h2= link_to "Back to details", project_path(@project, :api_key => @api_key)
+
+#details_stories
+  #stories
+    - @stories.each_pair do |phase, tagged|
+      #title= "Stories with tag #{@tag.name} in #{phase}"
+      %table
+        %thead
+          %tr
+            %th Id
+            %th Text
+            %th Size
+            %th Start
+            %th Fin.
+            %th 1 Pt
+            %th Dur.
+            %th Block.
+            %th Wait
+            %th AWork
+            %th Eff. %
+        %tbody
+          = render(:partial => "projects/story", :collection => tagged)
+
