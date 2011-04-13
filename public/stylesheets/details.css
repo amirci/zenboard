@@ -66,28 +66,51 @@
         border-top: 4px solid #aabcfe;
         word-break: normal;
         white-space: nowrap; }
-    #velocity table tr td,
-    #stories table tr td {
-      font-family: "Andale Mono", "Courier New", "Courier", "monospace";
-      white-space: nowrap;
-      padding: 9px 8px;
-      border-bottom: 1px solid white;
-      border-right: 1px solid white;
-      border-top: 1px solid transparent;
+    #velocity table tr,
+    #stories table tr {
       background: #d0dafd; }
-    #velocity table tr .month,
-    #stories table tr .month {
-      text-align: left; }
-    #velocity table tr .story,
-    #stories table tr .story {
-      text-align: left;
-      white-space: normal;
-      width: 500px;
-      font-family: "Gill Sans", "Helvetica", "Verdana", "sans-serif", "Florence", "cursive"; }
-    #velocity table tr p,
-    #stories table tr p {
-      margin-top: 0px;
-      margin-bottom: 4px; }
+      #velocity table tr td,
+      #stories table tr td {
+        font-family: "Andale Mono", "Courier New", "Courier", "monospace";
+        white-space: nowrap;
+        padding: 9px 8px;
+        border-bottom: 1px solid white;
+        border-right: 1px solid white;
+        border-top: 1px solid transparent; }
+      #velocity table tr .month,
+      #stories table tr .month {
+        text-align: left; }
+      #velocity table tr .story,
+      #stories table tr .story {
+        text-align: left;
+        white-space: normal;
+        width: 500px;
+        font-family: "Gill Sans", "Helvetica", "Verdana", "sans-serif", "Florence", "cursive"; }
+      #velocity table tr p,
+      #stories table tr p {
+        margin-top: 0px;
+        margin-bottom: 4px; }
     #velocity table tr.right,
     #stories table tr.right {
       text-align: right; }
+    #velocity table tr.orange,
+    #stories table tr.orange {
+      background: #ffbd82; }
+    #velocity table tr.purple,
+    #stories table tr.purple {
+      background: #d698fe; }
+    #velocity table tr.teal,
+    #stories table tr.teal {
+      background: #a5d3ca; }
+    #velocity table tr.red,
+    #stories table tr.red {
+      background: #ffa8a8; }
+    #velocity table tr.yellow,
+    #stories table tr.yellow {
+      background: #f5f7c4; }
+    #velocity table tr.blue,
+    #stories table tr.blue {
+      background: #bbdaff; }
+    #velocity table tr.green,
+    #stories table tr.green {
+      background: #93eeaa; }
