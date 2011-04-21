@@ -8,7 +8,11 @@
 
 #c3 {
   float: left;
-  width: 200px; }
+  margin-right: 50px; }
+
+#c4 {
+  float: left;
+  margin-right: 50px; }
 
 #sep {
   clear: both; }
@@ -93,6 +97,9 @@
     #velocity table tr.right,
     #stories table tr.right {
       text-align: right; }
+    #velocity table tr.grey,
+    #stories table tr.grey {
+      background: #cccccc; }
     #velocity table tr.orange,
     #stories table tr.orange {
       background: #ffbd82; }

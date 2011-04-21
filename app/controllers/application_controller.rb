@@ -22,4 +22,26 @@ class ApplicationController < ActionController::Base
       logger.error ex.class
       logger.error ex.backtrace.join("\n")
     end    
+    
+    def monthly_summary(stories)
+      # map to year and month
+      # Create structures to represent the month summary
+      stories                              \
+          .group_by { |s| s.finished_on.strftime('%Y%m') } \
+          .collect { |k, v| create_month(k, v) }           \
+          .sort_by { |m| m.date }                          \
+          .reverse 
+    end    
+
+    def create_month(year_month, stories)
+      month = OpenStruct.new 
+      month.date = Date.parse(year_month + '01')
+      month.velocity = stories.sum { |s| s.size.to_i } 
+      month.point_duration = (month.velocity / 20.0).round(2) 
+      month.stories = stories.count
+      month.blocked = stories.sum(&:blocked_time) 
+      month.waiting = stories.sum(&:waiting_time) 
+      month.efficiency = stories.sum(&:efficiency) / stories.count
+      month
+    end    
 end

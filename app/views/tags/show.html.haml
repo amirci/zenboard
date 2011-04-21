@@ -1,12 +1,42 @@
 - title "Stories in #{@project.name} with tag #{@tag.name}"
 
-%h2= link_to "Back to details", project_path(@project, :api_key => @api_key)
+%h3
+  #c1= link_to "Back to details", project_path(@project, :api_key => @api_key)
+  
+  #c2  #{label_tag('Change Tag')}: #{change_tag_selection(@project, @tags, @api_key)}
+
+  #sep
+  
+#details
+  #c1
+    %p #{label_tag('Total')}: #{pluralize(@total, "story")}
+    
+  #c1
+    %p #{label_tag('Completed')}: #{pluralize(@completed, "story")}
+
+  #c2
+    %p #{label_tag('Eff.')} (avg.): #{@efficiency}% 
+    
+  #c3
+    %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")} 
+    
+  #c4
+    %p #{label_tag('1 point')} (avg.): #{pluralize(@point_duration.round(2), "day") rescue "0 days"} 
+  
+  #sep
+
+#velocity
+  %img#c1{:src => phases_graph(@stories)}
+
+  %img#c2{:src => velocity_graph(@monthly_summary)}
+
+  #sep
 
 #details_stories
   #stories
     - @stories.each_pair do |phase, tagged|
-      #title= "Stories with tag #{@tag.name} in #{phase}"
-      %table
+      #title #{phase} (#{tagged.count}) #{link_to_function("(+/-)", "Element.toggle('div#{phase}')")}
+      %table{:id => "div#{phase}"}
         %thead
           %tr
             %th Id
@@ -21,5 +51,5 @@
             %th AWork
             %th Eff. %
         %tbody
-          = render(:partial => "projects/story", :collection => tagged)
+          = render(:partial => "projects/story", :collection => tagged )
 
