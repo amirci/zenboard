@@ -2,26 +2,20 @@ class TagsController < ApplicationController
   before_filter :authenticate_user!, :find_project
   
   def show
-    tagged = @project.stories.find_all { |s| !s.tags.nil? && s.tags.any? { |t| t.id.to_s == params[:id] } } 
+    tagged = @project.stories_with_tag(params[:id])
                   
-    completed = tagged.find_all { |s| s.phase.name.downcase.include? 'archive' }
+    @completed = tagged.find_all { |s| s.phase.name.downcase.include? 'archive' }
+    
+    @not_completed = tagged - @completed
     
     @tag = tagged.first.tags.find { |t| t.id.to_s == params[:id] } unless tagged.empty?
 
-    @tags = @project.stories.collect { |s| s.tags }.flatten.uniq { |t| t.id }.sort_by { |t| t.name }
+    @tags = @project.tags
     
     @stories = tagged.group_by { |s| s.phase.name }    
     
-    @monthly_summary = monthly_summary(completed)
-    
-    @velocity = @monthly_summary.sum { |m| m.velocity } / @monthly_summary.count rescue 0
-    
-    @point_duration = @monthly_summary.sum { |m| m.point_duration } / @monthly_summary.count rescue 0
-
-    @efficiency = @monthly_summary.sum { |m| m.efficiency } / @monthly_summary.count rescue 0
-    
-    @completed = completed.count
-    
+    @monthly_summary = monthly_summary(@completed)
+        
     @total = @stories.values.collect { |v| v.count }.sum
   end
 

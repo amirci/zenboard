@@ -9,20 +9,21 @@
   
 #details
   #c1
-    %p #{label_tag('Total')}: #{pluralize(@total, "story")}
+    %p #{label_tag('Total')}: #{stories(@completed + @not_completed)}
+    %p #{label_tag('Velocity')} (avg.): #{velocity(@monthly_summary)} 
     
-  #c1
-    %p #{label_tag('Completed')}: #{pluralize(@completed, "story")}
-
   #c2
-    %p #{label_tag('Eff.')} (avg.): #{@efficiency}% 
-    
+    %p #{label_tag('Completed')}: #{stories(@completed)} (#{points(@completed)}) 
+    %p #{label_tag('Left to do')}: #{stories(@not_completed)} (#{points(@not_completed)}) 
+
   #c3
-    %p #{label_tag('Velocity')} (avg.): #{pluralize(@velocity, "point")} 
-    
-  #c4
-    %p #{label_tag('1 point')} (avg.): #{pluralize(@point_duration.round(2), "day") rescue "0 days"} 
+    %p #{label_tag('Eff.')} (avg.): #{efficiency(@monthly_summary)}
+    %p #{label_tag('1 point')} (avg.): #{point_duration(@project)} 
   
+  #c4
+    %p #{label_tag('Finish in')}: #{time_left(@not_completed, @project)} 
+    %p #{label_tag('Finish Date')} (aprox.): #{finish_date(@not_completed, @project)} 
+
   #sep
 
 #velocity

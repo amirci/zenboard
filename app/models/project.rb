@@ -25,6 +25,23 @@ class Project < AgileZenResource
   def throughput
     stories_in_archive.count
   end
+
+  def stories_with_tag(tag_id)
+    stories.find_all { |s| !s.tags.nil? && s.tags.any? { |t| t.id.to_s == tag_id } } 
+  end
+  
+  def tags
+    stories.collect { |s| s.tags }.flatten.uniq { |t| t.id }.sort_by { |t| t.name }
+  end
+  
+  # points per day
+  def point_duration
+    points = stories_in_archive.sum { |s| s.size.to_i }
+    days = stories_in_archive.collect { |s| s.finished_on }.max - created_on
+    weeks = days / 7
+    days -= weeks * 2
+    (points / days).to_f.round(2) rescue 0.0
+  end
   
   def to_hash
     { "id" => id,
