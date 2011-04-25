@@ -26,9 +26,6 @@ describe ProjectsController do
     assigns[:project].should == @project
     assigns[:months].should be_empty
     assigns[:byweek].should be_empty
-    assigns[:velocity].should == 0
-    assigns[:point_duration].should == 0
-    assigns[:efficiency].should == 0
     assigns[:month_filter].should be_nil
   end
   
