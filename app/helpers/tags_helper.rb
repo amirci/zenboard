@@ -10,9 +10,9 @@ module TagsHelper
   end
 
   # Helper to generate tag selection
-  def change_tag_selection(project, selected, tags, api_key)
-    tags = @tags.collect { |t| [t.name, t.id] }
-    script = "document.location='/projects/#{@project.id}/tags/' + this.value + '?api_key=#{api_key}'"
+  def change_tag_selection(project, selected, api_key)
+    tags = project.tags.collect { |t| [t.name, t.id] }
+    script = "document.location='/projects/#{project.id}/tags/' + this.value + '?api_key=#{api_key}'"
     select("tag", "name", tags, {:selected => selected.id}, {:onchange => script})
   end
   

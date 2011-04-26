@@ -10,13 +10,9 @@ class TagsController < ApplicationController
     
     @tag = tagged.first.tags.find { |t| t.id.to_s == params[:id] } unless tagged.empty?
 
-    @tags = @project.tags
-    
     @stories = tagged.group_by { |s| s.phase.name }    
     
     @monthly_summary = monthly_summary(@completed)
-        
-    @total = @stories.values.collect { |v| v.count }.sum
   end
 
   private  

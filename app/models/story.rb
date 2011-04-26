@@ -1,8 +1,7 @@
 require 'agilezen'
 require 'json'
 
-class Story < AgileZenResource
-  
+class Story < AgileZenResource  
   ApiPrefix = "/api/v1/projects"
   
   # Finds all storys for a particular project
@@ -13,6 +12,10 @@ class Story < AgileZenResource
     all(:params => {:with => "metrics,tags", :pageSize => 1000})
   end
   
+  def created_on
+    (DateTime.parse(metrics.createTime) || Time.now) rescue Time.now
+  end
+
   # Time when the story was placed on the board
   def started_on
     (DateTime.parse(metrics.startTime) || Time.now) rescue Time.now

@@ -5,11 +5,12 @@ describe Week do
   before(:each) do
     @seven_days = 7 * 24 * 60 * 60
     @six_days = 6 * 24 * 60 * 60
-    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
     @last_monday = Time.parse('Jan 3, 2011')
   end
   
   it "Should return all the weeks in the month" do
+    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
+
     weeks = Week.in_month(Date.parse('Jan 1, 2011'))
     
     weeks.count.should == 6
@@ -38,6 +39,7 @@ describe Week do
   end
   
   it "Should return current week" do
+    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
     w = Week.current
     w.start.should == @last_monday
     w.finish.should == w.start + @six_days
@@ -52,6 +54,7 @@ describe Week do
   end
 
   it "Should return the previous week" do
+    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
     w = Week.current.previous
     w.start.should == @last_monday - @seven_days
   end
@@ -66,6 +69,12 @@ describe Week do
       w.should == current
       current = current.previous
     end
+  end
+  
+  it "should return the weeks since 3 weeks ago" do
+    Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
+    actual = Week.since(Time.parse('Dec 20, 2010'))
+    actual.should == Week.previous(2)
   end
   
 end

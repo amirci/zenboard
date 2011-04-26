@@ -26,6 +26,15 @@ class Week
        .inject([Week.current(date)]) { |m, i| m << m.last.next } \
        .delete_if { |w| w.start.month != date.month && w.finish.month != date.month }
     end
+    
+    # returns all the weeks since the specified date
+    def since(date)
+      weeks = [Week.current(date)]
+      until weeks.last.start >= Week.current.start
+        weeks << weeks.last.next
+      end
+      weeks.reverse
+    end
   end
 
   # Starts a week from a date
@@ -54,4 +63,8 @@ class Week
   end
 
   alias eql? ==
+  
+  def <=>(other)
+    other.start <=> @start
+  end
 end

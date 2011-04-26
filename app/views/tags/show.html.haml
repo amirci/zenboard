@@ -3,13 +3,13 @@
 %h3
   #c1= link_to "Back to details", project_path(@project, :api_key => @api_key)
   
-  #c2  #{label_tag('Change Tag')}: #{change_tag_selection(@project, @tag, @tags, @api_key)}
+  #c2  #{label_tag('Change Tag')}: #{change_tag_selection(@project, @tag, @api_key)}
 
   #sep
   
 #details
   #c1
-    %p #{label_tag('Total')}: #{stories(@completed + @not_completed)}
+    %p #{label_tag('Total')}: #{stories(@not_completed + @completed)}
     %p #{label_tag('Velocity')} (avg.): #{velocity(@monthly_summary)} 
     
   #c2
@@ -29,7 +29,7 @@
 #velocity
   %img#c1{:src => phases_graph(@stories)}
 
-  %img#c2{:src => velocity_graph(@monthly_summary)}
+  %img#c2{:src => burn_down_graph(@completed + @not_completed)}
 
   #sep
 

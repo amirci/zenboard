@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
 
     def create_month(year_month, stories)
       month = OpenStruct.new 
+      month.actual_stories = stories
       month.date = Date.parse(year_month + '01')
       month.velocity = stories.sum { |s| s.size.to_i } 
       month.point_duration = (month.velocity / 20.0).round(2) 
