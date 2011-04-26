@@ -55,6 +55,11 @@ module ApplicationHelper
     (Date.today + value).strftime('%b %d %Y')
   end
   
+  def completed_date(stories)
+    value = stories.collect { |s| s.finished_on }.max
+    value.strftime('%b %d %Y')
+  end
+
   def velocity_graph(months, size = "600x250")
     title = "Velocity by month"
     sorted = months.sort_by { |m| m.date }
@@ -69,61 +74,5 @@ module ApplicationHelper
     lc.fill_area 'D0DAFD', 0, 0
     lc.shape_marker :circle, :color => '0767C1', :data_set_index => 0, :data_point_index => -1, :pixel_size => 8
     lc.to_url
-  end
-  
-  def burn_down_graph(stories)
-    started = stories.collect { |s| s.started_on }.min
-
-    weeks = Week.since(started).reverse
-
-    backlog = []
-
-    completed = []
-    
-    labels = []
-    
-    burn_down = []
-
-    weeks.each do |week|
-      completed << stories.find_all { |s| !s.finished_on.nil? && s.finished_on <= week.finish }
-      backlog   << stories.find_all { |s| s.created_on <= week.finish }
-      labels    << week.start.strftime('%b %d')
-      burn_down << backlog.last.count - completed.last.count
-    end
-    
-    title = "Burndown by week"
-    
-    if burn_down.count > 12      
-      title = "Burndown by 2 weeks iterations"
-      i = 0
-      t2 = []
-      l2 = []
-      while i < burn_down.count - 1  
-        t2 << burn_down[i+1]
-        l2 << labels[i]
-        i += 2        
-      end
-      t2 << burn_down.last unless burn_down.count % 2 == 0
-      l2 << labels.last unless burn_down.count % 2 == 0
-      burn_down = t2
-      labels = l2
-    end
-    
-
-    lc = GoogleChart::BarChart.new("600x250", title, :vertical, false)
-    lc.data "To Do", burn_down, '4b7399'
-    lc.width_spacing_options :bar_spacing => 40, :bar_width => 25, :group_spacing => burn_down.count < 8 ? 40 : 15
-    lc.axis :y, :range => [0, burn_down.max], :font_size => 10, :alignment => :center
-    lc.axis :x, :labels => labels, :font_size => 10, :alignment => :center
-    lc.to_url
-        
-    #lc = GoogleChart::LineChart.new("600x250", title, false)
-    #lc.data "Backlog", totals, '4b7399'
-    #lc.axis :y, :range => [0, totals.max], :font_size => 10, :alignment => :center
-    #lc.axis :x, :labels => labels, :font_size => 10, :alignment => :center
-    #lc.show_legend = false
-    #lc.fill_area 'D0DAFD', 0, 0
-    #lc.shape_marker :circle, :color => '0767C1', :data_set_index => 0, :data_point_index => -1, :pixel_size => 8
-    #lc.to_url
   end
 end

@@ -1,7 +1,7 @@
 %tr.right{:class => story.color}
   %td= link_to_story(story)
   %td.story= story_text(story) 
-  %td= size_format(story, @point_duration)
+  %td= size_format(story, @project.point_duration)
   %td= date_format(story.started_on)
   %td= date_format(story.finished_on)
   %td= story.point_duration.to_f.round(2)
