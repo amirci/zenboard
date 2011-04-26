@@ -1,8 +1,10 @@
 #menu
   #home= link_to "Home", root_path
 
-  #projects= link_to "Configuration", user_project_config_index_path(current_user) if user_signed_in?
-
+  - if user_signed_in?
+    #projects | #{link_to "Configuration", user_project_config_index_path(current_user)}
+    #projects | Change project #{project_selection(@project)}
+  
   #user
     - if !user_signed_in? 
       = link_to "Sign up", new_user_registration_path

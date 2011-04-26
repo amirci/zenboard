@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
 
   private
     def find_project
-      Project.api_key = params[:api_key]    
+      Project.api_key = ProjectConfig.find_by_project_id(params[:id]).api_key
       @project = Project.find(params[:id])
     end
   

@@ -3,6 +3,14 @@ module ApplicationHelper
     content_for(:title) { page_title }
   end
   
+  def project_selection(selected)
+    return unless current_user
+    projects = current_user.configurations.collect { |p| [p.name, p.project_id] }
+    script = "document.location='/projects/' + this.value"
+    selected ||= current_user.configurations.first
+    select("tag", "name", projects, {:selected => selected.id}, {:onchange => script})
+  end
+
   def markdown(str)
     raw(BlueCloth.new(str).to_html)
   end
@@ -21,58 +29,45 @@ module ApplicationHelper
   end
 
   def stories(stories)
-    pluralize(stories.count, "story")
+    pluralize(stories.count, "story") + " (#{points(@completed)})"
   end
   
   def points(stories)
-    value = stories.sum { |s| s.size.to_i }
-    pluralize(value, "point") rescue 'n/a'
+    pluralize(stories.points, "point") rescue 'n/a'
   end
   
-  def velocity(monthly_summary)
-    value = monthly_summary.sum { |m| m.velocity } / monthly_summary.count rescue 0
-    pluralize(value, "point") rescue 'n/a'
+  def velocity(stories)
+    pluralize(stories.velocity, "point") rescue 'n/a'
   end
   
-  def point_duration(monthly_summary)
-    value = monthly_summary.point_duration 
-    #value = monthly_summary.sum { |m| m.point_duration } / monthly_summary.count rescue 0
-    pluralize(value.round(2), "day") rescue 'n/a'
+  def point_duration(stories)
+    pluralize(stories.point_duration.round(2), "day") rescue 'n/a'
   end
 
+  def duration(stories)
+    pluralize(stories.duration, "day") rescue 'n/a'
+  end
+  
   def efficiency(monthly_summary)
     value = monthly_summary.sum { |m| m.efficiency } / monthly_summary.count rescue 0
     "#{value} %" rescue 'n/a'
   end
   
   def time_left(stories, project)
-    value = stories.sum { |s| s.size.to_i } * project.point_duration
+    value = stories.points * project.point_duration
     pluralize(value.round.to_i, "day") rescue 'n/a'
   end
 
-  def finish_date(stories, project)
-    value = (stories.sum { |s| s.size.to_i } * project.point_duration).round
-    (Date.today + value).strftime('%b %d %Y')
+  def estimated_finish_date(stories, project)
+    value = stories.points * project.point_duration
+    (Date.today + value.round).strftime('%b %d %Y')
   end
   
   def completed_date(stories)
-    value = stories.collect { |s| s.finished_on }.max
-    value.strftime('%b %d %Y')
+    stories.completed_on.strftime('%b %d %Y')
   end
 
-  def velocity_graph(months, size = "600x250")
-    title = "Velocity by month"
-    sorted = months.sort_by { |m| m.date }
-    velocities = sorted.collect { |m| m.velocity }
-    labels = sorted.collect { |m| m.date.strftime('%b %y')}
-    
-    lc = GoogleChart::LineChart.new(size, title, false)
-    lc.data "Velocity", velocities, '4b7399'
-    lc.axis :y, :range => [0, velocities.max], :font_size => 10, :alignment => :center
-    lc.axis :x, :labels => labels, :font_size => 10, :alignment => :center
-    lc.show_legend = false
-    lc.fill_area 'D0DAFD', 0, 0
-    lc.shape_marker :circle, :color => '0767C1', :data_set_index => 0, :data_point_index => -1, :pixel_size => 8
-    lc.to_url
+  def started_date(stories)
+    stories.started_on.strftime('%b %d %Y')
   end
 end

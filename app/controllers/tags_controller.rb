@@ -13,12 +13,14 @@ class TagsController < ApplicationController
     @stories = tagged.group_by { |s| s.phase.name }    
     
     @monthly_summary = monthly_summary(@completed)
+    
+    @completed = StoryCollection.new @completed
+    @not_completed = @StoryCollection.new @not_completed
   end
 
   private  
     def find_project
-      @api_key = params[:api_key]
-      Project.api_key = @api_key    
+      Project.api_key = ProjectConfig.find_by_project_id(params[:project_id]).api_key
       @project = Project.find(params[:project_id])
     end    
 end
