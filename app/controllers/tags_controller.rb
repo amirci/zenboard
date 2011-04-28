@@ -1,3 +1,4 @@
+
 class TagsController < ApplicationController
   before_filter :authenticate_user!, :find_project
   
@@ -15,7 +16,7 @@ class TagsController < ApplicationController
     @monthly_summary = monthly_summary(@completed)
     
     @completed = StoryCollection.new @completed
-    @not_completed = @StoryCollection.new @not_completed
+    @not_completed = StoryCollection.new @not_completed
   end
 
   private  

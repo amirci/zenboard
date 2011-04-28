@@ -1,12 +1,20 @@
 class StoryCollection
+  include Enumerable
   extend Forwardable
+  
+  attr_reader :stories
+  
+  def_delegator :@stories, :empty?
   
   def initialize(stories)
     @stories = stories
   end
-  
-  def_delegators :@stories, :each, :count
 
+  # Enumerable implementation
+  def each(&block)
+    @stories.each(&block)
+  end
+  
   def points
     @stories.sum { |s| s.size.to_i }
   end
@@ -29,6 +37,11 @@ class StoryCollection
   
   def point_duration
     points.to_f / duration
+  end
+  
+  def +(collection)
+    collection = collection.stories if collection.kind_of? StoryCollection
+    StoryCollection.new(@stories + collection)
   end
   
 end
