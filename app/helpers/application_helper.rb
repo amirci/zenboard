@@ -45,7 +45,7 @@ module ApplicationHelper
   end
 
   def duration(stories)
-    pluralize(stories.duration, "day") rescue 'n/a'
+    pluralize(stories.duration.to_f.round(2), "day") rescue 'n/a'
   end
   
   def efficiency(monthly_summary)

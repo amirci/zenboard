@@ -11,5 +11,9 @@ require 'spec_helper'
 #   end
 # end
 describe TagsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  it "should return labels for content tag" do
+    labels('a', 0, 'total', "(i.e) 1").should == '<p><label for="a">A</label>: 0</p><p><label for="total">Total</label>: (i.e) 1</p>'
+  end
+  
 end

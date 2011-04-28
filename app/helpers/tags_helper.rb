@@ -16,6 +16,25 @@ module TagsHelper
     select("tag", "name", tags, {:selected => selected.id}, {:onchange => script})
   end
 
+  def metrics_header(completed, not_completed)
+    finished = not_completed.empty?
+    all = not_completed + completed
+    
+    if finished
+      content_tag(:div, nil, :id => "c1") { labels('Total', stories(completed), 'Eff. ', "#{efficiency(completed)} (avg.)")} + \
+      content_tag(:div, nil, :id => "c2") { labels('Started on', started_date(completed), 'Finished on', completed_date(completed)) } + \
+      content_tag(:div, nil, :id => "c3") do 
+        content_tag(:p, label_tag('Duration') + ": #{duration(completed)}") + \
+        content_tag(:p, label_tag('1 point') + " (avg.): #{point_duration(completed)}")
+      end
+    end
+  end
+
+  def labels(*values)
+    return if values.nil? || values.empty? || values.first.nil?
+    content_tag(:p, label_tag(values[0]) + ": #{values[1]}") + labels(*values[2..-1])
+  end
+    
   def burn_down_graph(stories)
     started = stories.collect { |s| s.started_on }.min
 

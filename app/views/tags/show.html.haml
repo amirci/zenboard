@@ -8,39 +8,7 @@
   #sep
   
 #details
-  - finished = @not_completed.empty?
-  - if finished
-    #c1
-      %p #{label_tag('Total')}: #{stories(@completed)}
-    
-    #c2
-      %p #{label_tag('Started on')}: #{started_date(@completed)} 
-      %p #{label_tag('Finished on')}: #{completed_date(@completed)} 
-
-    #c3
-      %p #{label_tag('Eff.')} (avg.): #{efficiency(@monthly_summary)}
-
-    #c4
-      %p #{label_tag('Duration')}: #{duration(@completed)} 
-      %p #{label_tag('1 point')} (avg.): #{point_duration(@completed)} 
-  
-  - else
-    #c1
-      %p #{label_tag('Total')}: #{stories(@not_completed + @completed)}
-      %p #{label_tag('Velocity')} (avg.): #{velocity(@monthly_summary)} 
-  
-    #c2
-      %p #{label_tag('Completed')}: #{stories(@completed)}
-      %p #{label_tag('Left to do')}: #{stories(@not_completed)}
-
-    #c3
-      %p #{label_tag('Eff.')} (avg.): #{efficiency(@monthly_summary)}
-      %p #{label_tag('1 point')} (avg.): #{point_duration(@project)} 
-
-    #c4
-      %p #{label_tag('Time to finish')}: ~#{time_left(@not_completed, @project)}
-      %p #{label_tag('Projected Date')}: ~#{estimated_finish_date(@not_completed, @project)} 
-  
+  = metrics_header(@completed, @not_completed)
   #sep
 
 #velocity
