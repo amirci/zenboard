@@ -6,9 +6,14 @@ describe ProjectsController do
 
   before(:each) do
     @project = double("Project")       
+    @project_config = double("ProjectConfig", :api_key => "aaa")
+    
     Project.should_receive(:api_key=).with("aaa")
+    
     Project.stub!(:find).with(44).and_return(@project)    
-
+    
+    ProjectConfig.stub!(:find_by_project_id).with(44).and_return(@project_config)
+    
     user = User.make()
     user.confirm!
     user.save!
