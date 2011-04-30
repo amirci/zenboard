@@ -1,19 +1,16 @@
+require 'story_metrics'
+
 class TagsController < ApplicationController
   before_filter :authenticate_user!, :find_project
   
   def show
-    tagged = @project.stories_with_tag(params[:id])
+    tagged = @project.stories_with_tag params[:id]
                   
-    @completed = tagged.find_all { |s| s.phase.name.downcase.include? 'archive' }
+    @completed = tagged.in_archive
     
     @not_completed = tagged - @completed
     
-    @tag = tagged.first.tags.find { |t| t.id.to_s == params[:id] } unless tagged.empty?
-
-    #@monthly_summary = monthly_summary(@completed)
-    
-    @completed = StoryCollection.new @completed
-    @not_completed = StoryCollection.new @not_completed
+    @tag = @project.tags.find { |t| t.id.to_s == params[:id] }
   end
 
   private  

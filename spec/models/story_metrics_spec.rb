@@ -3,21 +3,15 @@ require 'spec_helper'
 describe StoryMetrics do
 
   before(:each) do
-    story1 = double("Story1", :size => 8, :started_on => Date.today - 30, :finished_on => Date.today - 5)
+    archive = double("Phase", :name => 'archive')
+    
+    working = double("Phase Working", :name => 'working')
+    
+    story1 = double("Story1", :phase => archive, :size => 8, :started_on => Date.today - 30, :finished_on => Date.today - 5)
 
-    story2 = double("Story2", :size => 3, :started_on => Date.today - 20, :finished_on => Date.today)
+    story2 = double("Story2", :phase => working, :size => 3, :started_on => Date.today - 20, :finished_on => Date.today)
     
-    class Impl 
-      include StoryMetrics
-      
-      attr_reader :stories
-      
-      def initialize(stories)
-        @stories = stories
-      end
-    end
-    
-    @stories = Impl.new([story1, story2])
+    @stories = [story1, story2]
   end
   
   it "should calculate points" do
@@ -41,7 +35,11 @@ describe StoryMetrics do
   end
   
   it "should calculate point duration" do
-    @stories.point_duration.should == 11 / 30.0
+    # 30 days - weekends
+    @stories.point_duration.should == 11.0 / (30 - Week.since(@stories.started_on).count * 2)
   end
   
+  it "should filter stories by phase" do
+    @stories.in_archive.should == @stories.find_all { |s| s.phase.name.downcase.include? 'archive' }
+  end
 end

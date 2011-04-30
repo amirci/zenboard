@@ -17,18 +17,19 @@ module TagsHelper
   def tag_metrics(completed, not_completed, project)
     finished = not_completed.empty?
     all = completed + not_completed
+    col = 0
+    
+    content  = column_metrics(col += 1, 'total', stories(all), 'velocity', velocity(completed)) 
+    content << column_metrics(col += 1, 'eff.', efficiency(completed), '1 point', point_duration(completed))
     
     if finished
-      column_metrics(1, 'total', stories(completed), 'eff.', efficiency(completed)) + 
-      column_metrics(2, 'started on', started_date(completed), 'finished on', completed_date(completed))  + 
-      column_metrics(3, 'duration', duration(completed), '1 point', point_duration(completed))  ;
+      content << column_metrics(col += 1, 'started on', started_date(all), 'finished on', completed_date(all))  
+      content << column_metrics(col += 1, 'duration', duration(all))  
     else
-      column_metrics(1, 'total', stories(all), 'velocity', velocity(completed)) +
-      column_metrics(2, 'completed', stories(completed), 'left to do', stories(not_completed)) +
-      column_metrics(3, 'eff.', efficiency(completed), '1 point', point_duration(completed))  +
-      column_metrics(4, 'time to finish', time_left(not_completed, project), 'ETA', eta(not_completed, project))  +
-      column_metrics(5, 'proj. vel.', velocity(project))  ;
+      content << column_metrics(col += 1, 'completed', stories(completed), 'left to do', stories(not_completed)) 
+      content << column_metrics(col += 1, 'time to finish', time_left(not_completed, project), 'ETA', eta(not_completed, project))  
     end
+    content
   end
   
   def column_metrics(id, *values)
@@ -42,13 +43,18 @@ module TagsHelper
     
   def story_tables_by_phase(completed, not_completed)
     all = (completed + not_completed).group_by { |s| s.phase.name }
+    headers = %w{Id Text Size Start Fin. 1\ Pt. Dur. Block Wait AWork Eff.\ %}
+    ths = headers.inject(ActiveSupport::SafeBuffer.new) { |c, header| c.concat content_tag(:th, header) } 
     
-    content = all.inject(content_tag(:h2, "Story tables")) do |c, pair|
+    all.inject(ActiveSupport::SafeBuffer.new) do |c, pair|
       phase = pair[0]
       stories = pair[1]
-      c.concat content_tag(:div, nil, :id => "title") { "#{phase} (#{stories.count}) " + link_to_function("(+/-)", "Element.toggle('div_#{phase}')") }
+      c << content_tag(:div, nil, :id => "title") { "#{phase} (#{stories.count}) " + link_to_function("(+/-)", "Element.toggle('div_#{phase}')") }
+      c << content_tag(:table, nil, :id => "div_#{phase}") do
+        content_tag(:thead) { content_tag(:tr) { ths } } +
+        content_tag(:tbody) { render(:partial => "projects/story", :collection => stories )  } ;
+      end
     end
-    content
   end
   
   # Bar chart by Phase
@@ -60,7 +66,7 @@ module TagsHelper
   end
 
   def burn_down_graph(stories)
-    started = stories.collect { |s| s.started_on }.min
+    started = stories.started_on
 
     weeks = Week.since(started).reverse
 
@@ -76,7 +82,7 @@ module TagsHelper
       completed << stories.find_all { |s| !s.finished_on.nil? && s.finished_on <= week.finish }
       backlog   << stories.find_all { |s| s.created_on <= week.finish }
       labels    << week.start.strftime('%b %d')
-      burn_down << backlog.last.count - completed.last.count
+      burn_down << backlog.last.points - completed.last.points
     end
 
     # Adjust if were all completed
