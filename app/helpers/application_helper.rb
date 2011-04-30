@@ -29,7 +29,7 @@ module ApplicationHelper
   end
 
   def stories(stories)
-    pluralize(stories.count, "story") + " (#{points(@completed)})"
+    pluralize(stories.count, "story") + " (#{points(stories)})"
   end
   
   def points(stories)
@@ -37,7 +37,7 @@ module ApplicationHelper
   end
   
   def velocity(stories)
-    pluralize(stories.velocity, "point") rescue 'n/a'
+    pluralize(stories.velocity.round(2), "point") + " (week)" rescue 'n/a'
   end
   
   def point_duration(stories)
@@ -58,7 +58,7 @@ module ApplicationHelper
     pluralize(value.round.to_i, "day") rescue 'n/a'
   end
 
-  def estimated_finish_date(stories, project)
+  def eta(stories, project)
     value = stories.points * project.point_duration
     (Date.today + value.round).strftime('%b %d %Y')
   end

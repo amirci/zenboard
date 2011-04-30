@@ -2,39 +2,63 @@ require 'google_chart'
 
 module TagsHelper
 
+  def tag_selection(project, selected_tag)
+    tags = project.tags.collect { |t| [t.name, t.id] }
+    script = "document.location='/projects/#{project.id}/tags/' + this.value"
+    combo = select("tag", "name", tags, {:selected => selected_tag.id}, {:onchange => script})
+    label_tag('Change Tag') << ": " << combo
+  end
+  
+  def tag_charts(completed, not_completed)
+    content_tag(:img, nil, :id => "c1", :src => burn_down_graph(completed + not_completed)) + 
+    (!not_completed.empty? ? content_tag(:img, nil, :id => "c2", :src => phases_graph(completed + not_completed)) : "");
+  end
+  
+  def tag_metrics(completed, not_completed, project)
+    finished = not_completed.empty?
+    all = completed + not_completed
+    
+    if finished
+      column_metrics(1, 'total', stories(completed), 'eff.', efficiency(completed)) + 
+      column_metrics(2, 'started on', started_date(completed), 'finished on', completed_date(completed))  + 
+      column_metrics(3, 'duration', duration(completed), '1 point', point_duration(completed))  ;
+    else
+      column_metrics(1, 'total', stories(all), 'velocity', velocity(completed)) +
+      column_metrics(2, 'completed', stories(completed), 'left to do', stories(not_completed)) +
+      column_metrics(3, 'eff.', efficiency(completed), '1 point', point_duration(completed))  +
+      column_metrics(4, 'time to finish', time_left(not_completed, project), 'ETA', eta(not_completed, project))  +
+      column_metrics(5, 'proj. vel.', velocity(project))  ;
+    end
+  end
+  
+  def column_metrics(id, *values)
+    content_tag(:div, nil, :id => "c#{id}") { column_contents(*values) }
+  end
+  
+  def column_contents(*values)
+    return if values.nil? || values.empty? || values.first.nil?
+    content_tag(:p, label_tag(values[0]) + ": #{values[1]}") + column_contents(*values[2..-1])
+  end
+    
+  def story_tables_by_phase(completed, not_completed)
+    all = (completed + not_completed).group_by { |s| s.phase.name }
+    
+    content = all.inject(content_tag(:h2, "Story tables")) do |c, pair|
+      phase = pair[0]
+      stories = pair[1]
+      c.concat content_tag(:div, nil, :id => "title") { "#{phase} (#{stories.count}) " + link_to_function("(+/-)", "Element.toggle('div_#{phase}')") }
+    end
+    content
+  end
+  
   # Bar chart by Phase
   def phases_graph(stories)
+    by_phase = stories.group_by { |s| s.phase.name }    
     chart = GoogleChart::PieChart.new('500x200', "Phase distribution", true)
-    stories.each { |k, v| chart.data "#{k} (#{v.count})", v.count }
+    by_phase.each { |k, v| chart.data "#{k} (#{v.count})", v.count }
     chart.to_url
   end
 
-  # Helper to generate tag selection
-  def change_tag_selection(project, selected, api_key)
-    tags = project.tags.collect { |t| [t.name, t.id] }
-    script = "document.location='/projects/#{project.id}/tags/' + this.value"
-    select("tag", "name", tags, {:selected => selected.id}, {:onchange => script})
-  end
-
-  def metrics_header(completed, not_completed)
-    finished = not_completed.empty?
-    all = not_completed + completed
-    
-    if finished
-      content_tag(:div, nil, :id => "c1") { labels('Total', stories(completed), 'Eff. ', "#{efficiency(completed)} (avg.)")} + \
-      content_tag(:div, nil, :id => "c2") { labels('Started on', started_date(completed), 'Finished on', completed_date(completed)) } + \
-      content_tag(:div, nil, :id => "c3") do 
-        content_tag(:p, label_tag('Duration') + ": #{duration(completed)}") + \
-        content_tag(:p, label_tag('1 point') + " (avg.): #{point_duration(completed)}")
-      end
-    end
-  end
-
-  def labels(*values)
-    return if values.nil? || values.empty? || values.first.nil?
-    content_tag(:p, label_tag(values[0]) + ": #{values[1]}") + labels(*values[2..-1])
-  end
-    
   def burn_down_graph(stories)
     started = stories.collect { |s| s.started_on }.min
 
@@ -78,7 +102,7 @@ module TagsHelper
       labels = l2
     end
     
-    lc = GoogleChart::BarChart.new("600x250", title, :vertical, false)
+    lc = GoogleChart::BarChart.new("500x250", title, :vertical, false)
     lc.data "To Do", burn_down, '4b7399'
     lc.width_spacing_options :bar_spacing => 40, :bar_width => 25, :group_spacing => burn_down.count < 8 ? 40 : 15
     lc.axis :y, :range => [0, burn_down.max], :font_size => 10, :alignment => :center

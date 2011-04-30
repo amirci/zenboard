@@ -3,39 +3,19 @@
 %h3
   #c1= link_to "Back to details", project_path(@project)
   
-  #c2  #{label_tag('Change Tag')}: #{change_tag_selection(@project, @tag, @api_key)}
+  #c2= tag_selection(@project, @tag)
 
   #sep
   
 #details
-  = metrics_header(@completed, @not_completed)
+  = tag_metrics(@completed, @not_completed, @project)
   #sep
 
 #velocity
-  %img#c1{:src => phases_graph(@stories)}
-
-  %img#c2{:src => burn_down_graph(@completed + @not_completed)}
-
+  = tag_charts(@completed, @not_completed)
   #sep
 
 #details_stories
   #stories
-    - @stories.each_pair do |phase, tagged|
-      #title #{phase} (#{tagged.count}) #{link_to_function("(+/-)", "Element.toggle('div#{phase}')")}
-      %table{:id => "div#{phase}"}
-        %thead
-          %tr
-            %th Id
-            %th Text
-            %th Size
-            %th Start
-            %th Fin.
-            %th 1 Pt
-            %th Dur.
-            %th Block.
-            %th Wait
-            %th AWork
-            %th Eff. %
-        %tbody
-          = render(:partial => "projects/story", :collection => tagged )
+    = story_tables_by_phase(@completed, @not_completed)
 

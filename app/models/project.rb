@@ -21,6 +21,10 @@ class Project < AgileZenResource
     DateTime.parse(createTime)
   end
 
+  def velocity
+    stories_in_archive.sum { |s| s.size.to_i }
+  end
+  
   # Amount of stories in archive
   def throughput
     stories_in_archive.count
