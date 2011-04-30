@@ -65,7 +65,7 @@ describe TagsHelper do
     expected << column_metrics(4, 'time to finish', 'infinite', 'projected date', 'March 2014')
     expected << column_metrics(5, 'proj. vel.', 'proj. vel')
     
-    metrics_header(completed, not_completed, project).should == expected
+    tag_metrics(completed, not_completed, project).should == expected
   end
   
 end
