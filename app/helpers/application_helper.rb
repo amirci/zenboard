@@ -39,8 +39,24 @@ module ApplicationHelper
          link_to_function("+/-", "Element.toggle('div_#{key}')", :class => "hide_show") + yield(key, stories)
       end
       c << content_tag(:table, nil, :id => "div_#{key}") do
-        content_tag(:thead) { content_tag(:tr) { ths } } \
-        << content_tag(:tbody) { render(:partial => "projects/story", :collection => stories )  } 
+        content_tag(:thead, content_tag(:tr, ths)) \
+        << content_tag(:tbody) do
+          stories.collect do |s|
+            content_tag(:tr, nil, :class => "right #{s.color}") do
+              content_tag(:td, link_to_story(s)) +
+              content_tag(:td, story_text(s), :class => "story")  +
+              content_tag(:td, s.size)                            +
+              content_tag(:td, date_format(s.started_on))      +  
+              content_tag(:td, date_format(s.finished_on))     +   
+              content_tag(:td, s.point_duration.to_f.round(2)) +   
+              content_tag(:td, s.duration) +
+              content_tag(:td, (s.blocked_time.round(2) rescue 0)) +
+              content_tag(:td, (s.waiting_time.round(2) rescue 0))  +
+              content_tag(:td, (s.work_time.round(2) rescue 0))  +
+              content_tag(:td, s.efficiency)
+            end
+          end.reduce(:+)
+        end
       end
     end
   end
