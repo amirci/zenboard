@@ -5,23 +5,29 @@ module StoryMetrics
     sum { |s| s.size.to_i }
   end
   
+  def efficiency
+    collected = select { |s| s.respond_to? :efficiency }.collect(&:efficiency).reject { |d| d.nil? }
+    collected.sum / collected.count
+  end
+  
   def started_on
-    min_by(&:started_on).started_on
+    collect(&:started_on).reject { |d| d.nil? }.min
   end
   
   def completed_on
-    max_by(&:finished_on).finished_on
+    collect(&:finished_on).reject { |d| d.nil? }.max
   end
   
   def duration
     completed_on - started_on
   end
   
-  def velocity
+  def velocity(group = :week)
     points.to_f / Week.since(started_on).count.to_f
   end
 
   def point_duration
+    # days is adjustes to ignore weekends
     days = duration - Week.since(started_on).count * 2
     points.to_f / days
   end

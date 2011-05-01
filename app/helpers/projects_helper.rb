@@ -1,5 +1,3 @@
-require 'google_chart'
-
 module ProjectsHelper
     
   def story_text(story)
@@ -25,19 +23,10 @@ module ProjectsHelper
     "#{story.size}#{add}"
   end
 
-  def velocity_graph(months, size = "600x250")
-    title = "Velocity by month"
-    sorted = months.sort_by { |m| m.date }
-    velocities = sorted.collect { |m| m.velocity }
-    labels = sorted.collect { |m| m.date.strftime('%b %y')}
-    
-    lc = GoogleChart::LineChart.new(size, title, false)
-    lc.data "Velocity", velocities, '4b7399'
-    lc.axis :y, :range => [0, velocities.max], :font_size => 10, :alignment => :center
-    lc.axis :x, :labels => labels, :font_size => 10, :alignment => :center
-    lc.show_legend = false
-    lc.fill_area 'D0DAFD', 0, 0
-    lc.shape_marker :circle, :color => '0767C1', :data_set_index => 0, :data_point_index => -1, :pixel_size => 8
-    lc.to_url
-  end  
+  # Shows the tables of stories for each week
+  def stories_by_week(by_week)
+    sorted = by_week.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse      
+    story_tables(sorted) { |w, stories| "#{w.start.strftime('%b %d')} to #{w.finish.strftime('%b %d')}" }
+  end
+  
 end

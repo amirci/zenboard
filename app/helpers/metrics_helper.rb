@@ -1,8 +1,6 @@
-module MetricsHelper
-  def throughput(project)
-    pluralize(project.throughput, "story")
-  end
+require 'story_metrics'
 
+module MetricsHelper
   def stories(stories)
     pluralize(stories.count, "story") + " (#{points(stories)})"
   end
@@ -11,7 +9,7 @@ module MetricsHelper
     pluralize(stories.points, "point") rescue 'n/a'
   end
   
-  def velocity(stories)
+  def velocity(stories, type = :weekly)
     pluralize(stories.velocity.round(2), "point") + " (week)" rescue 'n/a'
   end
   
@@ -23,9 +21,8 @@ module MetricsHelper
     pluralize(stories.duration.to_f.round(2), "day") rescue 'n/a'
   end
   
-  def efficiency(monthly_summary)
-    value = monthly_summary.sum { |m| m.efficiency } / monthly_summary.count rescue 0
-    "#{value} %" rescue 'n/a'
+  def efficiency(stories)
+    "#{stories.efficiency} %" rescue 'n/a'
   end
   
   def time_left(stories, project)

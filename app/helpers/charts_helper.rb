@@ -2,6 +2,22 @@ require 'google_chart'
 
 module ChartsHelper
   
+  def velocity_chart(months, size = "600x250")
+    title = "Velocity by month"
+    sorted = months.sort_by { |m| m.date }
+    velocities = sorted.collect { |m| m.velocity }
+    labels = sorted.collect { |m| m.date.strftime('%b %y')}
+    
+    lc = GoogleChart::LineChart.new(size, title, false)
+    lc.data "Velocity", velocities, '4b7399'
+    lc.axis :y, :range => [0, velocities.max], :font_size => 10, :alignment => :center
+    lc.axis :x, :labels => labels, :font_size => 10, :alignment => :center
+    lc.show_legend = false
+    lc.fill_area 'D0DAFD', 0, 0
+    lc.shape_marker :circle, :color => '0767C1', :data_set_index => 0, :data_point_index => -1, :pixel_size => 8
+    lc.to_url
+  end
+  
   # Bar chart by Phase
   def phases_chart(stories)
     by_phase = stories.group_by { |s| s.phase.name }    

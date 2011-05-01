@@ -47,16 +47,6 @@ module TagsHelper
     
   def stories_by_phase(stories)
     by_phase = stories.group_by { |s| s.phase.name }
-    headers = %w{Id Text Size Start Fin. 1\ Pt. Dur. Block Wait AWork Eff.\ %}
-    ths = headers.inject(ActiveSupport::SafeBuffer.new) { |c, header| c.concat content_tag(:th, header) } 
-    
-    by_phase.inject(ActiveSupport::SafeBuffer.new) do |c, pair|
-      phase, stories = pair[0], pair[1]
-      c << content_tag(:div, nil, :id => "title") { "#{phase} (#{stories.count}) " + link_to_function("(+/-)", "Element.toggle('div_#{phase}')") }
-      c << content_tag(:table, nil, :id => "div_#{phase}") do
-        content_tag(:thead) { content_tag(:tr) { ths } } \
-        << content_tag(:tbody) { render(:partial => "projects/story", :collection => stories )  } 
-      end
-    end
+    story_tables(by_phase) { |phase, stories| "#{phase} (#{stories.count})" }
   end
 end

@@ -2,23 +2,4 @@
   #title= "Last 5 weeks in Archive" unless @month_filter
   #title= "Stories finished on #{Date.parse(@month_filter).strftime('%b %Y')}" if @month_filter
   = link_to "(Last 5 weeks)", project_path(@project.id, :api_key => Project.api_key) if @month_filter
-  - @byweek.sort { |k1, k2| k1[0].start <=> k2[0].start }.reverse.each do |array|
-    - week, stories = array[0], array[1].sort_by(&:finished_on).reverse
-    #subtitle #{week.start.strftime('%b %d')} to #{week.finish.strftime('%b %d')}
-    %table
-      %thead
-        %tr
-          %th Id
-          %th Text
-          %th Size
-          %th Start
-          %th Fin.
-          %th 1 Pt
-          %th Dur.
-          %th Block.
-          %th Wait
-          %th AWork
-          %th Eff. %
-      %tbody
-        = render(:partial => "story", :collection => stories)
-
+  = stories_by_week(@byweek)
