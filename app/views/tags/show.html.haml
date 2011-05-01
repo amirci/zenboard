@@ -1,4 +1,4 @@
-- title "#{@project.name} - tag #{@tag.name} " + (@not_completed.empty? ? "(complete)" : "(in progress)")
+- title "#{@project.name} - tag #{@tag.name} #{tag_status(@not_completed)}"
 
 %h3
   = tag_header(@project, @tag)

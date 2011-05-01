@@ -1,4 +1,8 @@
-- title "#{@project.name} details"
+- subtitle = "Last 5 weeks" unless @month_filter
+- subtitle = "#{Date.parse(@month_filter).strftime('%b %Y')}" if @month_filter
+- title "#{@project.name} - #{subtitle}"
+
+= link_to "Back to last 5 weeks", project_path(@project.id) if @month_filter
 
 = render("details_info")
 

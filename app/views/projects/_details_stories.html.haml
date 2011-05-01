@@ -1,5 +1,2 @@
 #stories
-  #title= "Last 5 weeks in Archive" unless @month_filter
-  #title= "Stories finished on #{Date.parse(@month_filter).strftime('%b %Y')}" if @month_filter
-  = link_to "(Last 5 weeks)", project_path(@project.id, :api_key => Project.api_key) if @month_filter
   = stories_by_week(@byweek)

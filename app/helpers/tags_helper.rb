@@ -1,5 +1,11 @@
 module TagsHelper
 
+  def tag_status(stories)
+    return "(complete)" if @not_completed.empty?
+    return "(in progress)" if @not_completed.any? { |s| s.phase.name != 'Backlog' }
+    "(not started)"
+  end
+  
   def tag_header(project, tag)
     content = content_tag(:div, nil, :id => "c1") { link_to "Back to details", project_path(project) }
     content << content_tag(:div, nil, :id => "c2") { tag_selection(project, tag) }
