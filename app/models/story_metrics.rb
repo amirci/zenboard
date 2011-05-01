@@ -28,8 +28,8 @@ module StoryMetrics
 
   def point_duration
     # days is adjustes to ignore weekends
-    days = duration - Week.since(started_on).count * 2
-    points.to_f / days
+    days = duration - duration / 7 * 2
+    days / points.to_f
   end
 
   # responds to stories_in_xxx

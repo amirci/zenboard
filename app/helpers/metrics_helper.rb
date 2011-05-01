@@ -25,14 +25,16 @@ module MetricsHelper
     "#{stories.efficiency} %" rescue 'n/a'
   end
   
-  def time_left(stories, project)
-    value = stories.points * project.point_duration
-    pluralize(value.round.to_i, "day") rescue 'n/a'
+  def time_left(stories, prj_pd, st_pd)
+    prj_time_left = (stories.points * prj_pd).round.to_i rescue 0
+    st_time_left = (stories.points * st_pd).round.to_i rescue 0
+    "#{pluralize(st_time_left,'day')} (#{pluralize(prj_time_left, 'day')})" rescue 'n/a'
   end
 
-  def eta(stories, project)
-    value = stories.points * project.point_duration
-    (Date.today + value.round).strftime('%b %d %Y')
+  def eta(stories, prj_pd, st_pd)
+    prj_time_left = (stories.points * prj_pd).round.to_i rescue 0
+    st_time_left = (stories.points * st_pd).round.to_i rescue 0
+    "#{date_format_long(Date.today + st_time_left)} (#{date_format_long(Date.today + prj_time_left)})"
   end
   
   def completed_date(stories)

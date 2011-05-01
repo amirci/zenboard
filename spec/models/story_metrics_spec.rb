@@ -53,7 +53,13 @@ describe StoryMetrics do
   
   it "should calculate point duration" do
     # 30 days - weekends
-    @stories.point_duration.should == 11.0 / (30 - Week.since(@stories.started_on).count * 2)
+    @stories.point_duration.should == (30 - Week.since(@stories.started_on).count * 2) / 11.0
+  end
+  
+  it "should calculate point duration for the interval" do
+    story1 = double("Story1", :size => 8, :efficiency => 40,
+                              :started_on => Date.today - 30, :finished_on => Date.today - 10);
+    [story1].point_duration.should == 14 / 8.0
   end
   
   it "should filter stories by phase" do

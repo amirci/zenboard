@@ -37,7 +37,8 @@ module TagsHelper
       content << column_metrics(col += 1, 'finished on', completed_date(all))  
     else
       content << column_metrics(col += 1, 'completed', stories(completed), 'left to do', stories(not_completed)) 
-      content << column_metrics(col += 1, 'time to finish', time_left(not_completed, project), 'ETA', eta(not_completed, project))  
+      content << column_metrics(col += 1, 'time to finish', time_left(not_completed, project.point_duration, completed.point_duration) \
+                                        , 'eta', eta(not_completed, project.point_duration, completed.point_duration))  
     end
     content
   end
