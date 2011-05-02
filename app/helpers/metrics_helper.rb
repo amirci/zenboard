@@ -2,7 +2,9 @@ require 'story_metrics'
 
 module MetricsHelper
   def stories(stories)
-    pluralize(stories.count, "story") + " (#{points(stories)})"
+    result = pluralize(stories.count, "story") 
+    result << " (#{points(stories)})" unless stories.empty?
+    result
   end
   
   def points(stories)
@@ -10,7 +12,9 @@ module MetricsHelper
   end
   
   def velocity(stories, type = :weekly)
-    pluralize(stories.velocity.round(2), "point") + " (week)" rescue 'n/a'
+    vel = stories.velocity.round(2)
+    return 'n/a' if vel == 0.0
+    pluralize(vel, "point") + " (week)" rescue 'n/a'
   end
   
   def point_duration(stories)
@@ -18,6 +22,7 @@ module MetricsHelper
   end
 
   def duration(stories)
+    return 'n/a' if stories.started_on.nil?
     pluralize(stories.duration.to_f.round(2), "day") rescue 'n/a'
   end
   
@@ -28,13 +33,17 @@ module MetricsHelper
   def time_left(stories, prj_pd, st_pd)
     prj_time_left = (stories.points * prj_pd).round.to_i rescue 0
     st_time_left = (stories.points * st_pd).round.to_i rescue 0
-    "#{pluralize(st_time_left,'day')} (#{pluralize(prj_time_left, 'day')})" rescue 'n/a'
+    prj_estimation = pluralize(prj_time_left, 'day')
+    return prj_estimation if st_time_left == 0
+    "#{pluralize(st_time_left,'day')} (#{prj_estimation})" rescue 'n/a'
   end
 
   def eta(stories, prj_pd, st_pd)
     prj_time_left = (stories.points * prj_pd).round.to_i rescue 0
     st_time_left = (stories.points * st_pd).round.to_i rescue 0
-    "#{date_format_long(Date.today + st_time_left)} (#{date_format_long(Date.today + prj_time_left)})"
+    prj_estimation = date_format_long(Date.today + prj_time_left)
+    return prj_estimation if st_time_left == 0
+    "#{date_format_long(Date.today + st_time_left)} (#{prj_estimation})"
   end
   
   def completed_date(stories)
@@ -42,6 +51,6 @@ module MetricsHelper
   end
 
   def started_date(stories)
-    stories.started_on.strftime('%b %d %Y')
+    date_format_long(stories.started_on) rescue 'n/a'
   end
 end

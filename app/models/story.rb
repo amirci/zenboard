@@ -13,12 +13,12 @@ class Story < AgileZenResource
   end
   
   def created_on
-    (DateTime.parse(metrics.createTime) || Time.now) rescue Time.now
+    (DateTime.parse(metrics.createTime) || Time.now) rescue nil
   end
 
   # Time when the story was placed on the board
   def started_on
-    (DateTime.parse(metrics.startTime) || Time.now) rescue Time.now
+    (DateTime.parse(metrics.startTime) || Time.now) rescue nil
   end
 
   # Time when the story was moved to archive

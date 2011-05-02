@@ -1,7 +1,7 @@
 module TagsHelper
 
   def tag_status(stories)
-    return "(complete)" if @not_completed.empty?
+    return "(completed)" if @not_completed.empty?
     return "(in progress)" if @not_completed.any? { |s| s.phase.name != 'Backlog' }
     "(not started)"
   end
@@ -19,6 +19,7 @@ module TagsHelper
   end
   
   def tag_charts(completed, not_completed)
+    return if completed.empty? && not_completed.started_on.nil?
     content = content_tag(:img, nil, :id => "c1", :src => burn_down_chart(completed + not_completed)) 
     content << content_tag(:img, nil, :id => "c2", :src => phases_chart(completed + not_completed)) unless not_completed.empty?
     content

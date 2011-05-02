@@ -19,7 +19,7 @@ module StoryMetrics
   end
   
   def duration
-    completed_on - started_on
+    (completed_on - started_on) rescue 'n/a'
   end
   
   def velocity(group = :week)
@@ -30,6 +30,8 @@ module StoryMetrics
     # days is adjustes to ignore weekends
     days = duration - duration / 7 * 2
     days / points.to_f
+  rescue
+    'n/a'
   end
 
   # responds to stories_in_xxx
