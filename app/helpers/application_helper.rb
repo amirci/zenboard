@@ -7,6 +7,7 @@ module ApplicationHelper
     return unless current_user
     projects = current_user.configurations.collect { |p| [p.name, p.project_id] }
     script = "document.location='/projects/' + this.value"
+    return if current_user.configurations.empty?
     selected ||= current_user.configurations.first
     select("tag", "name", projects, {:selected => selected.id}, {:onchange => script})
   end
