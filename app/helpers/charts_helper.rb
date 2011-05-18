@@ -47,7 +47,10 @@ module ChartsHelper
     end
 
     # Adjust if were all completed
-    ri = burn_down.rindex { |x| x > 0 }
+    ri = burn_down.rindex { |x| x > 0 } || 0
+
+    return if ri == 0
+    
     count = burn_down.size - ri - 2
     burn_down.pop(count) if count > 0
     

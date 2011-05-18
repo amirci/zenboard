@@ -10,7 +10,8 @@ Feature: Manage project configurations
     And   I have no project configurations
 	  When  I go to the user projects configuration page
 	  Then  I should see "You have no configured projects"
-	 
+	
+	@f102 
   Scenario: The user has configured projects
     Given I'm logged in
     And   I have the following project configurations:
@@ -23,7 +24,7 @@ Feature: Manage project configurations
     And   I should see "Pucini"
     And   I should see "Mariachi"
 
-  @javascript  @aa
+  @f103 @javascript  @aa
   Scenario: Search for new projects needs an api-key
   	Given I'm logged in
       And I have the project "Caruso" with:

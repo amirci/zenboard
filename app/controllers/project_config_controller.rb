@@ -1,7 +1,7 @@
 require "api_key_missing_error"
 
 class ProjectConfigController < ApplicationController
-  before_filter :find_user
+  before_filter :authenticate_user!, :find_user
   before_filter :find_configurations, :except => [:new, :destroy]
   
   # Returns the collection of configured projects for current user
