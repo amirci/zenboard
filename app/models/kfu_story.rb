@@ -24,6 +24,10 @@ class KfuStory < KanbanFuResource
     (finished_on - started_on).to_f.round(2)
   end
   
+  def work_time
+    duration - blocked_time - waiting_time
+  end
+  
   def started_on
     DateTime.now - 10
   end
@@ -33,7 +37,7 @@ class KfuStory < KanbanFuResource
   end
   
   def efficiency
-    ((duration - blocked_time - waiting_time) / duration * 100).round(2)
+    (work_time/ duration * 100).round(2)
   end
   
   def tags
@@ -49,6 +53,6 @@ class KfuStory < KanbanFuResource
   end
   
   def color
-    'Yellow'
+    'teal'
   end
 end

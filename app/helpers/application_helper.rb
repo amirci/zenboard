@@ -53,7 +53,7 @@ module ApplicationHelper
               content_tag(:td, s.duration) +
               content_tag(:td, (s.blocked_time.round(2) rescue 0)) +
               content_tag(:td, (s.waiting_time.round(2) rescue 0))  +
-              content_tag(:td, (s.work_time.round(2) rescue 0))  +
+              content_tag(:td, (s.work_time.round(2)))  +
               content_tag(:td, s.efficiency)
             end
           end.reduce(:+)
