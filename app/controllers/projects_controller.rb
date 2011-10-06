@@ -6,11 +6,11 @@ class ProjectsController < ApplicationController
 
   # Show the details of a project
   def show
-    @months = {} #monthly_summary(@project.stories.in_archive)
+    @months = monthly_summary(@project.stories.in_archive)
     
     @month_filter = params[:month]
     
-    @byweek = {} #weekly_summary_for(params[:month])
+    @byweek = weekly_summary_for(params[:month])
   end
 
   private

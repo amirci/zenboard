@@ -18,7 +18,10 @@ class KfuProject < KanbanFuResource
   end
       
   def stories
-    KfuStory.find(:all, params: { project_id: attributes[:id] })
+    KfuStory.find(:all, params: { project_id: attributes[:id] }).collect do |s| 
+      s.project = self 
+      s
+    end
   end
   
   def each(&block)
