@@ -3,14 +3,22 @@ class KfuProject < KanbanFuResource
   
   self.element_name = "project"
   
-  def self.find1(*arguments)
-    result = super.find(arguments)
-    return result if result.kind_of?(Enumerator)
-    KfuProject.new(result.project.attributes)
+  class << self
+    alias :old_find :find
+    
+    def find(*arguments)
+      scope = arguments.first
+      case scope
+        when :all   then old_find(*arguments)
+        when :first then old_find(*arguments)
+        when :one   then old_find(*arguments)
+        else        old_find(:all).select { |p| p.id == scope }.first
+      end
+    end
   end
-  
+      
   def stories
-    [] #KfuStory.find(:all, params: { project_id: attributes[:id] })
+    KfuStory.find(:all, params: { project_id: attributes[:id] })
   end
   
   def each(&block)

@@ -28,7 +28,7 @@ describe KfuProject do
   end
 
   context "#find" do
-    subject { KfuProject.find(:all).first }    
+    subject { KfuProject.find(project.id) }    
     it { should == project }
   end
   
