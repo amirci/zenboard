@@ -18,7 +18,7 @@ module MetricsHelper
   end
   
   def point_duration(stories)
-    pluralize(stories.point_duration.round(2), "day") rescue 'n/a'
+    pluralize(stories.point_duration.round(2), "day")
   end
 
   def duration(stories)

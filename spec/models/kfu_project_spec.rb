@@ -4,7 +4,7 @@ require 'json'
 
 describe KfuProject do
 
-  let(:owner)   { double(Owner, :name => "Lorenzo Valdez") }
+  let(:owner)   { double(Owner, name: "Lorenzo Valdez") }
   let(:archite) { Phase.make(:archive) }
   let(:working) { Phase.make(:working) }
   
@@ -37,5 +37,12 @@ describe KfuProject do
     before { KfuStory.stub(:find).with(:all, params: { project_id: project.id }).and_return(stories) }
     subject { project }
     its(:stories) { should == stories }
+  end
+  
+  context ".stories_in_archive" do
+    let(:stories) { (1..10).collect { double(Story, phase: Phase.new('Archive')) } }
+    before { KfuStory.stub(:find).with(:all, params: { project_id: project.id }).and_return(stories) }
+    subject { project }
+    its(:stories_in_archive) { should == stories }
   end
 end

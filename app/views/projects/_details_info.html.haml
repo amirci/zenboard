@@ -1,4 +1,5 @@
 - archive = @project.stories_in_archive
+
 #details
   = column_metrics(1, 'Description', @project.description, 'Created on', date_format_long(@project.created_on))
   = column_metrics(2, 'Completed', stories(archive), 'Eff.', efficiency(archive))

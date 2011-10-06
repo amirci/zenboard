@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe KfuStory do
   
-  let(:owner)   { double(Owner, :name => "Lorenzo Valdez") }
-  let(:archite) { Phase.make(:archive) }
-  let(:working) { Phase.make(:working) }
-
   let(:project) { double(KfuProject, id:8, name: 'Super Project', description: 'The best project') }
 
   let(:story)  { KfuStory.new(title: 'User login', 

@@ -19,7 +19,7 @@ module StoryMetrics
   end
   
   def duration
-    (completed_on - started_on) rescue 'n/a'
+    (completed_on - started_on)
   end
   
   def velocity(group = :week)
@@ -30,8 +30,6 @@ module StoryMetrics
     # days is adjustes to ignore weekends
     days = duration - duration / 7 * 2
     days / points.to_f
-  rescue
-    'n/a'
   end
 
   # responds to stories_in_xxx
@@ -43,7 +41,7 @@ module StoryMetrics
   # where xxx is a phase
   def method_missing(method_id, *args, &block)
     if match = sym_stories_phase?(method_id.to_s)
-      find_all { |s| s.phase.name.downcase.include? match.captures.first } 
+      select { |s| s.phase.name.downcase.include? match.captures.first } 
     else
       super(method_id, *args, &block)
     end
