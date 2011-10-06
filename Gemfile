@@ -27,6 +27,7 @@ gem 'simple-navigation'
 gem 'bluecloth', ">= 2.0.0"
 gem 'json'
 gem 'gchartrb'
+gem 'sass'
 
 # gem 'bj'
 # gem 'nokogiri'
