@@ -6,17 +6,16 @@ class ProjectsController < ApplicationController
 
   # Show the details of a project
   def show
-    @months = monthly_summary(@project.stories.in_archive)
+    @months = {} #monthly_summary(@project.stories.in_archive)
     
     @month_filter = params[:month]
     
-    @byweek = weekly_summary_for(params[:month])
+    @byweek = {} #weekly_summary_for(params[:month])
   end
 
   private
     def find_project
-      Project.api_key = ProjectConfig.find_by_project_id(params[:id]).api_key
-      @project = Project.find(params[:id])
+      @project = KfuProject.all.select { |p| p.id == params[:id].to_i }.first
     end
   
     def weekly_summary_for(month)

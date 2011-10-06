@@ -2,39 +2,40 @@ require 'spec_helper'
 require 'fakeweb'
 require 'json'
 
-describe KFuProject do
+describe KfuProject do
 
   let(:owner)   { double(Owner, :name => "Lorenzo Valdez") }
   let(:archite) { Phase.make(:archive) }
   let(:working) { Phase.make(:working) }
   
-  let(:project) { KFuProject.new(id:8, name: 'Super Project', description: 'The best project') }
+  let(:project) { KfuProject.new(id:8, name: 'Super Project', description: 'The best project') }
   
   before(:each) do
+    FakeWeb.allow_net_connect = false
+    
     FakeWeb.register_uri(:get, 
                          "http://localhost:3010/projects.json", 
                          :body => { "projects" => [project.attributes] }.to_json)
 
     FakeWeb.register_uri(:get, 
                          "http://localhost:3010/projects/#{project.id}.json", 
-                         :body => project.attributes.to_json)
+                         :body => {'project' => project.attributes.to_json})
   end
 
   context "#all" do
-    subject { KFuProject.all }
+    subject { KfuProject.all }
     it { should == [project] }
   end
 
   context "#find" do
-    subject { KFuProject.find(project.id) }    
-    it {should == project}
+    subject { KfuProject.find(:all).first }    
+    it { should == project }
   end
   
   context ".stories" do
-    before { KFuStory.stub(:all_for_project).with(project.id).and_return([]) }
-    
+    let(:stories) { (1..10).collect { double(Story) } }
+    before { KfuStory.stub(:find).with(:all, params: { project_id: project.id }).and_return(stories) }
     subject { project }
-
-    its(:stories) { should == [KFuStory.new] }
+    its(:stories) { should == stories }
   end
 end

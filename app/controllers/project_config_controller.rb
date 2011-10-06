@@ -15,7 +15,7 @@ class ProjectConfigController < ApplicationController
   # * Listing the projects raises an exception
   # In those cases the flash[:error] is set with a message
   def create
-    find_projects(params[:api_key])
+    KFuProject.all
   end
   
   # Creates a new configuration
