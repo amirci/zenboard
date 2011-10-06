@@ -5,7 +5,7 @@
 
 %hr
 %h3 Search for project configurations
-- form_tag user_project_config_index_path(current_user), :remote => true do
+= form_tag user_project_config_index_path(current_user), :remote => true do
   %p
     = label_tag :api_key
     = text_field_tag :api_key, nil, :size => 100

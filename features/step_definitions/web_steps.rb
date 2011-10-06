@@ -218,3 +218,7 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Given /^Wait for (\d+) secs$/ do |arg1|
+  sleep arg1.to_i * 1000
+end

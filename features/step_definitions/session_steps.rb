@@ -15,5 +15,6 @@ Given /^I'm logged in$/ do
   And %{I go to sign in page}
   And %{I fill in "Email" with "#{email}"}
   And %{I fill in "Password" with "#{password}"}
+  And %{Wait for 20 secs}
   And %{I press "Sign in"}
 end
