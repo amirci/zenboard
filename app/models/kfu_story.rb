@@ -1,0 +1,2 @@
+class KFuStory < KanbanFuResource
+end
