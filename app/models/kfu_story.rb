@@ -9,50 +9,38 @@ class KfuStory < KanbanFuResource
   end
   
   def phase
-    Phase.new('Archive')
+    Phase.find_by_name(self.attributes['phase'])
   end
   
-  def size
-    3
+  def finished_on
+    DateTime.parse(self.attributes['finished_on'])
   end
   
+  def started_on
+    DateTime.parse(self.attributes['started_on'])
+  end
+
   def point_duration
-    size / duration
+    (size / duration) rescue 0
   end
   
   def duration
-    (finished_on - started_on).to_f.round(2)
+    (finished_on - started_on).to_f.round(2) rescue 0
   end
   
   def work_time
     duration - blocked_time - waiting_time
   end
   
-  def started_on
-    DateTime.now - 10
-  end
-  
-  def finished_on
-    started_on + 3
-  end
-  
   def efficiency
-    (work_time/ duration * 100).round(2)
+    (work_time/ duration * 100).round(2) rescue 0
   end
   
   def tags
     []
   end
   
-  def blocked_time
-    duration * 0.10
-  end
-  
-  def waiting_time
-    duration * 0.05
-  end
-  
   def color
-    'teal'
+    'gray'
   end
 end

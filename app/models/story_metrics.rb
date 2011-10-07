@@ -15,11 +15,12 @@ module StoryMetrics
   end
   
   def completed_on
+    puts "***** All the completed on #{collect(&:finished_on)}"
     collect(&:finished_on).reject { |d| d.nil? }.max
   end
   
   def duration
-    (completed_on - started_on)
+    (completed_on - started_on) rescue 0
   end
   
   def velocity(group = :week)
@@ -30,6 +31,8 @@ module StoryMetrics
     # days is adjustes to ignore weekends
     days = duration - duration / 7 * 2
     days / points.to_f
+  rescue
+    0
   end
 
   # responds to stories_in_xxx
