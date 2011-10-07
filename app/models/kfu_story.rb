@@ -13,11 +13,13 @@ class KfuStory < KanbanFuResource
   end
   
   def finished_on
-    DateTime.parse(self.attributes['finished_on'])
+    finished = self.attributes['finished_on']
+    finished.nil? ? nil : DateTime.parse(finished)
   end
   
   def started_on
-    DateTime.parse(self.attributes['started_on'])
+    started = self.attributes['started_on']
+    started.nil? ? nil : DateTime.parse(started)
   end
 
   def point_duration
@@ -25,10 +27,12 @@ class KfuStory < KanbanFuResource
   end
   
   def duration
-    (finished_on - started_on).to_f.round(2) rescue 0
+    return nil unless finished_on
+    (finished_on - started_on).to_f.round(2)
   end
   
   def work_time
+    return nil unless duration
     duration - blocked_time - waiting_time
   end
   

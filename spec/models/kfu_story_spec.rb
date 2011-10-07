@@ -4,10 +4,13 @@ describe KfuStory do
   
   let(:project) { double(KfuProject, id: 8, name: 'Super Project', description: 'The best project') }
 
+  let(:finished_on) { DateTime.parse('Nov 3, 2011') }
+  let(:started_on)  { DateTime.parse('Nov 1, 2011') }
+  
   let(:story)  { { 'id' => 267,
                    'title' => 'User login', 
-                   'finished_on'  => DateTime.parse('Nov 3, 2011'),
-                   'started_on'   => DateTime.parse('Nov 1, 2011'),
+                   'finished_on'  => finished_on.to_s,
+                   'started_on'   => started_on.to_s,
                    'blocked_time' => 20,
                    'waiting_time' => 10,
                    'phase' => 'working',
@@ -20,7 +23,7 @@ describe KfuStory do
     FakeWeb.allow_net_connect = false
   end
 
-  context "#all" do
+  describe "#all" do
     let(:phase) { double(Phase, name: 'working') }
     
     before do 
@@ -41,7 +44,20 @@ describe KfuStory do
     its(:size)         { should == story['size'] }
   end
 
-  context '.duration' do
+  context 'when the story has not been completed' do
+    subject { KfuStory.new(story.merge('finished_on' => nil)) }
+    its(:finished_on) { should == nil }
+    its(:duration)    { should == nil }
+    its(:work_time)   { should == nil }
   end
-  
+
+  context 'when the story has been completed' do
+    subject { KfuStory.new(story) }
+    
+    its(:started_on)  { should == started_on }
+    its(:finished_on) { should == finished_on }
+    its(:duration)    { should == finished_on - started_on }
+    its(:work_time)   { should == finished_on - started_on - story['blocked_time'] - story['waiting_time'] }
+  end  
+
 end
