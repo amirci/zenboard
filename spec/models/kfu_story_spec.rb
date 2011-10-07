@@ -24,7 +24,7 @@ describe KfuStory do
   end
 
   describe "#all" do
-    let(:phase) { Phase.new(name: 'working') }
+    let(:phase) { Phase.new('working') }
     
     before do 
       FakeWeb.register_uri(:get, "#{cards_url}.json", :body => { "cards" => [story] }.to_json) 
