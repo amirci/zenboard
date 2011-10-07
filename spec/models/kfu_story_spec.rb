@@ -11,6 +11,7 @@ describe KfuStory do
                    'blocked_time' => 20,
                    'waiting_time' => 10,
                    'phase' => 'working',
+                   'size'  => 3,
                    'description'  => 'As a user I want to login'} }
   
   let(:cards_url) { "http://localhost:3010/projects/#{project.id}/cards" }
@@ -37,7 +38,10 @@ describe KfuStory do
     its(:title)        { should == story['title']        }
     its(:description)  { should == story['description']  }
     its(:phase)        { should == phase }
+    its(:size)         { should == story['size'] }
   end
 
+  context '.duration' do
+  end
   
 end
