@@ -23,7 +23,8 @@ class KfuStory < KanbanFuResource
   end
 
   def point_duration
-    (size / duration) rescue 0
+    return nil unless duration
+    size / duration
   end
   
   def duration
@@ -37,7 +38,8 @@ class KfuStory < KanbanFuResource
   end
   
   def efficiency
-    (work_time/ duration * 100).round(2) rescue 0
+    return nil unless duration
+    (work_time / duration * 100).round(2)
   end
   
   def tags

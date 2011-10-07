@@ -49,15 +49,22 @@ describe KfuStory do
     its(:finished_on) { should == nil }
     its(:duration)    { should == nil }
     its(:work_time)   { should == nil }
+    its(:efficiency)  { should == nil }
+    its(:point_duration) { should == nil }
   end
 
   context 'when the story has been completed' do
+    let(:duration) { finished_on - started_on }
+    let(:work_time) { duration - story['blocked_time'] - story['waiting_time'] }
+    
     subject { KfuStory.new(story) }
     
     its(:started_on)  { should == started_on }
     its(:finished_on) { should == finished_on }
-    its(:duration)    { should == finished_on - started_on }
-    its(:work_time)   { should == finished_on - started_on - story['blocked_time'] - story['waiting_time'] }
+    its(:duration)    { should == duration }
+    its(:work_time)   { should == work_time }
+    its(:efficiency)  { should == work_time / duration * 100 }
+    its(:point_duration) { should == story['size'] / (finished_on - started_on) }
   end  
 
 end
