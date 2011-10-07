@@ -9,7 +9,7 @@ class KfuStory < KanbanFuResource
   end
   
   def phase
-    Phase.find_by_name(self.attributes['phase'])
+    Phase.new(name: self.attributes['phase'])
   end
   
   def finished_on

@@ -24,12 +24,10 @@ describe KfuStory do
   end
 
   describe "#all" do
-    let(:phase) { double(Phase, name: 'working') }
+    let(:phase) { Phase.new(name: 'working') }
     
     before do 
       FakeWeb.register_uri(:get, "#{cards_url}.json", :body => { "cards" => [story] }.to_json) 
-      
-      Phase.stub(:find_by_name).with(phase.name).and_return(phase)
     end
     
     subject { KfuStory.find(:all, params: { project_id: project.id }).first }
@@ -40,8 +38,8 @@ describe KfuStory do
     its(:waiting_time) { should == story['waiting_time'] }
     its(:title)        { should == story['title']        }
     its(:description)  { should == story['description']  }
-    its(:phase)        { should == phase }
     its(:size)         { should == story['size'] }
+    it { subject.phase.name.should == phase.name }
   end
 
   context 'when the story has not been completed' do
