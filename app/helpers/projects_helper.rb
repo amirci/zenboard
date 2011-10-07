@@ -8,7 +8,7 @@ module ProjectsHelper
   end
 
   def story_tags(story)
-    return if story.tags.nil?
+    return "" if story.tags.nil? || story.tags.empty?
     "\n\n" + story.tags.collect { |tag| link_to(tag.name, project_tag_path(story.project, tag)) + " " }.to_s
   end
   

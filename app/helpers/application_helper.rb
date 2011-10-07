@@ -44,7 +44,7 @@ module ApplicationHelper
         content_tag(:tbody) do
           stories.collect do |s|
             content_tag(:tr, nil, :class => "right #{s.color}") do
-              content_tag(:td, link_to_story(s)) +
+              content_tag(:td, s.id) +
               content_tag(:td, story_text(s), :class => "story")  +
               content_tag(:td, s.size)                            +
               content_tag(:td, date_format(s.started_on))      +  
