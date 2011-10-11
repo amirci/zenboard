@@ -23,7 +23,7 @@ class KfuStory < KanbanFuResource
   end
 
   def point_duration
-    return nil unless duration
+    return nil unless duration && size
     size / duration
   end
   

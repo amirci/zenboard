@@ -38,6 +38,15 @@ describe Week do
     6.times { |i| w.include?(w.start + i).should be_true }
   end
   
+  describe ".include?" do
+    let(:date1) { DateTime.parse('Sep 12, 2011 12:30 EST') }
+    let(:date2) { DateTime.parse('Sep 12, 2011 2:30 CDT') }
+
+    subject { Week.current(date1) }
+    
+    it { should include(date2) }
+  end
+  
   it "Should return current week" do
     Date.stub!(:today).and_return(Date.parse('Jan 3, 2011'))
     w = Week.current

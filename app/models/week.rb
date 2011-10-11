@@ -45,7 +45,7 @@ class Week
   
   # Checks a date is included in the week
   def include?(date)
-    date = Time.parse(date.to_s)
+    date = Time.parse(date.strftime('%b %d %Y'))
     date >= start && date <= finish
   end
   

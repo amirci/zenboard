@@ -26,9 +26,22 @@ class ProjectsController < ApplicationController
 
       # map to the actual week
       # remove older stories (couldn't find them in weeks collection)
-      @project.stories_in_archive                                                \
-              .find_all  { |s| month.nil? || (s.finished_on.month == date.month && s.finished_on.year == date.year) } \
-              .group_by  { |s| weeks.find { |w| w.include? s.finished_on } }     \
-              .delete_if { |k, v| k.nil? }
+      s = @project.
+            stories_in_archive.
+            find_all  { |s| that_finished_on_same_month(s, month, date) }.
+            group_by  { |s| finish_week(s, weeks) }.
+            delete_if { |k, v| k.nil? }
+    end
+    
+    def week_not_found(k, v)
+      k.nil?
+    end
+    
+    def that_finished_on_same_month(s, month, date)
+      month.nil? || (s.finished_on.month == date.month && s.finished_on.year == date.year)
+    end
+    
+    def finish_week(s, weeks)
+      weeks.find {|w| w.include? s.finished_on }
     end
 end
